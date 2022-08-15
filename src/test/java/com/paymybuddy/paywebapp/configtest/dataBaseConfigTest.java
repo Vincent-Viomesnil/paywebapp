@@ -1,7 +1,6 @@
-package com.paymybuddy.paywebapp.databaseconfig;
+package com.paymybuddy.paywebapp.configtest;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,14 +9,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class DataBaseConfig {
+@Slf4j
+public class dataBaseConfigTest {
 
-    private static final Logger logger = LogManager.getLogger("DataBaseConfig");
 
     public Connection getConnection() throws ClassNotFoundException, SQLException {
-        logger.info("Create DB connection");
+        log.info("Create DB connection");
         Class.forName("com.mysql.jdbc.Driver");
-        InputStream input = DataBaseConfig.class.getClassLoader().getResourceAsStream("config.properties");
+        InputStream input = dataBaseConfigTest.class.getClassLoader().getResourceAsStream("config.properties");
         Properties props = new Properties();
 
         try {
@@ -33,16 +32,17 @@ public class DataBaseConfig {
         String password = props.getProperty("password");
 
         return DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/prod", username, password);
+                "jdbc:mysql://localhost:3306/test", username, password);
     }
 
     public void closeConnection(Connection con) {
         if (con != null) {
             try {
                 con.close();
-                logger.info("Closing DB connection");
+                log.info("Closing DB connection");
             } catch (SQLException e) {
-                logger.error("Error while closing connection", e);
+                log.error("Error" +
+                        " while closing connection", e);
             }
         }
     }

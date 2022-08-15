@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ToString
 public class transaction {
+    private int number;
     private int id;
     private String email;
     private float amount;
