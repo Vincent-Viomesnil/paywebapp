@@ -2,6 +2,7 @@ package com.paymybuddy.paywebapp.model;
 
 import lombok.*;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
@@ -9,7 +10,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class transaction {
+@Entity
+@Table(name ="transaction")
+public class Transaction {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private int number;
     private int id;
     private String email;

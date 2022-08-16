@@ -1,4 +1,4 @@
-package com.paymybuddy.paywebapp.configtest;
+package com.paymybuddy.paywebapp.config;
 
 import lombok.extern.slf4j.Slf4j;
 
