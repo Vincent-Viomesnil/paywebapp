@@ -14,11 +14,17 @@ import java.time.LocalDateTime;
 @Table(name ="transaction")
 public class Transaction {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "number")
     private int number;
+    @Column(name = "id")
     private int id;
+    @Column(name = "email")
     private String email;
+    @Column(name = "amount")
     private float amount;
+    @Column(name = "intime")
     private LocalDateTime intime;
+    @Column(name = "description")
     private String description;
 }

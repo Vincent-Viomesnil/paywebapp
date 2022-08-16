@@ -28,8 +28,8 @@ public class dataBaseConfig {
             e.printStackTrace();
         }
         //username and password are securised in a properties file
-        String username = props.getProperty("jdbc.username");
-        String password = props.getProperty("jdbc.password");
+        String username = props.getProperty("username");
+        String password = props.getProperty("password");
 
         return DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/prod", username, password);
