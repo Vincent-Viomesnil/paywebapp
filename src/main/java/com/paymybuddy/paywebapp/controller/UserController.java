@@ -31,12 +31,12 @@ public class UserController {
         return userService.addNewUser(user);
     }
 
-    @GetMapping("/user")
+    @GetMapping("/users")
     public Iterable<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    @GetMapping(value = "/user/{id}")
+    @GetMapping(value = "/user")
     public Optional<User> getUserById(@RequestParam(value = "id") Integer id) {
         return userService.getUserById(id);
     }
