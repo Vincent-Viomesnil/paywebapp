@@ -27,4 +27,6 @@ public class Transaction {
     private LocalDateTime intime;
     @Column(name = "description")
     private String description;
+ //   @Column(name = "fee")
+  //  private Float fee;
 }

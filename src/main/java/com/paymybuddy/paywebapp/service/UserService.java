@@ -6,18 +6,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class UserService {
-
+public class UserService  {
+    @Autowired
     private UserRepository userRepository;
 
-    public List<User> getAllUsers() {
+    public Iterable<User> getAllUsers() {
         return userRepository.findAll();
     }
 
     public User addNewUser(User user) {
-        return userRepository.addNewUser(user);
+        return userRepository.save(user);
+    }
+
+    public Optional<User> getUserById(Integer id) {
+        return userRepository.findById(id);
     }
 
 }
