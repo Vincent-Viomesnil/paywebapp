@@ -32,7 +32,7 @@ public class UserControllerTest {
 
     @Test
     public void getAllUsers() throws Exception {
-        mockMvc.perform(get("/user"))
+        mockMvc.perform(get("/users"))
                 .andExpect(status().isOk());
     }
 
@@ -45,6 +45,14 @@ public class UserControllerTest {
 
         mockMvc.perform(post("/user?id=1&password=pass&email=email&firstname=prenom&lastname=nom&description=commentaire&balance=125")).andExpect(status().isOk());
 
+    }
+
+    @Test
+    public void getAUserById() throws Exception {
+        User user = new User(1,"pass", "email", "prenom","nom","commentaire", 125);
+
+        mockMvc.perform(get("/user?id=1"))
+                .andExpect(status().isOk());
     }
 }
 
