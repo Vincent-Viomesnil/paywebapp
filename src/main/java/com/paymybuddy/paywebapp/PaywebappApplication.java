@@ -1,13 +1,50 @@
 package com.paymybuddy.paywebapp;
 
+import com.paymybuddy.paywebapp.model.Transaction;
+import com.paymybuddy.paywebapp.model.Transfer;
+import com.paymybuddy.paywebapp.model.User;
+import com.paymybuddy.paywebapp.service.TransferService;
+import com.paymybuddy.paywebapp.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
-public class PaywebappApplication {
+public class PaywebappApplication implements CommandLineRunner {
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private TransferService transferService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PaywebappApplication.class, args);
+
 	}
 
+
+
+	@Transactional
+	@Override
+	public void run(String... args) throws Exception {
+		//Iterable<User> users = userService.getAllUsers();
+		//users.forEach(user -> System.out.println("le nom de l'utilisateur est : " + user.getFirstname()));
+
+
+		Optional<User> users1 = userService.getUserById(1);
+		User user = users1.get();
+		user.getTransferList().forEach(transfer -> System.out.println(transfer.getAmount()));
+//  	    System.out.println(user.getFirstname());
+//		users1.ifPresent(user -> System.out.println("le nom de l'user dont l'id = 1 est : " + user.getEmail()));
+
+	}
 }
