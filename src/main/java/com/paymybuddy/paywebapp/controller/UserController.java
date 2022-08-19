@@ -39,6 +39,12 @@ public class UserController {
 
     @GetMapping(value = "/user")
     public Optional<User> getUserById(@RequestParam(value = "id") Integer id) {
-        return userService.getUserById(id);
+        Optional<User> userById =  userService.getUserById(id);
+        if (userById.isEmpty()) {
+            log.error("Request get user by id FAILED");
+        } else {
+            log.info("Request get user by id SUCCESS");
+        }
+        return userById;
     }
 }
