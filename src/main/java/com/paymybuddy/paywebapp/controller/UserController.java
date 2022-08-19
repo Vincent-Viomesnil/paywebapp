@@ -1,12 +1,13 @@
 package com.paymybuddy.paywebapp.controller;
 
 import com.paymybuddy.paywebapp.model.User;
-import com.paymybuddy.paywebapp.repository.UserRepository;
 import com.paymybuddy.paywebapp.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
@@ -18,7 +19,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/user")
-    public User addNewUser(@RequestParam String email,@RequestParam String password, @RequestParam String firstname, @RequestParam String lastname, @RequestParam String description, @RequestParam Float balance) {
+    public User addUser(@RequestParam String email, @RequestParam String password, @RequestParam String firstname, @RequestParam String lastname, @RequestParam String description, @RequestParam Float balance) {
 
         User user = new User();
         user.setEmail(email);
@@ -28,7 +29,7 @@ public class UserController {
         user.setDescription(description);
         user.setBalance(balance);
 
-        return userService.addNewUser(user);
+        return userService.addUser(user);
     }
 
     @GetMapping("/users")

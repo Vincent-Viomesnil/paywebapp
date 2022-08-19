@@ -3,7 +3,6 @@ package com.paymybuddy.paywebapp.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -17,8 +16,8 @@ public class BankAccount {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="id")
     private int id;
-    @Column(name="id_user")
-    private int id_user;
+    @Column(name="user_id")
+    private int user_id;
     @Column(name="iban")
     private String iban;
 

@@ -17,10 +17,10 @@ public class Transfer {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="id")
     private int id;
-    @Column(name="id_user")
-    private int id_user;
-    @Column(name="id_bankaccount")
-    private int id_bankaccount;
+    @Column(name="user_id")
+    private int user_id;
+    @Column(name="bankaccount_id")
+    private int bankaccount_id;
     @Column(name="amount")
     private Float amount;
     @Column(name = "intime")

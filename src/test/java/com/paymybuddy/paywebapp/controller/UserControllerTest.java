@@ -39,9 +39,16 @@ public class UserControllerTest {
     @Test
     public void postUserTest() throws Exception {
 
-        User user = new User(1,"pass", "email", "prenom","nom","commentaire", 125);
+        User user = new User();
+        user.setId(1);
+        user.setBalance(125);
+        user.setPassword("pass");
+        user.setEmail("email");
+        user.setFirstname("prenom");
+        user.setLastname("nom");
+        user.setDescription("commentaire");
 
-        when(userService.addNewUser(user)).thenReturn(any(User.class));
+        when(userService.addUser(user)).thenReturn(any(User.class));
 
         mockMvc.perform(post("/user?id=1&password=pass&email=email&firstname=prenom&lastname=nom&description=commentaire&balance=125")).andExpect(status().isOk());
 
@@ -49,8 +56,8 @@ public class UserControllerTest {
 
     @Test
     public void getAUserById() throws Exception {
-        User user = new User(1,"pass", "email", "prenom","nom","commentaire", 125);
-
+        User user = new User();
+        user.setId(1);
         mockMvc.perform(get("/user?id=1"))
                 .andExpect(status().isOk());
     }
