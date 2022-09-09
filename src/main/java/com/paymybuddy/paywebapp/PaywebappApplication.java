@@ -46,13 +46,13 @@ public class PaywebappApplication implements CommandLineRunner {
 //  	System.out.println(user.getFirstname());
 //		users1.ifPresent(user -> System.out.println("le nom de l'user dont l'id = 1 est : " + user.getEmail()));
 
-		User user1 = new User();
-		user1.setFirstname("prenom1");
-		user1.setLastname("nom1");
-		user1.setDescription("description 1");
-		user1.setEmail("email1");
-		user1.setPassword("pass1");
-		user1.setBalance(500);
-		this.userService.addUser(user1); //enregistrement en bdd
+//		User user1 = new User();
+//		user1.setFirstname("prenom1");
+//		user1.setLastname("nom1");
+//		user1.setDescription("description 1");
+//		user1.setEmail("email1");
+//		user1.setPassword("pass1");
+//		user1.setBalance(500);
+//		this.userService.addUser(user1); //enregistrement en bdd
 	}
 }
