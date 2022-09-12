@@ -37,7 +37,7 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @GetMapping(value = "/user")
+    @GetMapping(value = "/userid")
     public Optional<User> getUserById(@RequestParam(value = "id") Integer id) {
         Optional<User> userById =  userService.getUserById(id);
         if (userById.isEmpty()) {
@@ -47,4 +47,16 @@ public class UserController {
         }
         return userById;
     }
+
+    @GetMapping(value = "/useremail")
+    public Optional<User> getUserByEmail(@RequestParam(value = "email") String email) {
+        Optional<User> userByEmail =  userService.getUserByEmail(email);
+        if (userByEmail.isEmpty()) {
+            log.error("Request get user by email FAILED");
+        } else {
+            log.info("Request get user by email SUCCESS");
+        }
+        return userByEmail;
+    }
+
 }

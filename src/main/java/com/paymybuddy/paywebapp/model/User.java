@@ -39,4 +39,5 @@ public class User {
     )
     @JoinColumn(name = "user_id")
     private List<Transfer> transferList = new ArrayList<>();
+
 }
