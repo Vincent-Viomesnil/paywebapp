@@ -1,5 +1,6 @@
 package com.paymybuddy.paywebapp.service;
 
+import com.paymybuddy.paywebapp.model.ContactsList;
 import com.paymybuddy.paywebapp.model.User;
 import com.paymybuddy.paywebapp.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -21,24 +22,6 @@ public class UserService  {
         return userRepository.findAll();
     }
 
-//    public User addUser(User user) {
-//        User user1 = new User();
-//            if (user.getEmail().contains(user1.getEmail())) {
-//                log.error("email already exist");
-//                return null;
-//            } else {
-//                user.setEmail(user.getEmail());
-//                user.setPassword(user.getPassword());
-//                user.setFirstname(user.getFirstname());
-//                user.setLastname(user.getLastname());
-//                user.setDescription(user.getDescription());
-//                user.setBalance(user.getBalance());
-//
-//                log.info("Post new User SUCCESS");
-//                return userRepository.save(user);
-//            }
-//    }
-
     public User addUser(User user) {
         if (userRepository.findByEmail(user.getEmail()).isPresent()){
             log.error("email already exists");
@@ -55,6 +38,18 @@ public class UserService  {
 
     public Optional<User> getUserByEmail(String email) {
        return userRepository.findByEmail(email);
+    }
+
+    public void getContactlist(String email) {
+        //User loggé qui veut ajouter à sa liste de contacts la nouvelle personne
+        if (userRepository.findByEmail(email).isPresent()) {
+            User user = new User();
+            List<User> contactsList = new ArrayList<>();
+            user.setFirstname(user.getFirstname());
+            user.setLastname(user.getLastname());
+            user.setEmail(user.getEmail());
+            contactsList.add(user);
+        }
     }
 
 }

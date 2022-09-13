@@ -1,5 +1,6 @@
 package com.paymybuddy.paywebapp.repository;
 
+import com.paymybuddy.paywebapp.model.ContactsList;
 import com.paymybuddy.paywebapp.model.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

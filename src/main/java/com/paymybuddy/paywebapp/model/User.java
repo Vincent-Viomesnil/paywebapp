@@ -40,4 +40,12 @@ public class User {
     @JoinColumn(name = "user_id")
     private List<Transfer> transferList = new ArrayList<>();
 
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY // Lazy afin de ne pas loader toutes les infos des bankAccount liée à un user.
+    )
+    @JoinColumn(name = "user_id")
+    private List<BankAccount> bankAccountList = new ArrayList<>();
+
 }
