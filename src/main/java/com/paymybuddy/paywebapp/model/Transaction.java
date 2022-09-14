@@ -29,4 +29,5 @@ public class Transaction {
     private String description;
     @Column(name = "fee")
     private Float fee;
+
 }

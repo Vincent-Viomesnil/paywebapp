@@ -11,12 +11,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@EnableWebMvc
 @SpringBootApplication
 public class PaywebappApplication {
 //public class PaywebappApplication implements CommandLineRunner {
