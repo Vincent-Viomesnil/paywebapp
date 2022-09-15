@@ -19,23 +19,23 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/user")
-    public User addUser(@RequestParam String email, @RequestParam String password, @RequestParam String firstname, @RequestParam String lastname, @RequestParam String description, @RequestParam Float balance) {
+    public User addUser(@RequestParam String email, @RequestParam String password, @RequestParam String firstname, @RequestParam String lastname,@RequestParam Float balance) {
 
         User user = new User();
         user.setEmail(email);
         user.setPassword(password);
         user.setFirstname(firstname);
         user.setLastname(lastname);
-        user.setDescription(description);
         user.setBalance(balance);
 
         return userService.addUser(user);
     }
 
-    @GetMapping("/users")
-    public Iterable<User> getAllUsers() {
-        return userService.getAllUsers();
-    }
+
+//    @GetMapping("/users")
+//    public Iterable<User> getAllUsers() {
+//        return userService.getAllUsers();
+//    }
 
     @GetMapping(value = "/userid")
     public Optional<User> getUserById(@RequestParam(value = "id") Integer id) {

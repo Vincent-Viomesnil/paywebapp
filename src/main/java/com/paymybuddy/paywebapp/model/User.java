@@ -27,8 +27,6 @@ public class User {
     private String firstname;
     @Column(name="lastname")
     private String lastname;
-    @Column(name="description")
-    private String description;
     @Column(name="balance")
     private float balance;
 
@@ -48,4 +46,9 @@ public class User {
     @JoinColumn(name = "user_id")
     private List<BankAccount> bankAccountList = new ArrayList<>();
 
+    public User(int id, String email, String password, String firstname, String lastname, String description, int balance) {
+    }
+
+    public User(String firstName, String lastName) {
+    }
 }
