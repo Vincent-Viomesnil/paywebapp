@@ -14,6 +14,7 @@ public interface BankAccountRepository  extends CrudRepository<BankAccount, Inte
 
     List<BankAccount> findAll();
     Optional<BankAccount> findById(Integer id);
-
     BankAccount save(BankAccount bankAccount);
+    Optional<BankAccount> findByIban(String iban);
+    Optional<BankAccount> findByUserId(Integer userId);
 }

@@ -18,9 +18,9 @@ public class Transfer {
     @Column(name="id")
     private int id;
     @Column(name="user_id")
-    private int user_id;
+    private int userId;
     @Column(name="bankaccount_id")
-    private int bankaccount_id;
+    private int bankaccountId;
     @Column(name="amount")
     private Float amount;
     @Column(name = "intime")

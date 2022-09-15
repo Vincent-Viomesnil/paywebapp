@@ -1,5 +1,6 @@
 package com.paymybuddy.paywebapp.repository;
 
+import com.paymybuddy.paywebapp.model.ContactsList;
 import com.paymybuddy.paywebapp.model.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -15,5 +16,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     User save(User user);
 
     Optional<User> findById(Integer id);
+
+    Optional<User> findByEmail(String email);
 
     }

@@ -46,11 +46,10 @@ public class UserControllerTest {
         user.setEmail("email");
         user.setFirstname("prenom");
         user.setLastname("nom");
-        user.setDescription("commentaire");
 
         when(userService.addUser(user)).thenReturn(any(User.class));
 
-        mockMvc.perform(post("/user?id=1&password=pass&email=email&firstname=prenom&lastname=nom&description=commentaire&balance=125")).andExpect(status().isOk());
+        mockMvc.perform(post("/user?id=1&password=pass&email=email&firstname=prenom&lastname=nom&balance=125")).andExpect(status().isOk());
 
     }
 
