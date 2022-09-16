@@ -47,18 +47,19 @@ public class ResourceController {
         return "usersList";
     }
 
-    @RolesAllowed("USER")
-    @RequestMapping("/**")
-    public String getUser()
-    {
-        return "Welcome User";
-    }
 
-    @RolesAllowed({"USER","ADMIN"})
-    @RequestMapping("/admin")
-    public String getAdmin()
-    {
-        return "Welcome Admin";
-    }
+//    @RequestMapping("/*")
+//    @RolesAllowed("USER")
+//    public String getUser()
+//    {
+//        return "Welcome User";
+//    }
+//
+//    @RequestMapping("/admin")
+//    @RolesAllowed("ADMIN")
+//    public String getAdmin()
+//    {
+//        return "Welcome Admin";
+//    }
 
 }
