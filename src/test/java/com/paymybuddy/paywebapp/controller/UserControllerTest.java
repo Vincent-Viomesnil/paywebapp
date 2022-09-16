@@ -60,5 +60,13 @@ public class UserControllerTest {
         mockMvc.perform(get("/user?id=1"))
                 .andExpect(status().isOk());
     }
+    @Test
+    public void getAUserByEmail() throws Exception {
+       User user = new User();
+       user.setEmail("test@email.com");
+       mockMvc.perform(get("/user?email=test@email.com"))
+                .andExpect(status().isOk());
+
+    }
 }
 

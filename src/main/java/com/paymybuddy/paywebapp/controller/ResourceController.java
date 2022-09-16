@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,4 +46,19 @@ public class ResourceController {
 
         return "usersList";
     }
+
+    @RolesAllowed("USER")
+    @RequestMapping("/**")
+    public String getUser()
+    {
+        return "Welcome User";
+    }
+
+    @RolesAllowed({"USER","ADMIN"})
+    @RequestMapping("/admin")
+    public String getAdmin()
+    {
+        return "Welcome Admin";
+    }
+
 }
