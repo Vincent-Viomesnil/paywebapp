@@ -10,6 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
@@ -31,7 +32,12 @@ public class PaywebappApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PaywebappApplication.class, args);
+	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+	String rawPassword = "123456";
+	String encodedPassword = encoder.encode(rawPassword);
+		System.out.println(encodedPassword);
 
+	}
 	}
 //
 //
@@ -58,4 +64,3 @@ public class PaywebappApplication {
 ////		user1.setBalance(500);
 ////		this.userService.addUser(user1); //enregistrement en bdd
 //	}
-}

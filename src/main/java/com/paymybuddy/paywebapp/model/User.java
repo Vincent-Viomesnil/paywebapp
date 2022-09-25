@@ -4,6 +4,7 @@ package com.paymybuddy.paywebapp.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.ConnectionBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,4 +52,5 @@ public class User {
 
     public User(String firstName, String lastName) {
     }
+
 }

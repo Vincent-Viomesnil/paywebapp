@@ -49,9 +49,9 @@ public class UserController {
     }
 
     @GetMapping(value = "/useremail")
-    public Optional<User> getUserByEmail(@RequestParam(value = "email") String email) {
-        Optional<User> userByEmail =  userService.getUserByEmail(email);
-        if (userByEmail.isEmpty()) {
+    public User getUserByEmail(@RequestParam(value = "email") String email) {
+        User userByEmail =  userService.getUserByEmail(email);
+        if (userByEmail == null) {
             log.error("Request get user by email FAILED");
         } else {
             log.info("Request get user by email SUCCESS");

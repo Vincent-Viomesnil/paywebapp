@@ -25,6 +25,7 @@ public class ResourceController {
         return "index";
     }
 
+
     @GetMapping("/registry" )
     public String addUserRegistry(Model model) {
 
