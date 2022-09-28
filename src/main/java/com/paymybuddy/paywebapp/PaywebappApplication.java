@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@EnableWebMvc
+
 @SpringBootApplication
 public class PaywebappApplication {
 //public class PaywebappApplication implements CommandLineRunner {
@@ -32,10 +32,10 @@ public class PaywebappApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PaywebappApplication.class, args);
-	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-	String rawPassword = "123456";
-	String encodedPassword = encoder.encode(rawPassword);
-		System.out.println(encodedPassword);
+//	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//	String rawPassword = "123456";
+//	String encodedPassword = encoder.encode(rawPassword);
+//		System.out.println(encodedPassword);
 
 	}
 	}

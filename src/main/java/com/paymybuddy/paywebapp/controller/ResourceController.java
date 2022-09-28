@@ -13,17 +13,17 @@ import javax.annotation.security.RolesAllowed;
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@RestController
 @Slf4j
 public class ResourceController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("")
-    public String viewHomePage(){
-        return "index";
-    }
+//    @GetMapping("")
+//    public String viewHomePage(){
+//        return "index";
+//    }
 
 
     @GetMapping("/registry" )
@@ -48,19 +48,20 @@ public class ResourceController {
         return "usersList";
     }
 
+    @GetMapping("/")
+    public String viewHomePage(){
+        return ("<h1>Welcome</h1>");
+    }
+    @GetMapping("/user")
+    public String getUser()
+    {
+        return ("<h1>Welcome User</h1>");
+    }
 
-//    @RequestMapping("/*")
-//    @RolesAllowed("USER")
-//    public String getUser()
-//    {
-//        return "Welcome User";
-//    }
-//
-//    @RequestMapping("/admin")
-//    @RolesAllowed("ADMIN")
-//    public String getAdmin()
-//    {
-//        return "Welcome Admin";
-//    }
+    @GetMapping("/admin")
+    public String getAdmin()
+    {
+        return ("<h1>Welcome Admin</h1>");
+    }
 
 }

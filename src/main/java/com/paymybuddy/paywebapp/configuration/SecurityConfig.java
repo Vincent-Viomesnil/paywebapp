@@ -5,6 +5,7 @@ import com.paymybuddy.paywebapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,15 +14,41 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
-
-@Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    DataSource dataSource;
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.jdbcAuthentication()
+                .dataSource(dataSource)
+                .usersByUsernameQuery("select email,password,enabled from users where email = ?")
+                .authoritiesByUsernameQuery("select email, authority from authorities where email = ?");
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/admin").hasRole("ADMIN")
+                .antMatchers("/user").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/").permitAll()
+                .and()
+                .formLogin();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
+    }
+}
 
 
     //    @Bean
@@ -44,28 +71,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //    }
 //
 //
-        @Autowired
-        private DataSource dataSource;
 
-        @Autowired
-        public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-            auth.jdbcAuthentication().passwordEncoder(new BCryptPasswordEncoder())
-                    .dataSource(dataSource)
-                    .usersByUsernameQuery("select email, password, enabled from user where email=?")
-                    .authoritiesByUsernameQuery("select email, role from user where email=?")
-            ;
-        }
 
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http.authorizeRequests()
-                    .anyRequest().authenticated()
-                    .and()
-                    .formLogin().usernameParameter("email").permitAll()
-                    .and()
-                    .logout().permitAll();
-        }
-    }
+//    public BCryptPasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+
 
 //    @Override
 //    protected void configure(HttpSecurity http) throws Exception {

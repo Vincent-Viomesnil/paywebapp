@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-public class UserService {
+public class UserService{
     @Autowired
     private UserRepository userRepository;
 
@@ -52,7 +52,7 @@ public class UserService {
 //            contactsList.add(user);
 //        }
 //    }
-
+//
 //    @Override
 //    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 //        final User user = userRepository.findByEmail(email);
