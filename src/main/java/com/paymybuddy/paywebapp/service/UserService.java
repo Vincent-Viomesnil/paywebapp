@@ -25,11 +25,11 @@ public class UserService{
 
     public User addUser(User user) {
         if (userRepository.findByEmail(user.getEmail()) == null){
-            log.error("email already exists");
-            return null;
-        } else {
             log.info("Post new User SUCCESS");
             return userRepository.save(user);
+        } else {
+            log.error("email already exists");
+            return null;
         }
 
     }
