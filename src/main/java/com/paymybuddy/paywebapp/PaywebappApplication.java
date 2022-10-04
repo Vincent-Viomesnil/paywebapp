@@ -33,10 +33,10 @@ public class PaywebappApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PaywebappApplication.class, args);
-//	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//	String rawPassword = "123456";
-//	String encodedPassword = encoder.encode(rawPassword);
-//		System.out.println(encodedPassword);
+	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+	String rawPassword = "123456";
+	String encodedPassword = encoder.encode(rawPassword);
+		System.out.println(encodedPassword);
 
 	}
 	}

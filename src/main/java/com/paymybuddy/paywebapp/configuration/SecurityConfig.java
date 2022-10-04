@@ -1,6 +1,7 @@
 package com.paymybuddy.paywebapp.configuration;
 
 
+import com.paymybuddy.paywebapp.service.CustomerUserDetailService;
 import com.paymybuddy.paywebapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,40 +22,49 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 @EnableWebSecurity
+@Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    DataSource dataSource;
+//    @Autowired
+//    DataSource dataSource;
 
+    @Autowired
+    CustomerUserDetailService userDetailService;
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .usersByUsernameQuery("select email,password,enabled from user where email = ?")
-                .authoritiesByUsernameQuery("select email, role from user where email = ?");
+        auth.userDetailsService(userDetailService).passwordEncoder(passwordEncoder());
+//                .jdbcAuthentication()
+//                .dataSource(dataSource)
+//                .usersByUsernameQuery("select email,password,enabled from user where email = ?")
+//                .authoritiesByUsernameQuery("select email, role from user where email = ?");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.csrf().disable()
+                .authorizeRequests()
                 .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/user").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/").permitAll()
                 .and()
                 .formLogin();
-    }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
     }
-}
-
 
     //    @Bean
 //    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
+//        return NoOpPasswordEncoder.getInstance();
 //    }
+//}
+//
+//
+
+}
 //
 //    @Bean
 //    public DaoAuthenticationProvider authenticationProvider() {

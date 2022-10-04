@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,8 +17,11 @@ import java.util.Optional;
 @Slf4j
 @Service
 public class UserService{
+
     @Autowired
     private UserRepository userRepository;
+
+    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();
@@ -26,6 +30,13 @@ public class UserService{
     public User addUser(User user) {
         if (userRepository.findByEmail(user.getEmail()) == null){
             log.info("Post new User SUCCESS");
+
+            user.setLastname(user.getLastname());
+            user.setFirstname(user.getFirstname());
+            user.setEmail(user.getEmail());
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            user.setBalance(0.00f);
+
             return userRepository.save(user);
         } else {
             log.error("email already exists");
