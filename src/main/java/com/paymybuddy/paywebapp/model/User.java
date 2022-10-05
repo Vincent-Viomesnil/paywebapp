@@ -4,6 +4,7 @@ package com.paymybuddy.paywebapp.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.ConnectionBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,6 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Entity
 @Table(name ="user")
 public class User {
@@ -51,4 +51,5 @@ public class User {
 
     public User(String firstName, String lastName) {
     }
+
 }
