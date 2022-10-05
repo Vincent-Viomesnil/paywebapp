@@ -35,6 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailService).passwordEncoder(passwordEncoder());
@@ -55,115 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin();
 
     }
-
-    //    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return NoOpPasswordEncoder.getInstance();
-//    }
-//}
-//
-//
-
 }
-//
-//    @Bean
-//    public DaoAuthenticationProvider authenticationProvider() {
-//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-//        authProvider.setUserDetailsService(userService);
-//        authProvider.setPasswordEncoder(passwordEncoder());
-//
-//        return authProvider;
-//    }
-//
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.authenticationProvider(authenticationProvider());
-//    }
-//
-//
 
-
-//    public BCryptPasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .antMatchers("/users").authenticated()
-//                .anyRequest().permitAll()
-//                .and()
-//                .formLogin()
-//                .usernameParameter("email")
-//                .defaultSuccessUrl("/users")
-//                .permitAll()
-//                .and()
-//                .logout().logoutSuccessUrl("/login").permitAll();
-//    }}
-
-//
-//@Configuration
-//@EnableWebSecurity
-//public class SecurityConfig extends WebSecurityConfigurerAdapter {
-//
-//    @Autowired
-//    private UserService userService;
-//
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-//
-//    @Bean
-//    public DaoAuthenticationProvider authenticationProvider() {
-//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-//        authProvider.setUserDetailsService(userService);
-//        authProvider.setPasswordEncoder(passwordEncoder());
-//
-//        return authProvider;
-//    }
-//
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.authenticationProvider(authenticationProvider());
-//
-//    } }
-//
-//
-//
-////    @Autowired
-////    private UserService userService;
-////    @Bean
-////    public PasswordEncoder passwordEncoder() {
-////        return new BCryptPasswordEncoder();
-////    }
-////    @Override
-////    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-////        auth.userDetailsService(userService)
-////                .passwordEncoder(passwordEncoder());
-////    }
-////
-////    @Override
-////    protected void configure(final HttpSecurity http) throws Exception {
-////        http
-////                .authorizeRequests()
-////                .antMatchers("/").permitAll()
-////                .antMatchers("/login*").permitAll()
-////                .antMatchers("/visitor/*").permitAll()
-////                .anyRequest().authenticated()
-////                .and()
-////                .formLogin()
-////                .loginPage("/login")
-////                .defaultSuccessUrl("/")
-////                .failureUrl("/loginerror")
-////                .and()
-////                .logout(logout -> logout
-////                        .logoutSuccessUrl("/loginlogout"));
-////    }
-////}
-//
-//
 
 
 

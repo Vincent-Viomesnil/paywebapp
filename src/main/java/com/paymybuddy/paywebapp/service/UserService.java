@@ -39,7 +39,7 @@ public class UserService{
 
             return userRepository.save(user);
         } else {
-            log.error("email already exists");
+            log.error("email already exists : " +user.getEmail());
             return null;
         }
 

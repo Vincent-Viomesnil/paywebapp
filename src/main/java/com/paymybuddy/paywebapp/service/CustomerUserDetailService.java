@@ -27,11 +27,11 @@ public class CustomerUserDetailService implements UserDetailsService {
         User user = userRepository.findByEmail(email);
 
         if (user == null) {
-            log.error("User not found: {} " + email);
+            log.error("User not found: " + email);
             throw new UsernameNotFoundException("User " + email + " was not found in the database");
         }
 
-        log.info("Found User: {}" + user);
+        log.info("User Connected: " + user.getFirstname() +" "+ user.getLastname());
 
       UserDetails userDetails = org.springframework.security.core.userdetails.User.withUsername(user.getEmail())
               .password(user.getPassword())

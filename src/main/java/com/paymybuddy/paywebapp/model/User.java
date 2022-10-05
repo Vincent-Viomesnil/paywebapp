@@ -12,7 +12,6 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Entity
 @Table(name ="user")
 public class User {
@@ -31,21 +30,21 @@ public class User {
     @Column(name="balance")
     private float balance;
 
-//    @OneToMany( //relation unidirectionnelle One to many
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true,
-//            fetch = FetchType.LAZY // Lazy afin de ne pas loader toutes les infos des transfers liée à un user.
-//    )
-//    @JoinColumn(name = "user_id")
-//    private List<Transfer> transferList = new ArrayList<>();
-//
-//    @OneToMany(
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true,
-//            fetch = FetchType.LAZY // Lazy afin de ne pas loader toutes les infos des bankAccount liée à un user.
-//    )
-//    @JoinColumn(name = "user_id")
-//    private List<BankAccount> bankAccountList = new ArrayList<>();
+    @OneToMany( //relation unidirectionnelle One to many
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY // Lazy afin de ne pas loader toutes les infos des transfers liée à un user.
+    )
+    @JoinColumn(name = "user_id")
+    private List<Transfer> transferList = new ArrayList<>();
+
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY // Lazy afin de ne pas loader toutes les infos des bankAccount liée à un user.
+    )
+    @JoinColumn(name = "user_id")
+    private List<BankAccount> bankAccountList = new ArrayList<>();
 
     public User(int id, String email, String password, String firstname, String lastname, String description, int balance) {
     }
