@@ -5,59 +5,63 @@ import com.paymybuddy.paywebapp.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Optional;
-
-@Slf4j
 @Controller
+@Slf4j
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @PostMapping("/user")
-    public User addUser(@RequestParam String email, @RequestParam String password, @RequestParam String firstname, @RequestParam String lastname,@RequestParam Float balance) {
-
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(password);
-        user.setFirstname(firstname);
-        user.setLastname(lastname);
-        user.setBalance(balance);
-
-        return userService.addUser(user);
-    }
-
-
-//    @GetMapping("/users")
-//    public Iterable<User> getAllUsers() {
-//        return userService.getAllUsers();
+//    @GetMapping("")
+//    public String viewHomePage(){
+//        return "index";
 //    }
-
-    @GetMapping(value = "/userid")
-    public Optional<User> getUserById(@RequestParam(value = "id") Integer id) {
-        Optional<User> userById =  userService.getUserById(id);
-        if (userById.isEmpty()) {
-            log.error("Request get user by id FAILED");
-        } else {
-            log.info("Request get user by id SUCCESS");
-        }
-        return userById;
+    @GetMapping(value = "/")
+    public String index(ModelAndView modelAndView) {
+        modelAndView.setViewName("index");
+        return "index";
     }
 
-    @GetMapping(value = "/useremail")
-    public User getUserByEmail(@RequestParam(value = "email") String email) {
-        User userByEmail =  userService.getUserByEmail(email);
-        if (userByEmail == null) {
-            log.error("Request get user by email FAILED");
-        } else {
-            log.info("Request get user by email SUCCESS");
-        }
-        return userByEmail;
+    @GetMapping("/registry" )
+    public String addUserRegistry(Model model) {
+
+        model.addAttribute("user",new User());
+
+        return "addUser"; //renvoit à la page HTML du même nom
     }
+    @PostMapping("/process_register")
+    public String processRegister(User user) {
+        userService.addUser(user);
+
+        return "register_success";//renvoit à la page HTML du même nom
+    }
+
+    @GetMapping("/users")
+    public String listUsers(Model model) {
+        Iterable<User> listUsers = userService.getAllUsers();
+        model.addAttribute("listUsers", listUsers);
+
+        return "usersList";
+    }
+
+//    @GetMapping("/")
+//    public String viewHomePage(){
+//        return ("<h1>Welcome</h1>");
+//    }
+//    @GetMapping("/user")
+//    public String getUser()
+//    {
+//        return ("<h1>Welcome User</h1>");
+//    }
+//
+//    @GetMapping("/admin")
+//    public String getAdmin()
+//    {
+//        return ("<h1>Welcome Admin</h1>");
+//    }
 
 }
