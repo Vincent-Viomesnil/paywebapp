@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Entity
 @Table(name ="transaction")
 public class Transaction {
@@ -29,5 +28,22 @@ public class Transaction {
     private String description;
     @Column(name = "fee")
     private Float fee;
+
+
+    //fichier config.properties (mettre les infos fee)
+//
+    @Transient
+    private User userCreditor;
+    @Transient
+    private User userDebtor;
+    public Transaction(int number, User userCreditor, User userDebtor, LocalDateTime intime, String description, float amount){
+        //mette en place une sécurité (rollback, opérations en bdd débit/crédit/ Concept @Transactionnal
+        this.number = number;
+        this.userCreditor = userCreditor;
+        this.userDebtor = userDebtor;
+        this.intime = intime;
+        this.description = description;
+        this.amount = amount;
+    }
 
 }

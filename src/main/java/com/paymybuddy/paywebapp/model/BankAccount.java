@@ -10,7 +10,6 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Entity
 @Table(name ="bankaccount")
 public class BankAccount {

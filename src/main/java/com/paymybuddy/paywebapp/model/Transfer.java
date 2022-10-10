@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Entity
 @Table(name ="transfer")
 public class Transfer {
