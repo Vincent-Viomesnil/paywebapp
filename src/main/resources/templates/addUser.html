@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:form="">
 <head>
   <meta charset="UTF-8" />
   <title>Add User</title>
@@ -14,14 +14,16 @@
 <div>
 </div>
 
+
 <form th:action="@{/process_register}" th:object="${user}" method="post" style="max-width: 600px; margin: 0 auto;">
 <!--      renvoit à la requête du controller "process_register"-->
 
     <div class="m-3">
         <div class="form-group row">
-            <label class="col-4 col-form-label">E-mail: </label>
+            <label th:for="email" class="col-4 col-form-label">E-mail: </label>
             <div class="col-8">
                 <input type="email" th:field="*{email}" class="form-control" required />
+            <span th:errors="*{email}" class="error">Invalid Email</span>
             </div>
         </div>
 

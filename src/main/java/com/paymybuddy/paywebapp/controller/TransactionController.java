@@ -24,10 +24,10 @@ public class TransactionController {
 
         model.addAttribute("transaction",new Transaction());
 
-        return "listTransaction"; //renvoit à la page HTML du même nom
+        return "addTransaction"; //renvoit à la page HTML du même nom
     }
 
-    @PostMapping("/transactions")
+    @PostMapping("/transaction")
     public String addTransaction(Transaction transaction) {
         transactionService.doTransaction(transaction);
 
