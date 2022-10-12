@@ -26,16 +26,6 @@ public class UserController {
     @Autowired
     private HttpServletResponse httpServletResponse;
 
-//    @GetMapping("")
-//    public String viewHomePage(){
-//        return "index";
-//    }
-    @GetMapping(value = "/")
-    public String index(ModelAndView modelAndView) {
-        modelAndView.setViewName("index");
-        return "index";
-    }
-
     @GetMapping("/registry" )
     public String addUserRegistry(Model model) {
         model.addAttribute("user",new User());
