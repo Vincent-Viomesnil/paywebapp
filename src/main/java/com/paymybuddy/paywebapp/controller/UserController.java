@@ -15,6 +15,7 @@ import javax.script.SimpleScriptContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.security.Principal;
 
 @Controller
 @Slf4j
@@ -42,7 +43,6 @@ public class UserController {
         }
     }
 
-
     @GetMapping("/users")
     public String listUsers(Model model) {
         Iterable<User> listUsers = userService.getAllUsers();
@@ -50,6 +50,12 @@ public class UserController {
 
         return "usersList";
     }
+
+//    @RequestMapping(value = "/username", method = RequestMethod.GET)
+//    @ResponseBody
+//    public String currentUserName(Principal principal) {
+//        return principal.getName();
+//    }
 
 //    @GetMapping("/")
 //    public String viewHomePage(){

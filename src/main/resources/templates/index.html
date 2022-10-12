@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org>">
 <head>
     <meta charset="UTF-8">
     <title>PayWebApp</title>
@@ -8,6 +9,7 @@
 <body>
 <div class="container text-center">
     <h1>Welcome to PayWebApp</h1>
+    Authenticated username: <div sec:authentication="principal.fullName"></div>
 </div>
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Logout" />
@@ -18,7 +20,8 @@
     <h3><a th:href="@{/registry}">Click here to sign up</a></h3>
     <h3><a th:href="@{/login}">Login</a></h3>
     <h3><a th:href="@{/transaction}">Transaction</a></h3>
-<!--    renvoit au chemin de requête du Controller-->
+
+    <!--    renvoit au chemin de requête du Controller-->
 </div>
 
 </body>
