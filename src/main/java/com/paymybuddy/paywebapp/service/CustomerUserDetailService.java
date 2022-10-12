@@ -2,18 +2,14 @@ package com.paymybuddy.paywebapp.service;
 
 
 import com.paymybuddy.paywebapp.model.User;
+import com.paymybuddy.paywebapp.model.UserPrincipal;
 import com.paymybuddy.paywebapp.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Collections;
 
 @Slf4j
 @Service
@@ -33,12 +29,7 @@ public class CustomerUserDetailService implements UserDetailsService {
 
         log.info("User Connected: " + user.getFirstname() +" "+ user.getLastname());
 
-      UserDetails userDetails = org.springframework.security.core.userdetails.User.withUsername(user.getEmail())
-              .password(user.getPassword())
-              .authorities("USER").build();
-
-      return userDetails;
-
+      return new UserPrincipal(user);
 
     }
 }

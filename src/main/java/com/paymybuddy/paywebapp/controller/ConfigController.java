@@ -9,17 +9,22 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ConfigController {
 
+//    @GetMapping("/index")
+//    public String goHome() {
+//        return "index";
+//    }
 
-    @GetMapping(value = "/")
-    public String index(ModelAndView modelAndView) {
-        modelAndView.setViewName("index");
-        return "index";
-    }
-
-    @RequestMapping("/login")
+    @GetMapping("/login")
     public String login() {
-        return "index";
+        return "login";
     }
+
+    @GetMapping("/logout")
+    public String logout() {
+        return "login";
+    }
+
+
 //
 //    @RequestMapping("/login-error.html")
 //    public String loginError(Model model) {

@@ -1,17 +1,15 @@
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <title>Login page</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--<h1>Login page</h1>-->
-<!--<p th:if="${loginError}" class="error">Wrong email or password</p>-->
-<!--<form th:action="@{/login}" method="post">-->
-<!--    <label for="email">Email</label>:-->
-<!--    <input type="text" id="email" name="email" autofocus="autofocus" /> <br />-->
-<!--    <label for="password">Password</label>:-->
-<!--    <input type="password" id="password" name="password" /> <br />-->
-<!--    <input type="submit" value="Log in" />-->
-<!--</form>-->
-<!--</body>-->
-<!--</html>-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login page</title>
+</head>
+<body>
+<h1>Login page</h1>
+
+<form class="login-form" th:action="@{/login}" method="post">
+    <input type="text"  class="form-control" placeholder="Email" name="username" autofocus/> <br />
+    <input type="password" class="form-control" placeholder="Password" name="password" /> <br />
+    <input type="submit" value="Log in" />
+</form>
+</body>
+</html>
