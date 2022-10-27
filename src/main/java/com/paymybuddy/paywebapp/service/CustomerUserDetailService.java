@@ -29,7 +29,7 @@ public class CustomerUserDetailService implements UserDetailsService {
             throw new UsernameNotFoundException("User " + email + " was not found in the database");
         }
 
-        log.info("User Connected: " + user.getFirstname() +" "+ user.getLastname());
+        log.info("Email: "+ email + " found => " + user.getFirstname() +" "+ user.getLastname());
 
       return new UserPrincipal(user);
 
