@@ -1,9 +1,11 @@
 package com.paymybuddy.paywebapp.controller;
 
 import com.paymybuddy.paywebapp.model.User;
+import com.paymybuddy.paywebapp.model.UserPrincipal;
 import com.paymybuddy.paywebapp.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -50,6 +52,25 @@ public class UserController {
         model.addAttribute("listUsers", listUsers);
 
         return "usersList";
+    }
+
+    @GetMapping("/user_home" )
+    public String viewUserHome(@AuthenticationPrincipal UserPrincipal user, Model model){
+        model.addAttribute("user", user);
+        Iterable<User> listUsersPrincipal = userService.getAllUsersPrincipal();
+        model.addAttribute("listUsersPrincipal", listUsersPrincipal);
+        return "user_home";
+        //renvoit à la page HTML du même nom
+    }
+
+    @PostMapping("/addContact")
+    public String addContact() throws IOException {
+        if (userService.getAllUsersPrincipal() != null) {
+            return "addContact";
+        } else {
+            String name1 = httpServletResponse.encodeRedirectURL("addContact");
+            return name1; //renvoit à la page HTML du même nom
+        }
     }
 
 //    @RequestMapping(value = "/username", method = RequestMethod.GET)

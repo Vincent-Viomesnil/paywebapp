@@ -1,6 +1,7 @@
 package com.paymybuddy.paywebapp.service;
 
 import com.paymybuddy.paywebapp.model.User;
+import com.paymybuddy.paywebapp.model.UserPrincipal;
 import com.paymybuddy.paywebapp.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,18 +57,27 @@ public class UserService{
        return userRepository.findByEmail(email);
     }
 
-//    public void getContactlist(String email) {
-//        //User loggé qui veut ajouter à sa liste de contacts la nouvelle personne
-//        if (userRepository.findByEmail(email) == null) {
-//            User user = new User();
-//            List<User> contactsList = new ArrayList<>();
-//            user.setFirstname(user.getFirstname());
-//            user.setLastname(user.getLastname());
-//            user.setEmail(user.getEmail());
-//            contactsList.add(user);
-//        }
-//    }
-//
+    public Iterable<User> getAllUsersPrincipal() {
+       
+        User user1 = new User();
+        List<User> contactsList = new ArrayList<>();
+            log.info("user : " +user1);
+            contactsList.add(user1);
+        return contactsList;
+    }
+
+    public void getAllContacts(UserPrincipal userPrincipal){
+    //User loggé qui veut ajouter à sa liste de contacts la nouvelle personne
+        User user = new User();
+        User user1 = new User();
+        List<User> contactsList = new ArrayList<>();
+        user.setFirstname(user1.getFirstname());
+        user.setLastname(user1.getLastname());
+        user.setEmail(user1.getEmail());
+        contactsList.add(user);
+    }
+
+
 //    @Override
 //    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 //        final User user = userRepository.findByEmail(email);
