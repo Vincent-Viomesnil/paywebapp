@@ -70,7 +70,6 @@ public class User {
     }
 
 
-
     public boolean getMoney(){
         User userCreditor = new User();
         if (userCreditor.getBalance()>0){
@@ -83,4 +82,7 @@ public class User {
     public String getFullName() {
         return firstname + " " + lastname;
     }
+
+    @OneToMany
+    private List<User> contactUserList;
 }

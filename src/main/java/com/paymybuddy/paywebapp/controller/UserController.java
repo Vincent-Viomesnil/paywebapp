@@ -7,18 +7,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.script.SimpleScriptContext;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.IOException;
-import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -42,16 +37,36 @@ public class UserController {
             return "register_success";
         } else {
             String name = httpServletResponse.encodeRedirectURL("addUser");
-            return name; //renvoit à la page HTML du même nom
+            return name;
         }
     }
 
-    @GetMapping("/users")
-    public String listUsers(Model model) {
-        Iterable<User> listUsers = userService.getAllUsers();
-        model.addAttribute("listUsers", listUsers);
+//    @GetMapping("/users")
+//    public String listUsers(Model model) {
+//        Iterable<User> listUsers = userService.getAllUsers();
+//        model.addAttribute("listUsers", listUsers);
+//
+//        return "usersList";
+//    }
 
+    @GetMapping("/users")
+    public String listUsers(Model model, User user) {
+        User listUsers = userService.getAllUsersEmail(user.getEmail());
+        model.addAttribute("listUsers", listUsers);
+        log.info("this is listUsers : " +listUsers);
         return "usersList";
+    }
+
+
+    @PostMapping("/addListUsers")
+    public String addListUsers(User user) throws IOException {
+        if (userService.getUserByEmail(user.getEmail()) != null) {
+            return "addContactSuccess";
+
+    } else {
+        String name = httpServletResponse.encodeRedirectURL("usersList");
+        return name;
+    }
     }
 
     @GetMapping("/user_home" )
@@ -63,12 +78,21 @@ public class UserController {
         //renvoit à la page HTML du même nom
     }
 
-    @PostMapping("/addContact")
+    @GetMapping("/addContact" )
+    public String addContact(Model model) {
+
+        model.addAttribute("contactList", new User());
+        return "addContact";
+        //renvoit à la page HTML du même nom
+    }
+
+    @PostMapping("/addContact2")
     public String addContact() throws IOException {
+        //Les contacts qui vont être ajoutés dovient déjà se trouver en base de données!!
         if (userService.getAllUsersPrincipal() != null) {
-            return "addContact";
+            return "addContactSuccess";
         } else {
-            String name1 = httpServletResponse.encodeRedirectURL("addContact");
+            String name1 = httpServletResponse.encodeRedirectURL("addContact2");
             return name1; //renvoit à la page HTML du même nom
         }
     }
