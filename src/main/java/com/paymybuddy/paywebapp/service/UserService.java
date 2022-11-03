@@ -16,7 +16,7 @@ import java.util.Optional;
 @Slf4j
 @Service
 @Transactional
-public class UserService{
+public class UserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -28,22 +28,18 @@ public class UserService{
         return userRepository.findAll();
     }
 
-    public User getAllUsersEmail(String email) {
-        User user1 = null;
-        if (userRepository.findByEmail(email) != null) {
-            user1 = new User();
-            user1.setEmail(user1.getEmail());
-            user1.setFirstname(user1.getEmail());
-            user1.setLastname(user1.getLastname());
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 
-            log.info("this is user1 created :" + user1);
-
-        }
-        return user1;
+    public void addContact(User user, User contactToAdd) {
+        user.addContactUser(contactToAdd);
+        userRepository.save(user);
+        log.info("The User : " +user+ "as added this contact =>" +contactToAdd);
     }
 
     public User addUser(User user) {
-        if (userRepository.findByEmail(user.getEmail()) == null){
+        if (userRepository.findByEmail(user.getEmail()) == null) {
             log.info("Post new User SUCCESS");
 
             user.setLastname(user.getLastname());
@@ -54,57 +50,9 @@ public class UserService{
 
             return userRepository.save(user);
         } else {
-            log.error("email already exists : " +user.getEmail());
+            log.error("email already exists : " + user.getEmail());
             return null;
         }
     }
 
-    public Optional<User> getUserById(Integer id) {
-        return userRepository.findById(id);
-    }
-
-    public User getUserByEmail(String email) {
-       return userRepository.findByEmail(email);
-    }
-
-    public Iterable<User> getAllUsersPrincipal() {
-        List<User> contactsList = new ArrayList<>();
-        for (User user : contactsList) {
-            log.info("user : " +user);
-            if (userRepository.findByEmail(user.getEmail()) != null){
-                user.setEmail(user.getEmail());
-                user.setLastname(user.getLastname());
-                user.setFirstname(user.getFirstname());
-
-                contactsList.add(user);
-            }
-        }
-        return contactsList;
-    }
-
-
-    public void getAllContacts(UserPrincipal userPrincipal){
-    //User loggé qui veut ajouter à sa liste de contacts la nouvelle personne
-        User user = new User();
-        User user1 = new User();
-        List<User> contactsList = new ArrayList<>();
-        user.setFirstname(user1.getFirstname());
-        user.setLastname(user1.getLastname());
-        user.setEmail(user1.getEmail());
-        contactsList.add(user);
-    }
-
-    public void addListUsers(List<User> userList) {
-    }
-
-
-//    @Override
-//    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-//        final User user = userRepository.findByEmail(email);
-//        if (user == null) {
-//            throw new UsernameNotFoundException(email);
-//        }
-//
-//        return org.springframework.security.core.userdetails.User.withUsername(user.getEmail()).password(user.getPassword()).authorities("USER").build();
-//    }
 }

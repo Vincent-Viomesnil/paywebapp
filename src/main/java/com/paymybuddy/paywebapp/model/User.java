@@ -84,5 +84,9 @@ public class User {
     }
 
     @OneToMany
-    private List<User> contactUserList;
+    public List<User> contactUserList;
+
+    public void addContactUser(User contact){
+        contactUserList.add(contact);
+    }
 }

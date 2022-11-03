@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,53 +50,43 @@ public class UserController {
 //        return "usersList";
 //    }
 
-    @GetMapping("/users")
-    public String listUsers(Model model, User user) {
-        User listUsers = userService.getAllUsersEmail(user.getEmail());
-        model.addAttribute("listUsers", listUsers);
-        log.info("this is listUsers : " +listUsers);
-        return "usersList";
+    @GetMapping("/contactsList")
+    public String getContactsList(Model model, @AuthenticationPrincipal UserPrincipal user) {
+        String userEmail = user.getUsername();
+        User userConnected = userService.getUserByEmail(userEmail);
+        List<User> contactsList = userConnected.getContactUserList();
+        model.addAttribute("contactsList", contactsList);
+        model.addAttribute("user", user);
+        return "addContact";
     }
 
-
-    @PostMapping("/addListUsers")
-    public String addListUsers(User user) throws IOException {
-        if (userService.getUserByEmail(user.getEmail()) != null) {
-            return "addContactSuccess";
-
-    } else {
-        String name = httpServletResponse.encodeRedirectURL("usersList");
-        return name;
-    }
+    @PostMapping("/contactsList")
+    public String addContactToList(Model model, String email,@AuthenticationPrincipal UserPrincipal user) {
+        User userConnected = userService.getUserByEmail(user.getUsername());
+        User contactToAdd = userService.getUserByEmail(email);
+        if (contactToAdd == null || userConnected.getContactUserList().contains(contactToAdd)){
+            log.info("Error: wrong email or contact already in your contactList");
+            String name = httpServletResponse.encodeRedirectURL("contactsList");
+            return name;
+        } else {
+        userService.addContact(userConnected, contactToAdd);
+        log.info("Successfull Contact Added in your list");
+        model.addAttribute("addContactSuccess", httpServletResponse.encodeRedirectURL("contactsList"));
+        model.addAttribute("user", user);
+        return "addContact";
+        }
     }
 
     @GetMapping("/user_home" )
     public String viewUserHome(@AuthenticationPrincipal UserPrincipal user, Model model){
+       Iterable<User> listUsers = userService.getAllUsers();
+        model.addAttribute("listUsers", listUsers);
         model.addAttribute("user", user);
-        Iterable<User> listUsersPrincipal = userService.getAllUsersPrincipal();
-        model.addAttribute("listUsersPrincipal", listUsersPrincipal);
         return "user_home";
         //renvoit à la page HTML du même nom
     }
 
-    @GetMapping("/addContact" )
-    public String addContact(Model model) {
 
-        model.addAttribute("contactList", new User());
-        return "addContact";
-        //renvoit à la page HTML du même nom
-    }
-
-    @PostMapping("/addContact2")
-    public String addContact() throws IOException {
-        //Les contacts qui vont être ajoutés dovient déjà se trouver en base de données!!
-        if (userService.getAllUsersPrincipal() != null) {
-            return "addContactSuccess";
-        } else {
-            String name1 = httpServletResponse.encodeRedirectURL("addContact2");
-            return name1; //renvoit à la page HTML du même nom
-        }
-    }
 
 //    @RequestMapping(value = "/username", method = RequestMethod.GET)
 //    @ResponseBody
