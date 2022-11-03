@@ -52,8 +52,23 @@ public class UserController {
         return "addContact";
     }
 
+    @GetMapping("/searchcontact")
+    public String searchContact(Model model,@AuthenticationPrincipal UserPrincipal user) {
+        model.addAttribute("user", user);
+        return "addContact";
+    }
+//    User contactToAdd = userService.getUserByEmail(email);
+//        if (contactToAdd != null ) {
+//        User userConnected = userService.addUser(contactToAdd);
+//        model.addAttribute("userConnected", userConnected);
+//        model.addAttribute("user", user);
+//        return "user_home";
+//    }
+//        return httpServletResponse.encodeRedirectURL("contactsList");
+
+
     @PostMapping("/contactsList")
-    public String addContactToList(Model model, String email,@AuthenticationPrincipal UserPrincipal user) {
+    public String addContactToList(Model model, String email,@AuthenticationPrincipal UserPrincipal user, User user1) {
         User userConnected = userService.getUserByEmail(user.getUsername());
         User contactToAdd = userService.getUserByEmail(email);
         if (contactToAdd == null || userConnected.getContactUserList().contains(contactToAdd)){
@@ -65,9 +80,13 @@ public class UserController {
         log.info("Successfull Contact Added in your list");
         model.addAttribute("contactsList", httpServletResponse.encodeRedirectURL("contactsList"));
         model.addAttribute("user", user);
+        model.addAttribute("user1", user1);
         return "addContact";
         }
     }
+
+    //Etape intermédiaire : champ de recherche d'un email qui va taper dans la base.
+    // l'objet qui va ensuite être reotournée.
 
     @GetMapping("/user_home" )
     public String viewUserHome(@AuthenticationPrincipal UserPrincipal user, Model model){

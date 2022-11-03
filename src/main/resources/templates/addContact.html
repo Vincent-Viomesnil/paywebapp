@@ -49,6 +49,21 @@
     </div>
     </p>
 </form>
+<p>
+    <div>
+
+    <form th:action="@{/searchcontact}" method="get" >
+    <input type="submit" value="Recherche" />
+        <div class="form-group row">
+            <label th:for="email" class="col-4 col-form-label">E-mail: </label>
+            <div class="col-8">
+                <input type="email"  class="form-control" required />
+            </div>
+        </div>
+    </form>
+
+</div>
+</p>
 
 
 <!--<form th:action="@{/contactsList}" th:object="${user1}" method="post" style="max-width: 600px; margin: 0 auto;">-->
@@ -80,7 +95,7 @@
 <!--        </div>-->
 
 <!--        <div>-->
-<!--            <button type="submit" class="btn btn-primary">Click here to Submit Up</button>-->
+<!--            <button type="submit" class="btn btn-primary">Click here to Add Contact</button>-->
 <!--        </div>-->
 <!--    </div>-->
 
