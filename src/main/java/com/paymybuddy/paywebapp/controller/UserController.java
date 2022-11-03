@@ -42,18 +42,10 @@ public class UserController {
         }
     }
 
-//    @GetMapping("/users")
-//    public String listUsers(Model model) {
-//        Iterable<User> listUsers = userService.getAllUsers();
-//        model.addAttribute("listUsers", listUsers);
-//
-//        return "usersList";
-//    }
 
     @GetMapping("/contactsList")
     public String getContactsList(Model model, @AuthenticationPrincipal UserPrincipal user) {
-        String userEmail = user.getUsername();
-        User userConnected = userService.getUserByEmail(userEmail);
+        User userConnected = userService.getUserByEmail(user.getUsername());
         List<User> contactsList = userConnected.getContactUserList();
         model.addAttribute("contactsList", contactsList);
         model.addAttribute("user", user);
@@ -71,7 +63,7 @@ public class UserController {
         } else {
         userService.addContact(userConnected, contactToAdd);
         log.info("Successfull Contact Added in your list");
-        model.addAttribute("addContactSuccess", httpServletResponse.encodeRedirectURL("contactsList"));
+        model.addAttribute("contactsList", httpServletResponse.encodeRedirectURL("contactsList"));
         model.addAttribute("user", user);
         return "addContact";
         }

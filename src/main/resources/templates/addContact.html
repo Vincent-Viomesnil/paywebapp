@@ -4,11 +4,12 @@
   <meta charset="UTF-8" />
   <title>Add Contact</title>
   <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
 <body>
 
 <div>
-    <h1> Add Contact </h1>
+    <h1> Add Connection </h1>
 </div>
 
 <div>
@@ -50,39 +51,40 @@
 </form>
 
 
-<form th:action="@{/addContactSuccess}" th:object="${user}" method="post" style="max-width: 600px; margin: 0 auto;">
-    <!--      renvoit à la requête du controller "process_register"-->
+<!--<form th:action="@{/contactsList}" th:object="${user1}" method="post" style="max-width: 600px; margin: 0 auto;">-->
+<!--    &lt;!&ndash;      renvoit à la requête du controller "process_register"&ndash;&gt;-->
 
-    <div class="m-3">
-        <div class="form-group row">
-            <label th:for="email" class="col-4 col-form-label">E-mail: </label>
-            <div class="col-8">
-                <td th:text="${user.email}">Email ID</td>
-            </div>
-        </div>
+<!--    <div class="m-3">-->
+<!--        <div class="form-group row">-->
+<!--            <label th:for="email" class="col-4 col-form-label">E-mail: </label>-->
+<!--            <div class="col-8">-->
+<!--                <input type="email" th:field="*{email}" class="form-control" required />-->
+<!--                <span th:errors="*{email}" class="error">Invalid Email</span>-->
+<!--            </div>-->
+<!--        </div>-->
 
-        <div class="form-group row">
-            <label class="col-4 col-form-label">First Name: </label>
-            <div class="col-8">
-                <input type="text" th:field="*{user.firstname}" class="form-control"
-                       required />
-            </div>
-        </div>
+<!--        <div class="form-group row">-->
+<!--            <label class="col-4 col-form-label">First Name: </label>-->
+<!--            <div class="col-8">-->
+<!--                <input type="text" th:field="*{firstname}" class="form-control"-->
+<!--                       required />-->
+<!--            </div>-->
+<!--        </div>-->
 
-        <div class="form-group row">
-            <label class="col-4 col-form-label">Last Name: </label>
-            <div class="col-8">
-                <input type="text" th:field="*{user.lastname}" class="form-control"
-                       required />
-            </div>
-        </div>
+<!--        <div class="form-group row">-->
+<!--            <label class="col-4 col-form-label">Last Name: </label>-->
+<!--            <div class="col-8">-->
+<!--                <input type="text" th:field="*{lastname}" class="form-control"-->
+<!--                       required />-->
+<!--            </div>-->
+<!--        </div>-->
 
-        <div>
-            <button type="submit" class="btn btn-primary">Click here to Submit Up</button>
-        </div>
-    </div>
+<!--        <div>-->
+<!--            <button type="submit" class="btn btn-primary">Click here to Submit Up</button>-->
+<!--        </div>-->
+<!--    </div>-->
 
-</form>
+<!--</form>-->
 
 
 </body>
