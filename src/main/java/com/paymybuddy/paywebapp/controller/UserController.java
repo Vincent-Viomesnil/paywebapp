@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Principal;
@@ -53,9 +54,16 @@ public class UserController {
     }
 
     @GetMapping("/searchcontact")
-    public String searchContact(Model model,@AuthenticationPrincipal UserPrincipal user) {
+    public String searchContact(Model model,@AuthenticationPrincipal UserPrincipal user, String email) throws IOException {
+        User contactToAdd = userService.getUserByEmail(email);
+        if (contactToAdd != null ) {
         model.addAttribute("user", user);
+        log.info("contacttoADD :" +contactToAdd);
         return "addContact";
+    }
+        log.error("contact to add is NULL");
+        String name = httpServletResponse.encodeURL("addContact");
+        return name;
     }
 //    User contactToAdd = userService.getUserByEmail(email);
 //        if (contactToAdd != null ) {
@@ -68,19 +76,19 @@ public class UserController {
 
 
     @PostMapping("/contactsList")
-    public String addContactToList(Model model, String email,@AuthenticationPrincipal UserPrincipal user, User user1) {
+    public String addContactToList(Model model, String email,@AuthenticationPrincipal UserPrincipal user) {
         User userConnected = userService.getUserByEmail(user.getUsername());
         User contactToAdd = userService.getUserByEmail(email);
         if (contactToAdd == null || userConnected.getContactUserList().contains(contactToAdd)){
-            log.info("Error: wrong email or contact already in your contactList");
-            String name = httpServletResponse.encodeRedirectURL("contactsList");
+            log.info("Error: wrong email or contact already in your contactList " +contactToAdd);
+            String name = httpServletResponse.encodeRedirectURL("addContact");
             return name;
         } else {
         userService.addContact(userConnected, contactToAdd);
         log.info("Successfull Contact Added in your list");
-        model.addAttribute("contactsList", httpServletResponse.encodeRedirectURL("contactsList"));
+        model.addAttribute("contactsList", httpServletResponse.encodeRedirectURL("addContact"));
         model.addAttribute("user", user);
-        model.addAttribute("user1", user1);
+
         return "addContact";
         }
     }
