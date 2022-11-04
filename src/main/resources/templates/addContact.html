@@ -12,8 +12,6 @@
     <h1> Add Connection </h1>
 </div>
 
-<div>
-</div>
 <form>
 <!--    <p>-->
 <!--        <label>E-mail:</label>-->
@@ -48,49 +46,47 @@
         </table>
     </div>
     </p>
-</form>
-<p>
-    <div>
-<p>
-
-
-    <form th:action="@{/contactsList}" method="post" >
-        <input type="submit" value="Add Contact" />
-        <div class="form-group row">
-            <label th:for="firstname" class="col-4 col-form-label">Firstname: </label>
-            <div class="col-8">
-                <input type="firstname"  class="form-control" required />
-            </div>
-        </div>
-    <div class="form-group row">
-        <label th:for="lastname" class="col-4 col-form-label">Lastname </label>
-        <div class="col-8">
-            <input type="lastname"  class="form-control" required />
-        </div>
-    </div>
-    <div class="form-group row">
-        <label th:for="email" class="col-4 col-form-label">E-mail: </label>
-        <div class="col-8">
-            <input type="email"  class="form-control" required />
-        </div>
-    </div>
     </form>
-    </p>
 
-    <form th:action="@{/searchcontact}" method="get" >
-    <input type="submit" value="Rechercher" />
+<p>
+        <form th:action="@{/contactsList}" method="post" >
+            <input type="submit" value="Add Contact" />
+            <div class="form-group row">
+                <label th:for="firstname" class="col-4 col-form-label">Firstname: </label>
+                <div class="col-8">
+                    <input type="firstname"  class="form-control" required />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label th:for="lastname" class="col-4 col-form-label">Lastname </label>
+            <div class="col-8">
+                <input type="lastname"  class="form-control" required />
+            </div>
+            </div>
+
+            <div class="form-group row">
+                <label th:for="email" class="col-4 col-form-label">E-mail: </label>
+                <div class="col-8">
+                    <input type="email"  class="form-control" required />
+                </div>
+            </div>
+        </form>
+</p>
+
+<p>
+
+
+    <form th:action="@{/searchcontact}"  method="post" >
+        <input type="submit" value="Recherche" />
         <div class="form-group row">
             <label th:for="email" class="col-4 col-form-label">E-mail: </label>
             <div class="col-8">
-                <input type="email"  class="form-control" required />
+                <input type="email" name="emailtoadd" class="form-control" required />
             </div>
         </div>
     </form>
-
-</div>
 </p>
-
-
 <!--<form th:action="@{/contactsList}" th:object="${user1}" method="post" style="max-width: 600px; margin: 0 auto;">-->
 <!--    &lt;!&ndash;      renvoit à la requête du controller "process_register"&ndash;&gt;-->
 

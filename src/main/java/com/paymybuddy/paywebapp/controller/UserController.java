@@ -53,8 +53,8 @@ public class UserController {
         return "addContact";
     }
 
-    @GetMapping("/searchcontact")
-    public String searchContact(Model model,@AuthenticationPrincipal UserPrincipal user, String email) throws IOException {
+    @PostMapping("/searchcontact")
+    public String searchContact(Model model,@AuthenticationPrincipal UserPrincipal user, @RequestParam(name = "emailtoadd") String email) throws IOException {
         User contactToAdd = userService.getUserByEmail(email);
         if (contactToAdd != null ) {
         model.addAttribute("user", user);
