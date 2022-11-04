@@ -65,18 +65,9 @@ public class UserController {
         String name = httpServletResponse.encodeURL("addContact");
         return name;
     }
-//    User contactToAdd = userService.getUserByEmail(email);
-//        if (contactToAdd != null ) {
-//        User userConnected = userService.addUser(contactToAdd);
-//        model.addAttribute("userConnected", userConnected);
-//        model.addAttribute("user", user);
-//        return "user_home";
-//    }
-//        return httpServletResponse.encodeRedirectURL("contactsList");
-
 
     @PostMapping("/contactsList")
-    public String addContactToList(Model model, String email,@AuthenticationPrincipal UserPrincipal user) {
+    public String addContactToList(Model model, @AuthenticationPrincipal UserPrincipal user,@RequestParam(name = "emailtoadd") String email) {
         User userConnected = userService.getUserByEmail(user.getUsername());
         User contactToAdd = userService.getUserByEmail(email);
         if (contactToAdd == null || userConnected.getContactUserList().contains(contactToAdd)){
