@@ -2,6 +2,8 @@ package com.paymybuddy.paywebapp.config;
 
 
 import com.paymybuddy.paywebapp.PaywebappApplication;
+import com.paymybuddy.paywebapp.repository.UserRepository;
+import com.paymybuddy.paywebapp.service.CustomerUserDetailService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,6 +36,9 @@ public class SecurityFilterTest {
 
     @Autowired
     private WebApplicationContext context;
+
+
+
     @BeforeEach
     public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(context)
@@ -51,12 +56,6 @@ public class SecurityFilterTest {
         mockMvc.perform(formLogin("/login").user("user").password("password")).andExpect(authenticated());
     }
 
-//    @Test
-//    @WithUserDetails(value = "admin")
-//    public void whenAdminAccessUserEndpoint_thenOk() throws Exception {
-//        mockMvc.perform(get("/admin"))
-//                .andExpect(status().isOk());
-//    }
 
     @Test
     public void userLoginFailed() throws Exception {
@@ -68,19 +67,5 @@ public class SecurityFilterTest {
     public void whenAnonymousAccessLogin_thenOk() throws Exception {
         mockMvc.perform(get("/login"))
                 .andExpect(status().isOk());
-    }
-
-    @Test
-    @WithUserDetails()
-    public void whenUserAccessAdminSecuredEndpoint_thenIsForbidden() throws Exception {
-        mockMvc.perform(get("/admin"))
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
-    @WithUserDetails()
-    public void whenUserAccessDeleteSecuredEndpoint_thenIsForbidden() throws Exception {
-        mockMvc.perform(delete("/delete"))
-                .andExpect(status().isForbidden());
     }
 }

@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Add Contact</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body>
+
+<div>
+    <h1> Add Connection </h1>
+</div>
+
+<form>
+<!--    <p>-->
+<!--        <label>E-mail:</label>-->
+<!--        <input type="text" th:value="${user.username}"/>-->
+<!--    </p>-->
+
+<!--    <p>-->
+<!--        <label>Fullname:</label>-->
+<!--        <input type="text" th:value="${user.fullName}"/>-->
+<!--    </p>-->
+
+    <p>
+
+    <div>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>E-mail</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user: ${contactsList}">
+                <td th:text="${user.email}">E-mail</td>
+                <td th:text="${user.firstname}">First Name</td>
+                <td th:text="${user.lastname}">Last Name</td>
+                <td>
+                    <a th:href="@{/deletecontact(emailtodelete=${user.email})}" class="btn btn-danger ml-2">Delete</a>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    </p>
+    </form>
+
+<form>
+    <p>
+
+    <div>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>User ID</th>
+                <th>E-mail</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user: ${emailList}">
+                <td th:text="${user.id}">User ID</td>
+                <td th:text="${user.email}">E-mail</td>
+                <td th:text="${user.firstname}">First Name</td>
+                <td th:text="${user.lastname}">Last Name</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    </p>
+</form>
+
+<p>
+        <form th:action="@{/contactsList}" method="post" >
+            <input type="submit" value="Add Contact" />
+            <div class="form-group row">
+                <label th:for="email" class="col-4 col-form-label">E-mail: </label>
+                <div class="col-8">
+                    <input type="email" name="emailtoadd"  class="form-control" required />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label th:for="firstname" class="col-4 col-form-label">Firstname: </label>
+                <div class="col-8">
+                    <input type="firstname"  class="form-control" required />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label th:for="lastname" class="col-4 col-form-label">Lastname </label>
+            <div class="col-8">
+                <input type="lastname"  class="form-control" required />
+            </div>
+            </div>
+
+        </form>
+</p>
+
+<p>
+
+
+    <form th:action="@{/addcontact}"  method="post" >
+        <input type="submit" value="Recherche" />
+        <div class="form-group row">
+            <label th:for="email" class="col-4 col-form-label">E-mail: </label>
+            <div class="col-8">
+                <input type="email" name="emailtoadd" class="form-control" required />
+            </div>
+        </div>
+    </form>
+</p>
+
+<p>
+<form th:action="@{/deletecontact}" th:object="${contactToDelete}"  th:method="delete" >
+    <input type="submit" value="Delete" />
+    <div class="form-group row">
+        <label th:for="email" class="col-4 col-form-label">E-mail: </label>
+        <div class="col-8">
+            <input type="email" name="emailtodelete"   class="form-control" required />
+        </div>
+    </div>
+</form>
+
+</p>
+
+</body>
+</html>

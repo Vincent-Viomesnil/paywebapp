@@ -1,14 +1,13 @@
 package com.paymybuddy.paywebapp.service;
 
 import com.paymybuddy.paywebapp.model.User;
+import com.paymybuddy.paywebapp.model.UserPrincipal;
 import com.paymybuddy.paywebapp.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,19 +15,31 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-public class UserService{
+@Transactional
+public class UserService {
 
     @Autowired
     private UserRepository userRepository;
 
-    private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();
     }
 
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public void addContact(User user, User contactToAdd) {
+        user.addContactUser(contactToAdd);
+        userRepository.save(user);
+        log.info("The User : " +user+ "as added this contact =>" +contactToAdd);
+    }
+
     public User addUser(User user) {
-        if (userRepository.findByEmail(user.getEmail()) == null){
+        if (userRepository.findByEmail(user.getEmail()) == null) {
             log.info("Post new User SUCCESS");
 
             user.setLastname(user.getLastname());
@@ -39,38 +50,14 @@ public class UserService{
 
             return userRepository.save(user);
         } else {
-            log.error("email already exists : " +user.getEmail());
+            log.error("email already exists : " + user.getEmail());
             return null;
         }
-
-    }
-    public Optional<User> getUserById(Integer id) {
-        return userRepository.findById(id);
     }
 
-    public User getUserByEmail(String email) {
-       return userRepository.findByEmail(email);
+    public void deleteContact(User user, User contactToDelete) {
+        user.deleteContact(contactToDelete);
+        log.info("The User : " +user+ "as delete this contact =>" +contactToDelete);
     }
 
-//    public void getContactlist(String email) {
-//        //User loggé qui veut ajouter à sa liste de contacts la nouvelle personne
-//        if (userRepository.findByEmail(email) == null) {
-//            User user = new User();
-//            List<User> contactsList = new ArrayList<>();
-//            user.setFirstname(user.getFirstname());
-//            user.setLastname(user.getLastname());
-//            user.setEmail(user.getEmail());
-//            contactsList.add(user);
-//        }
-//    }
-//
-//    @Override
-//    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-//        final User user = userRepository.findByEmail(email);
-//        if (user == null) {
-//            throw new UsernameNotFoundException(email);
-//        }
-//
-//        return org.springframework.security.core.userdetails.User.withUsername(user.getEmail()).password(user.getPassword()).authorities("USER").build();
-//    }
 }
