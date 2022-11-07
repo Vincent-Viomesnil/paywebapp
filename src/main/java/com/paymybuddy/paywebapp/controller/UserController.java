@@ -54,13 +54,37 @@ public class UserController {
     }
 
     @PostMapping("/searchcontact")
+    public String searchContact(Model model,@AuthenticationPrincipal UserPrincipal user) throws IOException {
+        List<User> emailList = new ArrayList<>();
+        model.addAttribute("emailList", emailList);
+        log.info("email List here :" + emailList);
+        return "index";
+    }
+
+    @PostMapping("/addcontact")
     public String searchContact(Model model,@AuthenticationPrincipal UserPrincipal user, @RequestParam(name = "emailtoadd") String email) throws IOException {
         User contactToAdd = userService.getUserByEmail(email);
+
         if (contactToAdd != null ) {
         model.addAttribute("user", user);
-        log.info("contacttoADD :" +contactToAdd);
+        log.info("contact to ADD already exist :" +contactToAdd);
         return "addContact";
     }
+        log.error("contact to add is NULL");
+        String name = httpServletResponse.encodeURL("addContact");
+        return name;
+    }
+
+    @DeleteMapping("/deletecontact")
+    public String deleteContact(Model model,@AuthenticationPrincipal UserPrincipal user, @RequestParam(name = "emailtodelete") String email) throws IOException {
+        User userConnected = userService.getUserByEmail(user.getUsername());
+        User contactToDelete = userService.getUserByEmail(email);
+        if (contactToDelete != null ) {
+            model.addAttribute("user", user);
+            log.info("contact to delete :" +contactToDelete);
+            userService.deleteContact(userConnected, contactToDelete);
+            return "addContact";
+        }
         log.error("contact to add is NULL");
         String name = httpServletResponse.encodeURL("addContact");
         return name;

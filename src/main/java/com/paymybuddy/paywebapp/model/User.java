@@ -89,4 +89,8 @@ public class User {
     public void addContactUser(User contact){
         contactUserList.add(contact);
     }
+
+    public void deleteContact(User contactToDelete) {
+        contactUserList.remove(contactToDelete);
+    }
 }

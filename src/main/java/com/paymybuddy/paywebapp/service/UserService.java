@@ -55,4 +55,10 @@ public class UserService {
         }
     }
 
+    public void deleteContact(User user, User contactToDelete) {
+        user.deleteContact(contactToDelete);
+        userRepository.delete(contactToDelete);
+        log.info("The User : " +user+ "as delete this contact =>" +contactToDelete);
+    }
+
 }

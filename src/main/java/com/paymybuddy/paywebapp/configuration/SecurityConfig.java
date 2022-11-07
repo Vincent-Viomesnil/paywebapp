@@ -48,7 +48,9 @@ protected void configure(HttpSecurity http) throws Exception {
             .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
             .logoutSuccessUrl("/login").permitAll()
             .and()
-            .rememberMe().userDetailsService(this.userDetailService);
+            .rememberMe()
+            .tokenValiditySeconds(365 * 24 * 60 * 60) // expiration time: 1 an
+            .key("AbcdefghiJklmNoPqRstUvXyz").userDetailsService(this.userDetailService);
 
 }
 
