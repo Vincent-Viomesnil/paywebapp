@@ -39,6 +39,10 @@
                 <td th:text="${user.email}">E-mail</td>
                 <td th:text="${user.firstname}">First Name</td>
                 <td th:text="${user.lastname}">Last Name</td>
+                <td>
+                    <a th:href="@{/deletecontact(emailtodelete=${user.email})}" class="btn btn-danger ml-2">Delete</a>
+
+                </td>
             </tr>
             </tbody>
         </table>
@@ -113,7 +117,7 @@
 </p>
 
 <p>
-<form th:action="@{/deletecontact}" th:object="${user}"  th:method="delete" >
+<form th:action="@{/deletecontact}" th:object="${contactToDelete}"  th:method="delete" >
     <input type="submit" value="Delete" />
     <div class="form-group row">
         <label th:for="email" class="col-4 col-form-label">E-mail: </label>
@@ -124,5 +128,6 @@
 </form>
 
 </p>
+
 </body>
 </html>

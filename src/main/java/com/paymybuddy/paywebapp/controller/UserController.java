@@ -10,10 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +48,7 @@ public class UserController {
         List<User> contactsList = userConnected.getContactUserList();
         model.addAttribute("contactsList", contactsList);
         model.addAttribute("user", user);
-        return "addContact";
+        return "addConnection";
     }
 
     @PostMapping("/searchcontact")
@@ -64,15 +62,18 @@ public class UserController {
     @PostMapping("/addcontact")
     public String searchContact(Model model,@AuthenticationPrincipal UserPrincipal user, @RequestParam(name = "emailtoadd") String email) throws IOException {
         User contactToAdd = userService.getUserByEmail(email);
-
+        List<User> contactList = new ArrayList<>();
         if (contactToAdd != null ) {
         model.addAttribute("user", user);
         log.info("contact to ADD already exist :" +contactToAdd);
-        return "addContact";
+
+        System.out.println("This is the Stream :" +contactList);
+        return "addConnection";
     }
         log.error("contact to add is NULL");
-        String name = httpServletResponse.encodeURL("addContact");
-        return name;
+//        String name = httpServletResponse.encodeURL("addConnection");
+//        return name;
+        return "redirect:/contactsList";
     }
 
     @DeleteMapping("/deletecontact")
@@ -81,13 +82,16 @@ public class UserController {
         User contactToDelete = userService.getUserByEmail(email);
         if (contactToDelete != null ) {
             model.addAttribute("user", user);
+            model.addAttribute("contactToDelete", contactToDelete);
             log.info("contact to delete :" +contactToDelete);
             userService.deleteContact(userConnected, contactToDelete);
-            return "addContact";
+            return "addConnection";
         }
         log.error("contact to add is NULL");
-        String name = httpServletResponse.encodeURL("addContact");
-        return name;
+//        String name = httpServletResponse.encodeURL("addConnection");
+//        return name;
+
+        return "redirect:/contactsList";
     }
 
     @PostMapping("/contactsList")
@@ -96,20 +100,15 @@ public class UserController {
         User contactToAdd = userService.getUserByEmail(email);
         if (contactToAdd == null || userConnected.getContactUserList().contains(contactToAdd)){
             log.info("Error: wrong email or contact already in your contactList " +contactToAdd);
-            String name = httpServletResponse.encodeRedirectURL("addContact");
-            return name;
+            return "redirect:/contactsList";
         } else {
         userService.addContact(userConnected, contactToAdd);
         log.info("Successfull Contact Added in your list");
-        model.addAttribute("contactsList", httpServletResponse.encodeRedirectURL("addContact"));
         model.addAttribute("user", user);
-
-        return "addContact";
+            return "redirect:/contactsList";
         }
     }
 
-    //Etape intermédiaire : champ de recherche d'un email qui va taper dans la base.
-    // l'objet qui va ensuite être reotournée.
 
     @GetMapping("/user_home" )
     public String viewUserHome(@AuthenticationPrincipal UserPrincipal user, Model model){

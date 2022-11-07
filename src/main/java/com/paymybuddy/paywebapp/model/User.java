@@ -28,7 +28,7 @@ public class User {
     @Column(name="lastname")
     private String lastname;
     @Column(name="balance")
-    private float balance;
+    float balance;
 
     @OneToMany( //relation unidirectionnelle One to many
             cascade = CascadeType.ALL,
@@ -58,17 +58,6 @@ public class User {
     public User(int id, String email, String password, String firstname, String lastname, float balance) {
     }
 
-    public User(String firstName, String lastName) {
-    }
-
-    public User userCreditor(String email) {
-        return userCreditor(email);
-    }
-
-    public User userDebtor(String email) {
-        return userDebtor(email);
-    }
-
 
     public boolean getMoney(){
         User userCreditor = new User();
@@ -93,4 +82,7 @@ public class User {
     public void deleteContact(User contactToDelete) {
         contactUserList.remove(contactToDelete);
     }
+
+
+
 }
