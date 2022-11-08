@@ -3,6 +3,7 @@ package com.paymybuddy.paywebapp.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,8 @@ public class BankAccount {
     private int id;
     @Column(name="user_id")
     private int userId;
-    @Column(name="iban")
+    @Column(name="iban", length = 100)
+    @NotNull(message = "iban is mandatory")
     private String iban;
 
     @OneToMany(

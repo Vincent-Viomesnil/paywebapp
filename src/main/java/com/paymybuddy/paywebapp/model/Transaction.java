@@ -1,8 +1,12 @@
 package com.paymybuddy.paywebapp.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter
@@ -10,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name ="transaction")
+@Table(name = "transaction")
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,13 +22,16 @@ public class Transaction {
     private int number;
     @Column(name = "user_id")
     private int userId;
-    @Column(name = "user_email")
+    @Column(name = "user_email", length = 60)
+    @NotNull(message = "email is mandatory")
     private String userEmail;
     @Column(name = "amount")
+    @NotNull(message = "amount is mandatory")
     private float amount;
     @Column(name = "intime")
     private LocalDateTime intime;
-    @Column(name = "description")
+    @Column(name = "description", length = 200)
+    @NotNull(message = "description is mandatory")
     private String description;
     @Column(name = "fee")
     private float fee;
@@ -36,7 +43,8 @@ public class Transaction {
     private User userCreditor;
     @Transient
     private User userDebtor;
-    public Transaction(int number, User userCreditor, User userDebtor, LocalDateTime intime, float amount, String description, float fee){
+
+    public Transaction(int number, User userCreditor, User userDebtor, LocalDateTime intime, float amount, String description, float fee) {
         //mette en place une sécurité (rollback, opérations en bdd débit/crédit/ Concept @Transactionnal
         this.number = number;
         this.userCreditor = userCreditor;
@@ -44,17 +52,18 @@ public class Transaction {
         this.amount = amount;
         this.intime = intime;
         this.description = description;
-        this.fee = amount*FEE;
+        this.fee = amount * FEE;
     }
 
-    public Transaction(User userCreditor, User userDebtor,float amount, LocalDateTime intime, String description, float fee){
+
+    public Transaction(User userCreditor, User userDebtor, float amount, LocalDateTime intime, String description, float fee) {
         //mette en place une sécurité (rollback, opérations en bdd débit/crédit/ Concept @Transactionnal
         this.userCreditor = userCreditor;
         this.userDebtor = userDebtor;
         this.amount = amount;
         this.intime = intime;
         this.description = description;
-        this.fee = amount*FEE;
+        this.fee = amount * FEE;
     }
 
 
@@ -63,7 +72,7 @@ public class Transaction {
             System.out.println("Transfer fails");
         } else {
             this.userCreditor.setBalance(userCreditor.getBalance() - amount);
-            this.userDebtor.setBalance(userDebtor.getBalance() + (amount*fee));
+            this.userDebtor.setBalance(userDebtor.getBalance() + (amount * fee));
         }
     }
 

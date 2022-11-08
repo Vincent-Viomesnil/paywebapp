@@ -5,12 +5,18 @@ import com.paymybuddy.paywebapp.model.UserPrincipal;
 import com.paymybuddy.paywebapp.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,14 +38,19 @@ public class UserController {
         //renvoit à la page HTML du même nom
     }
     @PostMapping("/process_register")
-    public String processRegister(User user) throws IOException {
-        if (userService.addUser(user) != null) {
+    public String processRegister(@Valid User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            System.out.println("This is errors " +bindingResult.getAllErrors());
+            return "addUser";
+            }
+        else if (userService.addUser(user) != null) {
             return "register_success";
         } else {
             String name = httpServletResponse.encodeRedirectURL("addUser");
             return name;
         }
     }
+
 
 
     @GetMapping("/contactsList")
@@ -51,16 +62,9 @@ public class UserController {
         return "addConnection";
     }
 
-    @PostMapping("/searchcontact")
-    public String searchContact(Model model,@AuthenticationPrincipal UserPrincipal user) throws IOException {
-        List<User> emailList = new ArrayList<>();
-        model.addAttribute("emailList", emailList);
-        log.info("email List here :" + emailList);
-        return "index";
-    }
 
     @PostMapping("/addcontact")
-    public String searchContact(Model model,@AuthenticationPrincipal UserPrincipal user, @RequestParam(name = "emailtoadd") String email) throws IOException {
+    public String addContact(Model model,@AuthenticationPrincipal UserPrincipal user, @RequestParam(name = "emailtoadd") String email) throws IOException {
         User contactToAdd = userService.getUserByEmail(email);
         List<User> contactList = new ArrayList<>();
         if (contactToAdd != null ) {
@@ -77,20 +81,20 @@ public class UserController {
     }
 
     @DeleteMapping("/deletecontact")
-    public String deleteContact(Model model,@AuthenticationPrincipal UserPrincipal user, @RequestParam(name = "emailtodelete") String email) throws IOException {
+    public String deleteContact(Model model, @AuthenticationPrincipal UserPrincipal user, @Valid @RequestParam(name = "emailtodelete") String email) throws IOException {
         User userConnected = userService.getUserByEmail(user.getUsername());
         User contactToDelete = userService.getUserByEmail(email);
-        if (contactToDelete != null ) {
+
+         if (userConnected.getContactUserList().contains(contactToDelete) ) {
             model.addAttribute("user", user);
             model.addAttribute("contactToDelete", contactToDelete);
             log.info("contact to delete :" +contactToDelete);
             userService.deleteContact(userConnected, contactToDelete);
-            return "addConnection";
+            return "redirect:/contactsList";
         }
-        log.error("contact to add is NULL");
+        log.error("contact to delete is null or not in the contact list");
 //        String name = httpServletResponse.encodeURL("addConnection");
 //        return name;
-
         return "redirect:/contactsList";
     }
 

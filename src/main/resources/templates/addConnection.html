@@ -49,33 +49,6 @@
     </div>
     </p>
     </form>
-
-<form>
-    <p>
-
-    <div>
-        <table class="table table-striped table-bordered">
-            <thead class="thead-dark">
-            <tr>
-                <th>User ID</th>
-                <th>E-mail</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="user: ${emailList}">
-                <td th:text="${user.id}">User ID</td>
-                <td th:text="${user.email}">E-mail</td>
-                <td th:text="${user.firstname}">First Name</td>
-                <td th:text="${user.lastname}">Last Name</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    </p>
-</form>
-
 <p>
         <form th:action="@{/contactsList}" method="post" >
             <input type="submit" value="Add Contact" />

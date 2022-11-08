@@ -11,9 +11,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @Slf4j
@@ -25,24 +24,26 @@ public class TransactionController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/transaction" )
+    @GetMapping("/transaction")
     public String addTransaction(Model model) {
 
-        model.addAttribute("transaction",new Transaction());
+        model.addAttribute("transaction", new Transaction());
 
         return "addTransaction"; //renvoit à la page HTML du même nom
     }
 
     @PostMapping("/transaction")
-    public String sendMoney(Model model, @AuthenticationPrincipal UserPrincipal user, @RequestParam("emaildebtor") String emailUserDebtor, String description, float amount) {
+    public String sendMoney(@AuthenticationPrincipal UserPrincipal user,
+                            @ModelAttribute Transaction transaction) {
+        //récupère la transaction du get
         User userConnected = userService.getUserByEmail(user.getUsername());
-        User emailDebtor = userService.getUserByEmail(emailUserDebtor);
+        User userDebtor = userService.getUserByEmail(transaction.getUserDebtor().getEmail());
 
-        transactionService.sendMoney(userConnected,emailUserDebtor, description, amount);
+        transactionService.sendMoney(userConnected, userDebtor, transaction.getDescription(), transaction.getAmount());//email ou objet ?
 //        model.addAttribute("transaction", transaction);
-            model.addAttribute("emaildebtor", emailDebtor) ;
+//            model.addAttribute("emaildebtor", emailDebtor);
 
-            //Liste déroulante avec les emails de la liste de contacts
+        //Liste déroulante avec les emails de la liste de contacts
         return "transaction_success";
     }
 
