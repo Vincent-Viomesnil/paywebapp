@@ -54,18 +54,6 @@ public class Transaction {
         this.fee = amount * FEE;
     }
 
-//
-//    public Transaction(User userCreditor, User userDebtor, float amount, LocalDateTime intime, String description, float fee) {
-//        //mette en place une sécurité (rollback, opérations en bdd débit/crédit/ Concept @Transactionnal
-//        this.userCreditor = userCreditor;
-//        this.userDebtor = userDebtor;
-//        this.amount = amount;
-//        this.intime = intime;
-//        this.description = description;
-//        this.fee = amount * FEE;
-//    }
-
-
     public Transaction(User userCreditor, User userDebtor, float amount, LocalDateTime intime, String description, float fee) {
         //mette en place une sécurité (rollback, opérations en bdd débit/crédit/ Concept @Transactionnal
 
