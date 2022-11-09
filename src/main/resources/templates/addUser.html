@@ -24,7 +24,8 @@
             <label th:for="email" class="col-4 col-form-label">E-mail: </label>
             <div class="col-8">
                 <input type="email" th:field="*{email}" class="form-control" required />
-            <span th:errors="*{email}" class="error">Invalid Email</span>
+<!--            <span th:errors="*{email}" class="error">Invalid Email</span>-->
+                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</span>
             </div>
         </div>
 
@@ -33,6 +34,7 @@
             <div class="col-8">
                 <input type="password" th:field="*{password}" class="form-control"
                        required />
+                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password Error</span>
             </div>
         </div>
 
@@ -41,6 +43,7 @@
             <div class="col-8">
                 <input type="text" th:field="*{firstname}" class="form-control"
                        required />
+                <span th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}">firstname Error</span>
             </div>
         </div>
 
@@ -49,6 +52,7 @@
             <div class="col-8">
                 <input type="text" th:field="*{lastname}" class="form-control"
                        required />
+                <span th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}">lastname Error</span>
             </div>
         </div>
 

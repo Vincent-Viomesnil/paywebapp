@@ -1,10 +1,11 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8" />
-  <title>Transaction</title>
-  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <meta charset="UTF-8"/>
+    <title>Transaction</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
 <body>
 
@@ -15,61 +16,71 @@
 <div>
 </div>
 <form th:action="@{/transaction}" th:object="${transaction}" method="post" style="max-width: 600px; margin: 0 auto;">
-<!--      renvoit à la requête du controller "process_register"-->
+    <!--      renvoit à la requête du controller  -->
+
 
     <div class="m-3">
-          <div class="form-group row">
-            <label class="col-4 col-form-label">Date </label>
-            <div class="col-8">
-                <input type="date" th:field="*{intime}" class="form-control"
-                       required />
-            </div>
-        </div>
-
         <div class="form-group row">
-            <label class="col-4 col-form-label">Description: </label>
-            <div class="col-8">
-                <input type="text" th:field="*{description}" class="form-control"
-                       required />
-            </div>
+            <input type="number" th:field="*{amount}" class="form-control" placeholder="0" required/>
         </div>
-
+        <!--placeholder pour mettre du texte dans la case-->
         <div class="form-group row">
-            <label class="col-4 col-form-label">Amount: </label>
-            <div class="col-8">
-                <input type="number" th:field="*{amount}" class="form-control"
-                       required />
-            </div>
+            <input type="text" th:field="*{userDebtor.email}" class="form-control" placeholder="Email" required/>
         </div>
-
         <div class="form-group row">
-            <label class="col-4 col-form-label">UserDebtor: </label>
-            <div class="col-8">
-                <input type="email" name="emaildebtor" th:field="*{userDebtor.email}" class="form-control"
-                       required />
-            </div>
+            <input type="text" th:field="*{description}" class="form-control" placeholder="Description" required/>
         </div>
 
-<!--        <div class="form-group row">-->
-<!--            <label class="col-4 col-form-label">UserCreditor: </label>-->
-<!--            <div class="col-8">-->
-<!--                <input type="text" th:field="*{userCreditor.getfirstname}" class="form-control"-->
-<!--                       required />-->
-<!--            </div>-->
-<!--    </div>-->
-
-<!--    <div class="form-group row">-->
-<!--        <label class="col-4 col-form-label">UserDebtor: </label>-->
-<!--        <div class="col-8">-->
-<!--            <input type="text" th:field="*{userDebtor.getfirstname}" class="form-control"-->
-<!--                   required />-->
-<!--        </div>-->
-<!--    </div>-->
 
         <div>
-            <button type="submit" class="btn btn-primary">Do Transaction</button>
+            <button type="submit" class="btn btn-primary">Pay</button>
         </div>
     </div>
+
+
+    <!--        <div class="form-group row">-->
+    <!--            <label class="col-4 col-form-label">UserCreditor: </label>-->
+    <!--            <div class="col-8">-->
+    <!--                <input type="text" th:field="*{userCreditor.getfirstname}" class="form-control"-->
+    <!--                       required />-->
+    <!--            </div>-->
+    <!--    </div>-->
+
+    <!--    <div class="form-group row">-->
+    <!--        <label class="col-4 col-form-label">UserDebtor: </label>-->
+    <!--        <div class="col-8">-->
+    <!--            <input type="text" th:field="*{userDebtor.getfirstname}" class="form-control"-->
+    <!--                   required />-->
+    <!--        </div>-->
+    <!--    </div>-->
+
+</form>
+
+<form>
+    <p>
+
+    <div>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>GET-mail</th>
+                <th>E-mail</th>
+
+                <th>Descritpion</th>
+                <th>Amount</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="transaction: ${transactionList}">
+<!--                <td th:text="${transaction.userDebtor.email}">GET-mail</td>-->
+<!--                <td th:text="${transaction.userDebtor.getEmail()}">E-mail</td>-->
+                <td th:text="${transaction.description}">Description </td>
+                <td th:text="${transaction.amount}">Amount</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    </p>
 </form>
 
 

@@ -5,8 +5,10 @@ package com.paymybuddy.paywebapp.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Getter
 @Setter
@@ -19,13 +21,17 @@ public class User {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="id")
     private int id;
-    @Column(name="email")
+    @Column(name="email", length = 60)
+    @NotNull(message = "email is mandatory")
     private String email;
-    @Column(name="password")
+    @Column(name="password", length = 64)
+    @NotNull(message = "password is mandatory")
     private String password;
-    @Column(name="firstname")
+    @Column(name="firstname", length = 60)
+    @NotNull(message = "firstname is mandatory")
     private String firstname;
-    @Column(name="lastname")
+    @Column(name="lastname", length = 60)
+    @NotNull(message = "lastname is mandatory")
     private String lastname;
     @Column(name="balance")
     float balance;

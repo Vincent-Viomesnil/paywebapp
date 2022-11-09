@@ -54,11 +54,6 @@ protected void configure(HttpSecurity http) throws Exception {
 
 }
 
-//    @Bean
-//    public PersistentTokenRepository persistentTokenRepository(){
-//        JdbcTokenRepositoryImpl tokenRepository=new JdbcTokenRepositoryImpl();
-//         return tokenRepository;
-//    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
