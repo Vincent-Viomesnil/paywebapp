@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @Controller
 @Slf4j
 public class TransactionController {
@@ -25,26 +27,34 @@ public class TransactionController {
     private UserService userService;
 
     @GetMapping("/transaction")
-    public String addTransaction(Model model) {
-
+    public String getAllTransactions(Model model, @AuthenticationPrincipal UserPrincipal user) {
+        User userConnected = userService.getUserByEmail(user.getUsername());
+        List<Transaction> transactionList = userConnected.getTransactionList();
         model.addAttribute("transaction", new Transaction());
+        model.addAttribute("transactionList", transactionList);
 
         return "addTransaction"; //renvoit à la page HTML du même nom
     }
 
+
     @PostMapping("/transaction")
     public String sendMoney(@AuthenticationPrincipal UserPrincipal user,
                             @ModelAttribute Transaction transaction) {
-        //récupère la transaction du get
+        //@ModelAttribute Transaction récupère la transaction du getmapping
         User userConnected = userService.getUserByEmail(user.getUsername());
         User userDebtor = userService.getUserByEmail(transaction.getUserDebtor().getEmail());
 
-        transactionService.sendMoney(userConnected, userDebtor, transaction.getDescription(), transaction.getAmount());//email ou objet ?
+        if (userConnected.getContactUserList().contains(userDebtor)) {
+            transactionService.sendMoney(userConnected, userDebtor, transaction.getDescription(), transaction.getAmount());
 //        model.addAttribute("transaction", transaction);
 //            model.addAttribute("emaildebtor", emailDebtor);
 
-        //Liste déroulante avec les emails de la liste de contacts
-        return "transaction_success";
+            //Liste déroulante avec les emails de la liste de contacts
+            return "redirect:/transaction";
+        } else {
+            log.error("The email is not correct or not in the contact list");
+            return "redirect:/transaction";
+        }
     }
 
 

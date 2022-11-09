@@ -22,9 +22,8 @@ public class Transaction {
     private int number;
     @Column(name = "user_id")
     private int userId;
-    @Column(name = "user_email", length = 60)
-    @NotNull(message = "email is mandatory")
-    private String userEmail;
+    @Column(name = "user_debtor_id")
+    private int userDebtorId;
     @Column(name = "amount")
     @NotNull(message = "amount is mandatory")
     private float amount;
@@ -55,9 +54,23 @@ public class Transaction {
         this.fee = amount * FEE;
     }
 
+//
+//    public Transaction(User userCreditor, User userDebtor, float amount, LocalDateTime intime, String description, float fee) {
+//        //mette en place une sécurité (rollback, opérations en bdd débit/crédit/ Concept @Transactionnal
+//        this.userCreditor = userCreditor;
+//        this.userDebtor = userDebtor;
+//        this.amount = amount;
+//        this.intime = intime;
+//        this.description = description;
+//        this.fee = amount * FEE;
+//    }
+
 
     public Transaction(User userCreditor, User userDebtor, float amount, LocalDateTime intime, String description, float fee) {
         //mette en place une sécurité (rollback, opérations en bdd débit/crédit/ Concept @Transactionnal
+
+        this.userId = userCreditor.getId();
+        this.userDebtorId = userDebtor.getId();
         this.userCreditor = userCreditor;
         this.userDebtor = userDebtor;
         this.amount = amount;
@@ -66,15 +79,14 @@ public class Transaction {
         this.fee = amount * FEE;
     }
 
-
-    public void transferMoney(User userDebtor, float amount) {
-        if (this.userCreditor.getBalance() < amount) {
-            System.out.println("Transfer fails");
-        } else {
-            this.userCreditor.setBalance(userCreditor.getBalance() - amount);
-            this.userDebtor.setBalance(userDebtor.getBalance() + (amount * fee));
-        }
-    }
+//    public void transferMoney(User userDebtor, float amount) {
+//        if (this.userCreditor.getBalance() < amount) {
+//            System.out.println("Transfer fails");
+//        } else {
+//            this.userCreditor.setBalance(userCreditor.getBalance() - amount);
+//            this.userDebtor.setBalance(userDebtor.getBalance() + (amount * fee));
+//        }
+//    }
 
 
 //    public void transaction(User userCreditor, User userDebtor,float amount) {
