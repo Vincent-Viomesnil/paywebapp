@@ -112,16 +112,16 @@ public class UserController {
     }
 
 
-    @GetMapping("/user_home")
-    public String viewUserHome(@AuthenticationPrincipal UserPrincipal user, Model model) {
-        Iterable<User> listUsers = userService.getAllUsers();
-        User userConnected = userService.getUserByEmail(user.getUsername());
-        model.addAttribute("listUsers", listUsers);
-        model.addAttribute("user", user);
-        model.addAttribute("userconnected", userConnected);
-        return "user_home";
-        //renvoit à la page HTML du même nom
-    }
+//    @GetMapping("/user_home")
+//    public String viewUserHome(@AuthenticationPrincipal UserPrincipal user, Model model) {
+//        List<User> listUsers = userService.getAllUsers();
+//        User userConnected = userService.getUserByEmail(user.getUsername());
+//        model.addAttribute("listUsers", listUsers);
+//        model.addAttribute("user", user);
+//        model.addAttribute("userconnected", userConnected);
+//        return "user_home";
+//        //renvoit à la page HTML du même nom
+//    }
 
 
 //    @RequestMapping(value = "/username", method = RequestMethod.GET)
