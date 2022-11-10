@@ -30,6 +30,25 @@
         <input type="text" th:object="${userconnected}" th:value="${userconnected.getBalance()}"/>
     </p>
 </form>
+<div>
+
+    <a class="nav-link" th:href="@{/bankaccount}">BankAccount</a>
+</div>
+<form th:action="@{/banktransaction}" th:object="${banktransaction}" method="post" style="max-width: 600px; margin: 0 auto;">
+    <!--      renvoit à la requête du controller  -->
+
+
+    <div class="m-3">
+        <div class="form-group row">
+            <input type="number" th:field="*{amount}" class="form-control" placeholder="0" required/>
+        </div>
+        <!--placeholder pour mettre du texte dans la case-->
+
+        <div>
+            <button type="submit" class="btn btn-primary">Deposit</button>
+        </div>
+    </div>
+</form>
 
 
 <form>

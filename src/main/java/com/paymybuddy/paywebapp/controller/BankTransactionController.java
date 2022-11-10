@@ -11,6 +11,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -34,27 +36,16 @@ public class BankTransactionController {
         model.addAttribute("userconnected", userConnected);
         return "user_home"; //renvoit à la page HTML du même nom
     }
-//
-//
-//    @PostMapping("/transaction")
-//    public String sendMoney(@AuthenticationPrincipal UserPrincipal user,
-//                            @ModelAttribute Transaction transaction, Model model) {
-//        //@ModelAttribute Transaction récupère la transaction du getmapping
-//        User userConnected = userService.getUserByEmail(user.getUsername());
-//        User userDebtor = userService.getUserByEmail(transaction.getUserDebtor().getEmail());
-//
-//        if (userConnected.getContactUserList().contains(userDebtor)) {
-//            transactionService.sendMoney(userConnected, userDebtor, transaction.getDescription(), transaction.getAmount());
-////        model.addAttribute("transaction", transaction);
-////            model.addAttribute("emaildebtor", userDebtor);
-//
-//            //Liste déroulante avec les emails de la liste de contacts
-//            return "redirect:/transaction";
-//        } else {
-//            log.error("The email is not correct or not in the contact list");
-//            return "redirect:/transaction";
-//        }
-//    }
+
+
+    @PostMapping("/banktransaction")
+    public String depositMoney(@AuthenticationPrincipal UserPrincipal user,
+                               @ModelAttribute BankTransaction bankTransaction, Model model) {
+        User userConnected = userService.getUserByEmail(user.getUsername());
+        bankTransactionService.deposit(userConnected, bankTransaction.getAmount());
+        return "redirect:/banktransaction";
+
+    }
 
 
 }

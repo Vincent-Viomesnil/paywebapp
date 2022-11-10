@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Bank Account</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body>
+
+<div>
+    <h1> BankAccount</h1>
+</div>
+
+<!--<form th:action="@{/bankaccount}" method="post">-->
+<!--    <input type="submit" value="Add BankAccount"/>-->
+<!--    <div class="form-group row">-->
+<!--        <label th:for="name" class="col-4 col-form-label">Name </label>-->
+<!--        <div class="col-8">-->
+<!--            <input type="text" name="nametoadd" class="form-control" required placeholder="Bank Name"/>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="form-group row">-->
+<!--        <label th:for="iban" class="col-4 col-form-label">Iban </label>-->
+<!--        <div class="col-8">-->
+<!--            <input type="text" name="ibantoadd" class="form-control" required placeholder="Iban"/>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</form>-->
+
+<!--<form>-->
+<!--    <p>-->
+
+<!--    <div>-->
+<!--        <table class="table table-striped table-bordered">-->
+<!--            <thead class="thead-dark">-->
+<!--            <tr>-->
+<!--                <th>ID</th>-->
+<!--                <th>getid</th>-->
+<!--                <th>Date</th>-->
+<!--                <th>Amount</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr th:each="bankaccount: ${bankaccountlist}">-->
+<!--                <td th:text="${bankaccount.id}">ID</td>-->
+<!--                <td th:text="${bankaccount.getId()}">GetID</td>-->
+<!--                <td th:text="${bankaccount.intime}">Date </td>-->
+<!--                <td th:text="${bankaccount.amount}">Amount</td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+<!--    </div>-->
+<!--    </p>-->
+<!--</form>-->
+
+
+<form th:action="@{/addbankaccount}" th:object="${bankaccount}" method="post" style="max-width: 600px; margin: 0 auto;">
+    <!--      renvoit à la requête du controller "process_register"-->
+
+    <div class="m-3">
+        <div class="form-group row">
+            <label th:for="name" class="col-4 col-form-label"> Name </label>
+            <div class="col-8">
+                <input type="text" th:field="*{name}" class="form-control" required/>
+                <!--            <span th:errors="*{email}" class="error">Invalid Email</span>-->
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-4 col-form-label">Iban: </label>
+            <div class="col-8">
+                <input type="text" th:field="*{iban}" class="form-control"
+                       required/></div>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">Add Bankaccount</button>
+        </div>
+    </div>
+
+</form>
+</body>
+</html>

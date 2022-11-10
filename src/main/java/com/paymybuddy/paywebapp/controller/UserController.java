@@ -106,7 +106,6 @@ public class UserController {
         } else {
             userService.addContact(userConnected, contactToAdd);
             log.info("Successfull Contact Added in your list");
-            model.addAttribute("user", user);
             return "redirect:/contactsList";
         }
     }

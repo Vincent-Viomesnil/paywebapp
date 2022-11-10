@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -17,7 +18,7 @@ public class BankAccountService {
     private BankAccountRepository bankAccountRepository;
 
 
-    public Iterable<BankAccount> getAllBanksAccounts() {
+    public List<BankAccount> getAllBanksAccounts() {
         return bankAccountRepository.findAll();
     }
 
@@ -26,7 +27,7 @@ public class BankAccountService {
     }
 
     public BankAccount addBankAccount(BankAccount bankAccount) {
-        if (bankAccountRepository.findByUserId(bankAccount.getUserId()).isPresent()) {
+        if (bankAccountRepository.findByIban(bankAccount.getIban()).isPresent()) {
             log.error("bankAccount already exists");
             return null;
         } else {
@@ -43,16 +44,16 @@ public class BankAccountService {
         return bankAccountRepository.findByUserId(userId);
     }
 
-    public BankAccount updateBankAccount(Integer userId, String iban) {
-        BankAccount bankAccount = new BankAccount();
-        if (bankAccountRepository.findByUserId(userId).isPresent()) {
-            bankAccount.setUserId(userId);
-            bankAccount.setIban(iban);
-            log.info("Update bankaccount SUCCESS ");
-            return bankAccountRepository.save(bankAccount);
-        } else {
-            log.error("Update bankaccount FAILED, userID doesn't exist");
-            return null;
-        }
-    }
+//    public BankAccount updateBankAccount(Integer userId, String iban) {
+//        BankAccount bankAccount = new BankAccount();
+//        if (bankAccountRepository.findByUserId(userId).isPresent()) {
+//            bankAccount.setUserId(userId);
+//            bankAccount.setIban(iban);
+//            log.info("Update bankaccount SUCCESS ");
+//            return bankAccountRepository.save(bankAccount);
+//        } else {
+//            log.error("Update bankaccount FAILED, userID doesn't exist");
+//            return null;
+//        }
+//    }
 }
