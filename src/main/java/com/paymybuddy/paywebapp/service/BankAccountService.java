@@ -1,8 +1,6 @@
 package com.paymybuddy.paywebapp.service;
 
 import com.paymybuddy.paywebapp.model.BankAccount;
-import com.paymybuddy.paywebapp.model.Transfer;
-import com.paymybuddy.paywebapp.model.User;
 import com.paymybuddy.paywebapp.repository.BankAccountRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +26,7 @@ public class BankAccountService {
     }
 
     public BankAccount addBankAccount(BankAccount bankAccount) {
-        if (bankAccountRepository.findByUserId(bankAccount.getUserId()).isPresent()){
+        if (bankAccountRepository.findByUserId(bankAccount.getUserId()).isPresent()) {
             log.error("bankAccount already exists");
             return null;
         } else {
@@ -47,7 +45,7 @@ public class BankAccountService {
 
     public BankAccount updateBankAccount(Integer userId, String iban) {
         BankAccount bankAccount = new BankAccount();
-        if (bankAccountRepository.findByUserId(userId).isPresent()){
+        if (bankAccountRepository.findByUserId(userId).isPresent()) {
             bankAccount.setUserId(userId);
             bankAccount.setIban(iban);
             log.info("Update bankaccount SUCCESS ");

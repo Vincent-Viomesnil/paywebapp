@@ -32,14 +32,13 @@ public class TransactionController {
         List<Transaction> transactionList = userConnected.getTransactionList();
         model.addAttribute("transaction", new Transaction());
         model.addAttribute("transactionList", transactionList);
-
         return "addTransaction"; //renvoit à la page HTML du même nom
     }
 
 
     @PostMapping("/transaction")
     public String sendMoney(@AuthenticationPrincipal UserPrincipal user,
-                            @ModelAttribute Transaction transaction) {
+                            @ModelAttribute Transaction transaction, Model model) {
         //@ModelAttribute Transaction récupère la transaction du getmapping
         User userConnected = userService.getUserByEmail(user.getUsername());
         User userDebtor = userService.getUserByEmail(transaction.getUserDebtor().getEmail());
@@ -47,7 +46,7 @@ public class TransactionController {
         if (userConnected.getContactUserList().contains(userDebtor)) {
             transactionService.sendMoney(userConnected, userDebtor, transaction.getDescription(), transaction.getAmount());
 //        model.addAttribute("transaction", transaction);
-//            model.addAttribute("emaildebtor", emailDebtor);
+//            model.addAttribute("emaildebtor", userDebtor);
 
             //Liste déroulante avec les emails de la liste de contacts
             return "redirect:/transaction";

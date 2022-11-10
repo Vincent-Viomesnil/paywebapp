@@ -20,10 +20,12 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "number")
     private int number;
-    @Column(name = "user_id")
-    private int userId;
-    @Column(name = "user_debtor_id")
-    private int userDebtorId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User userCreditor;
+    @ManyToOne
+    @JoinColumn(name = "user_debtor_id", referencedColumnName = "id")
+    private User userDebtor;
     @Column(name = "amount")
     @NotNull(message = "amount is mandatory")
     private float amount;
@@ -38,10 +40,21 @@ public class Transaction {
     private static final float FEE = 0.005f;
     //fichier config.properties (mettre les infos fee)
 //
-    @Transient
-    private User userCreditor;
-    @Transient
-    private User userDebtor;
+//    private User userCreditor;
+//    private User userDebtor;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    public User getUserCreditor() {
+//        return userCreditor;
+//    }
+//
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    public User getUserDebtor() {
+//        return userDebtor;
+//    }
+//
 
     public Transaction(int number, User userCreditor, User userDebtor, LocalDateTime intime, float amount, String description, float fee) {
         //mette en place une sécurité (rollback, opérations en bdd débit/crédit/ Concept @Transactionnal
@@ -57,8 +70,6 @@ public class Transaction {
     public Transaction(User userCreditor, User userDebtor, float amount, LocalDateTime intime, String description, float fee) {
         //mette en place une sécurité (rollback, opérations en bdd débit/crédit/ Concept @Transactionnal
 
-        this.userId = userCreditor.getId();
-        this.userDebtorId = userDebtor.getId();
         this.userCreditor = userCreditor;
         this.userDebtor = userDebtor;
         this.amount = amount;

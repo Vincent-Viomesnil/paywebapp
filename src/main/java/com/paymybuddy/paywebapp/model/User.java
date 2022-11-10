@@ -44,7 +44,7 @@ public class User {
             fetch = FetchType.LAZY // Lazy afin de ne pas loader toutes les infos des transfers liée à un user.
     )
     @JoinColumn(name = "user_id")
-    private List<Transfer> transferList = new ArrayList<>();
+    private List<BankTransaction> bankTransactionList = new ArrayList<>();
 
 
     @OneToMany( //relation unidirectionnelle One to many
@@ -55,26 +55,17 @@ public class User {
     @JoinColumn(name = "user_id")
     private List<Transaction> transactionList = new ArrayList<>();
 
-    @OneToOne(
+    @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.LAZY
     )
-    @JoinColumn(name = "id")
-    private BankAccount bankAccount;
+    @JoinColumn(name = "user_id")
+    private List<BankAccount> bankAccount = new ArrayList<>();
 
     public User(int id, String email, String password, String firstname, String lastname, float balance) {
     }
-
-
-    public boolean getMoney() {
-        User userCreditor = new User();
-        if (userCreditor.getBalance() > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    
 
     public String getFullName() {
         return firstname + " " + lastname;

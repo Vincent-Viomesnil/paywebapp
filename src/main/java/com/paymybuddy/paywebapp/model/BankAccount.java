@@ -33,6 +33,6 @@ public class BankAccount {
             fetch = FetchType.LAZY // Lazy afin de ne pas loader toutes les infos des transfer liée à un bankAccount.
     )
     @JoinColumn(name = "user_id")
-    private List<Transfer> transferList = new ArrayList<>();
+    private List<BankTransaction> bankTransactionList = new ArrayList<>();
 
 }
