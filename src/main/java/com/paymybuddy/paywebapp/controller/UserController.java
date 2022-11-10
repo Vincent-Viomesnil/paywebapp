@@ -5,15 +5,14 @@ import com.paymybuddy.paywebapp.model.UserPrincipal;
 import com.paymybuddy.paywebapp.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -31,26 +30,25 @@ public class UserController {
     @Autowired
     private HttpServletResponse httpServletResponse;
 
-    @GetMapping("/registry" )
+    @GetMapping("/registry")
     public String addUserRegistry(Model model) {
-        model.addAttribute("user",new User());
+        model.addAttribute("user", new User());
         return "addUser";
         //renvoit à la page HTML du même nom
     }
+
     @PostMapping("/process_register")
     public String processRegister(@Valid User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            System.out.println("This is errors " +bindingResult.getAllErrors());
+            System.out.println("This is errors " + bindingResult.getAllErrors());
             return "addUser";
-            }
-        else if (userService.addUser(user) != null) {
+        } else if (userService.addUser(user) != null) {
             return "register_success";
         } else {
             String name = httpServletResponse.encodeRedirectURL("addUser");
             return name;
         }
     }
-
 
 
     @GetMapping("/contactsList")
@@ -64,16 +62,16 @@ public class UserController {
 
 
     @PostMapping("/addcontact")
-    public String addContact(Model model,@AuthenticationPrincipal UserPrincipal user, @RequestParam(name = "emailtoadd") String email) throws IOException {
+    public String addContact(Model model, @AuthenticationPrincipal UserPrincipal user, @RequestParam(name = "emailtoadd") String email) throws IOException {
         User contactToAdd = userService.getUserByEmail(email);
         List<User> contactList = new ArrayList<>();
-        if (contactToAdd != null ) {
-        model.addAttribute("user", user);
-        log.info("contact to ADD already exist :" +contactToAdd);
+        if (contactToAdd != null) {
+            model.addAttribute("user", user);
+            log.info("contact to ADD already exist :" + contactToAdd);
 
-        System.out.println("This is the Stream :" +contactList);
-        return "addConnection";
-    }
+            System.out.println("This is the Stream :" + contactList);
+            return "addConnection";
+        }
         log.error("contact to add is NULL");
 //        String name = httpServletResponse.encodeURL("addConnection");
 //        return name;
@@ -85,10 +83,10 @@ public class UserController {
         User userConnected = userService.getUserByEmail(user.getUsername());
         User contactToDelete = userService.getUserByEmail(email);
 
-         if (userConnected.getContactUserList().contains(contactToDelete) ) {
+        if (userConnected.getContactUserList().contains(contactToDelete)) {
             model.addAttribute("user", user);
             model.addAttribute("contactToDelete", contactToDelete);
-            log.info("contact to delete :" +contactToDelete);
+            log.info("contact to delete :" + contactToDelete);
             userService.deleteContact(userConnected, contactToDelete);
             return "redirect:/contactsList";
         }
@@ -99,30 +97,31 @@ public class UserController {
     }
 
     @PostMapping("/contactsList")
-    public String addContactToList(Model model, @AuthenticationPrincipal UserPrincipal user,@RequestParam(name = "emailtoadd") String email) {
+    public String addContactToList(Model model, @AuthenticationPrincipal UserPrincipal user, @RequestParam(name = "emailtoadd") String email) {
         User userConnected = userService.getUserByEmail(user.getUsername());
         User contactToAdd = userService.getUserByEmail(email);
-        if (contactToAdd == null || userConnected.getContactUserList().contains(contactToAdd)){
-            log.info("Error: wrong email or contact already in your contactList " +contactToAdd);
+        if (contactToAdd == null || userConnected.getContactUserList().contains(contactToAdd)) {
+            log.info("Error: wrong email or contact already in your contactList " + contactToAdd);
             return "redirect:/contactsList";
         } else {
-        userService.addContact(userConnected, contactToAdd);
-        log.info("Successfull Contact Added in your list");
-        model.addAttribute("user", user);
+            userService.addContact(userConnected, contactToAdd);
+            log.info("Successfull Contact Added in your list");
+            model.addAttribute("user", user);
             return "redirect:/contactsList";
         }
     }
 
 
-    @GetMapping("/user_home" )
-    public String viewUserHome(@AuthenticationPrincipal UserPrincipal user, Model model){
-       Iterable<User> listUsers = userService.getAllUsers();
+    @GetMapping("/user_home")
+    public String viewUserHome(@AuthenticationPrincipal UserPrincipal user, Model model) {
+        Iterable<User> listUsers = userService.getAllUsers();
+        User userConnected = userService.getUserByEmail(user.getUsername());
         model.addAttribute("listUsers", listUsers);
         model.addAttribute("user", user);
+        model.addAttribute("userconnected", userConnected);
         return "user_home";
         //renvoit à la page HTML du même nom
     }
-
 
 
 //    @RequestMapping(value = "/username", method = RequestMethod.GET)

@@ -1,6 +1,9 @@
 package com.paymybuddy.paywebapp.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,15 +15,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name ="bankaccount")
+@Table(name = "bankaccount")
 public class BankAccount {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
-    @Column(name="user_id")
+    @Column(name = "user_id")
     private int userId;
-    @Column(name="iban", length = 100)
+    @Column(name = "iban", length = 100)
     @NotNull(message = "iban is mandatory")
     private String iban;
 
