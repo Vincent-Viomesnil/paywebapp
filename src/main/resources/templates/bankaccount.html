@@ -24,7 +24,6 @@
             <input type="text" th:field="*{iban}" class="form-control" placeholder="Iban" required/>
         </div>
 
-
         <div>
             <button type="submit" class="btn btn-primary">Add Bankaccount</button>
         </div>
@@ -52,30 +51,56 @@
     </p>
 </form>
 
+<form th:action="@{/banktransaction}" th:object="${banktransaction}" method="post" style="max-width: 600px; margin: 0 auto;">
+    <!--      renvoit à la requête du controller  -->
 
-<!--<form th:action="@{/addbankaccount}" th:object="${bankaccount}" method="post" style="max-width: 600px; margin: 0 auto;">-->
-<!--    &lt;!&ndash;      renvoit à la requête du controller "process_register"&ndash;&gt;-->
+    <div>
 
-<!--    <div class="m-3">-->
-<!--        <div class="form-group row">-->
-<!--            <label th:for="name" class="col-4 col-form-label"> Name </label>-->
-<!--            <div class="col-8">-->
-<!--                <input type="text" th:field="*{name}" class="form-control" required/>-->
-<!--                &lt;!&ndash;            <span th:errors="*{email}" class="error">Invalid Email</span>&ndash;&gt;-->
-<!--            </div>-->
-<!--        </div>-->
+        <select class="form-select" aria-label="Default select example" name="iban">
+            <option selected value="iban">Select A BankAccount</option>
+            <tr th:each="bankaccount: ${bankaccountlist}">
+                <option th:text="${bankaccount.name}+' '+${bankaccount.iban}" th:value="${bankaccount.iban}">BankAccounts</option>
+        </select>
 
-<!--        <div class="form-group row">-->
-<!--            <label class="col-4 col-form-label">Iban: </label>-->
-<!--            <div class="col-8">-->
-<!--                <input type="text" th:field="*{iban}" class="form-control"-->
-<!--                       required/></div>-->
-<!--        </div>-->
-<!--        <div>-->
-<!--            <button type="submit" class="btn btn-primary">Add Bankaccount</button>-->
-<!--        </div>-->
-<!--    </div>-->
 
-<!--</form>-->
+    <div class="m-3">
+        <div class="form-group row">
+            <input type="number" th:field="*{amount}" class="form-control" placeholder="0" required/>
+        </div>
+        <!--placeholder pour mettre du texte dans la case-->
+
+        <div>
+            <button type="submit" class="btn btn-primary">Deposit</button>
+        </div>
+    </div>
+    </div>
+</form>
+
+
+
+<form>
+    <p>
+
+    <div>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Amount</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="banktransaction: ${banktransactionlist}">
+                <td th:text="${banktransaction.id}">ID</td>
+                <td th:text="${banktransaction.intime}">Date </td>
+                <td th:text="${banktransaction.amount}">Amount</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    </p>
+</form>
+
 </body>
 </html>

@@ -22,8 +22,10 @@ public class BankTransaction {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-    @Column(name = "bankaccount_id")
-    private int bankaccountId;
+
+    @ManyToOne
+    @JoinColumn(name = "bankaccount_id", referencedColumnName = "id")
+    private BankAccount bankAccount;
     @Column(name = "amount")
     private float amount;
     @Column(name = "intime")
@@ -36,9 +38,9 @@ public class BankTransaction {
     //Pas besoin de balance
 
 
-    public BankTransaction(User user, int bankaccountId, float amount, LocalDateTime intime, String transferType) {
+    public BankTransaction(User user, BankAccount bankAccount, float amount, LocalDateTime intime, String transferType) {
         this.user = user;
-        this.bankaccountId = bankaccountId;
+        this.bankAccount = bankAccount;
         this.amount = amount;
         this.intime = intime;
         this.transferType = transferType;

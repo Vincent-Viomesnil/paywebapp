@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -57,7 +56,7 @@ public class BankAccountService {
         return bankAccountRepository.findByIban(iban);
     }
 
-    public Optional<BankAccount> getBankAccountByUserId(Integer userId) {
+    public BankAccount getBankAccountByUserId(Integer userId) {
         return bankAccountRepository.findByUserId(userId);
     }
 

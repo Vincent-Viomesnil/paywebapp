@@ -1,11 +1,14 @@
 package com.paymybuddy.paywebapp.service;
 
+import com.paymybuddy.paywebapp.model.BankAccount;
 import com.paymybuddy.paywebapp.model.BankTransaction;
+import com.paymybuddy.paywebapp.model.User;
 import com.paymybuddy.paywebapp.repository.BankTransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +22,9 @@ public class BankTransactionService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private BankAccountService bankAccountService;
+
     public List<BankTransaction> getAllBankTransactions() {
         return bankTransactionRepository.findAll();
     }
@@ -31,14 +37,16 @@ public class BankTransactionService {
         return bankTransactionRepository.save(bankTransaction);
     }
 
-//    public void deposit(User user, float amount) {
-//        String transferType = "deposit";
-//        LocalDateTime intime = LocalDateTime.now();
-//        BankTransaction bankTransaction = new BankTransaction(user amount, intime, transferType);
-//
-//        user.setBalance(user.getBalance() - amount);
-//
-//        bankTransactionRepository.save(bankTransaction);
-//    }
+    public void deposit(User user, String bankAccountIban, float amount) {
+        String transferType = "deposit";
+        LocalDateTime intime = LocalDateTime.now();
+        User userConnected = userService.getUserByEmail(user.getEmail());
+        BankAccount bankAccount = bankAccountService.getBankAccountByIban(bankAccountIban);
+        BankTransaction bankTransaction = new BankTransaction(userConnected, bankAccount, amount, intime, transferType);
+
+        userConnected.setBalance(userConnected.getBalance() - amount);
+
+        bankTransactionRepository.save(bankTransaction);
+    }
 
 }
