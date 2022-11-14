@@ -19,8 +19,9 @@ public class BankTransaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Column(name = "user_id")
-    private int userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
     @Column(name = "bankaccount_id")
     private int bankaccountId;
     @Column(name = "amount")
@@ -34,8 +35,10 @@ public class BankTransaction {
 //type de Transfer/Viremnt (retrait - depuis banque / dépot vers la banque)
     //Pas besoin de balance
 
-    public BankTransaction(int userId, float amount, LocalDateTime intime, String transferType) {
-        this.userId = userId;
+
+    public BankTransaction(User user, int bankaccountId, float amount, LocalDateTime intime, String transferType) {
+        this.user = user;
+        this.bankaccountId = bankaccountId;
         this.amount = amount;
         this.intime = intime;
         this.transferType = transferType;

@@ -93,7 +93,7 @@ public class UserController {
     }
 
     @PostMapping("/contactsList")
-    public String addContactToList(Model model, @AuthenticationPrincipal UserPrincipal user, @RequestParam(name = "emailtoadd") String email) {
+    public String addContactToList(@AuthenticationPrincipal UserPrincipal user, @RequestParam(name = "emailtoadd") String email) {
         User userConnected = userService.getUserByEmail(user.getUsername());
         User contactToAdd = userService.getUserByEmail(email);
         if (contactToAdd == null || userConnected.getContactUserList().contains(contactToAdd)) {

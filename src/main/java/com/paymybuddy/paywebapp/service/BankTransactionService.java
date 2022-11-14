@@ -1,13 +1,11 @@
 package com.paymybuddy.paywebapp.service;
 
 import com.paymybuddy.paywebapp.model.BankTransaction;
-import com.paymybuddy.paywebapp.model.User;
 import com.paymybuddy.paywebapp.repository.BankTransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,14 +31,14 @@ public class BankTransactionService {
         return bankTransactionRepository.save(bankTransaction);
     }
 
-    public void deposit(User user, float amount) {
-        String transferType = "deposit";
-        LocalDateTime intime = LocalDateTime.now();
-        BankTransaction bankTransaction = new BankTransaction(user.getId(), amount, intime, transferType);
-
-        user.setBalance(user.getBalance() - amount);
-
-        bankTransactionRepository.save(bankTransaction);
-    }
+//    public void deposit(User user, float amount) {
+//        String transferType = "deposit";
+//        LocalDateTime intime = LocalDateTime.now();
+//        BankTransaction bankTransaction = new BankTransaction(user amount, intime, transferType);
+//
+//        user.setBalance(user.getBalance() - amount);
+//
+//        bankTransactionRepository.save(bankTransaction);
+//    }
 
 }

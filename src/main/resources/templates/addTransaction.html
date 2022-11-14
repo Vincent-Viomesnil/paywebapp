@@ -20,13 +20,23 @@
 
 
     <div class="m-3">
+<!--        <div class="form-group row">-->
+<!--            <input type="number" th:field="*{amount}" class="form-control" placeholder="0" required/>-->
+<!--        </div>-->
+        <select class="form-select" aria-label="Default select example" name="userDebtorEmail">
+            <option selected value="email">Select A Connection</option>
+            <tr th:each="user: ${contactsList}">
+                <option th:text="${user.email}+' '+${user.firstname}+' '+${user.lastname}" th:value="${user.email}" >Connections</option>
+        </select>
+
+        <!--placeholder pour mettre du texte dans la case-->
+<!--        <div class="form-group row">-->
+<!--            <input type="text" th:field="*{userDebtor.email}" class="form-control" placeholder="Email" required/>-->
+<!--        </div>-->
         <div class="form-group row">
             <input type="number" th:field="*{amount}" class="form-control" placeholder="0" required/>
         </div>
-        <!--placeholder pour mettre du texte dans la case-->
-        <div class="form-group row">
-            <input type="text" th:field="*{userDebtor.email}" class="form-control" placeholder="Email" required/>
-        </div>
+
         <div class="form-group row">
             <input type="text" th:field="*{description}" class="form-control" placeholder="Description" required/>
         </div>

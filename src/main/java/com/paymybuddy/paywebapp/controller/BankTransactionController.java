@@ -11,8 +11,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -38,14 +36,14 @@ public class BankTransactionController {
     }
 
 
-    @PostMapping("/banktransaction")
-    public String depositMoney(@AuthenticationPrincipal UserPrincipal user,
-                               @ModelAttribute BankTransaction bankTransaction, Model model) {
-        User userConnected = userService.getUserByEmail(user.getUsername());
-        bankTransactionService.deposit(userConnected, bankTransaction.getAmount());
-        return "redirect:/banktransaction";
-
-    }
+//    @PostMapping("/banktransaction")
+//    public String depositMoney(@AuthenticationPrincipal UserPrincipal user,
+//                               @ModelAttribute BankTransaction bankTransaction, Model model) {
+//        User userConnected = userService.getUserByEmail(user.getUsername());
+//        bankTransactionService.deposit(userConnected, bankTransaction.getAmount());
+//        return "redirect:/banktransaction";
+//
+//    }
 
 
 }
