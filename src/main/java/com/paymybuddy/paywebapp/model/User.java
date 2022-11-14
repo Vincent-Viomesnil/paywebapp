@@ -61,11 +61,11 @@ public class User {
             fetch = FetchType.LAZY
     )
     @JoinColumn(name = "user_id")
-    private List<BankAccount> bankAccount = new ArrayList<>();
+    private List<BankAccount> bankAccountList = new ArrayList<>();
 
     public User(int id, String email, String password, String firstname, String lastname, float balance) {
     }
-    
+
 
     public String getFullName() {
         return firstname + " " + lastname;

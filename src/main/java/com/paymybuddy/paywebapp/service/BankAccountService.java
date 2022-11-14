@@ -1,6 +1,7 @@
 package com.paymybuddy.paywebapp.service;
 
 import com.paymybuddy.paywebapp.model.BankAccount;
+import com.paymybuddy.paywebapp.model.User;
 import com.paymybuddy.paywebapp.repository.BankAccountRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,26 +18,42 @@ public class BankAccountService {
     @Autowired
     private BankAccountRepository bankAccountRepository;
 
+    @Autowired
+    private UserService userService;
 
     public List<BankAccount> getAllBanksAccounts() {
         return bankAccountRepository.findAll();
     }
 
-    public Optional<BankAccount> getBankAccountById(Integer id) {
-        return bankAccountRepository.findById(id);
-    }
 
-    public BankAccount addBankAccount(BankAccount bankAccount) {
-        if (bankAccountRepository.findByIban(bankAccount.getIban()).isPresent()) {
-            log.error("bankAccount already exists");
-            return null;
-        } else {
+//    public BankAccount addBankAccount(BankAccount bankAccount) {
+//        if (bankAccountRepository.findByIban(bankAccount.getIban()).isEmpty()) {
+//            log.info("Post new bankAccount SUCCESS");
+//            bankAccount.setIban(bankAccount.getIban());
+//            bankAccount.setName(bankAccount.getName());
+//
+//            return bankAccountRepository.save(bankAccount);
+//
+//        } else {
+//            log.error("bankAccount already exists: " + bankAccount.getIban());
+//            return null;
+//        }
+//    }
+
+    public void addBankAccount(User user, String name, String iban) {
+        User userConnected = userService.getUserByEmail(user.getEmail());
+
+        if (bankAccountRepository.findByIban(iban) == null) {
             log.info("Post new bankAccount SUCCESS");
-            return bankAccountRepository.save(bankAccount);
+            BankAccount bankAccount = new BankAccount(userConnected, name, iban);
+            bankAccountRepository.save(bankAccount);
+
+        } else {
+            log.error("bankAccount already exists, iban => " + iban);
         }
     }
 
-    public Optional<BankAccount> getBankAccountByIban(String iban) {
+    public BankAccount getBankAccountByIban(String iban) {
         return bankAccountRepository.findByIban(iban);
     }
 

@@ -1,14 +1,20 @@
 package com.paymybuddy.paywebapp.controller;
 
 import com.paymybuddy.paywebapp.model.BankAccount;
+import com.paymybuddy.paywebapp.model.User;
+import com.paymybuddy.paywebapp.model.UserPrincipal;
 import com.paymybuddy.paywebapp.service.BankAccountService;
 import com.paymybuddy.paywebapp.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -31,22 +37,48 @@ public class BankAccountController {
 //        return "redirect:/bankaccount";
 //    }
 
+//    @GetMapping("/bankaccount")
+//    public String addBankAccount(Model model) {
+//        model.addAttribute("bankaccount", new BankAccount());
+//        return "bankaccount";
+//        //renvoit à la page HTML du même nom
+//    }
+
     @GetMapping("/bankaccount")
-    public String addBankAccount(Model model) {
+    public String getAllBankaccounts(Model model, @AuthenticationPrincipal UserPrincipal user) {
+        User userConnected = userService.getUserByEmail(user.getUsername());
+        List<BankAccount> bankAccountList = userConnected.getBankAccountList();
         model.addAttribute("bankaccount", new BankAccount());
+        model.addAttribute("bankaccountlist", bankAccountList);
         return "bankaccount";
-        //renvoit à la page HTML du même nom
     }
 
     @PostMapping("/addbankaccount")
-    public String addBankAccount(BankAccount bankAccount) {
-        if (bankAccountService.addBankAccount(bankAccount) != null) {
-            log.info("bankaccount added" + bankAccount);
+    public String addBankAccount(@AuthenticationPrincipal UserPrincipal user,
+                                 @ModelAttribute BankAccount bankAccount) {
+        User userConnected = userService.getUserByEmail(user.getUsername());
+        BankAccount ibanExisting = bankAccountService.getBankAccountByIban(bankAccount.getIban());
+        if (userConnected.getBankAccountList().contains(ibanExisting)) {
+            log.error("Iban bankaccount already exist : " + bankAccount.getIban());
             return "redirect:/bankaccount";
+        } else {
+            log.info("bankaccount can be created");
+            bankAccountService.addBankAccount(userConnected, bankAccount.getName(), bankAccount.getIban());
+            return "redirect:/bankaccount";
+
         }
-        log.error("error when added bankaccount");
-        return "redirect:/bankaccount";
     }
+
+
+//    @PostMapping("/addbankaccount")
+//    public String addBankAccount(BankAccount bankAccount) {
+//        if (bankAccountService.addBankAccount(bankAccount) != null) {
+//            log.info("bankaccount added" + bankAccount);
+//            return "redirect:/bankaccount";
+//        }
+//        log.error("error when added bankaccount");
+//        return "redirect:/bankaccount";
+//    }
 
 
 //    @GetMapping("/bankaccount")

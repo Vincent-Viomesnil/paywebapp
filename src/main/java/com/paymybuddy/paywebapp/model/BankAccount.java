@@ -26,12 +26,13 @@ public class BankAccount {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-    @Column(name = "iban", length = 100)
-    @NotNull(message = "iban is mandatory")
-    private String iban;
     @Column(name = "name", length = 60)
     @NotNull(message = "iban is mandatory")
     private String name;
+
+    @Column(name = "iban", length = 100)
+    @NotNull(message = "iban is mandatory")
+    private String iban;
 
     @OneToMany(
             cascade = CascadeType.ALL,
@@ -41,10 +42,17 @@ public class BankAccount {
     @JoinColumn(name = "user_id")
     private List<BankTransaction> bankTransactionList = new ArrayList<>();
 
-    public BankAccount(int id, User user, String iban, String name) {
+    public BankAccount(int id, User user, String name, String iban) {
         this.id = id;
-        this.user = user;
         this.iban = iban;
+        this.user = user;
         this.name = name;
+    }
+
+    public BankAccount(User user, String name, String iban) {
+        this.user = user;
+        this.name = name;
+        this.iban = iban;
+
     }
 }

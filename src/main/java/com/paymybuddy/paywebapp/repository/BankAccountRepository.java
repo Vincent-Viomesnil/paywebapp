@@ -16,7 +16,7 @@ public interface BankAccountRepository extends JpaRepository<BankAccount, Intege
 
     BankAccount save(BankAccount bankAccount);
 
-    Optional<BankAccount> findByIban(String iban);
+    BankAccount findByIban(String iban);
 
     Optional<BankAccount> findByUserId(Integer userId);
 }
