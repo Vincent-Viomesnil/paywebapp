@@ -51,17 +51,18 @@
     </p>
 </form>
 
-<form th:action="@{/banktransaction}" th:object="${banktransaction}" method="post" style="max-width: 600px; margin: 0 auto;">
-    <!--      renvoit à la requête du controller  -->
+<!--<td th:if="${banktransaction.transferType == 'deposit'}">-->
+<!--<td th:switch="${banktransaction.transferType}">-->
+<!--    <div th:case="'deposit'">-->
 
-    <div>
+        <form th:action="@{/depositmoney}" th:object="${banktransaction}" method="post" style="max-width: 600px; margin: 0 auto;">
+    <!--      renvoit à la requête du controller  -->
 
         <select class="form-select" aria-label="Default select example" name="iban">
             <option selected value="iban">Select A BankAccount</option>
             <tr th:each="bankaccount: ${bankaccountlist}">
                 <option th:text="${bankaccount.name}+' '+${bankaccount.iban}" th:value="${bankaccount.iban}">BankAccounts</option>
         </select>
-
 
     <div class="m-3">
         <div class="form-group row">
@@ -73,8 +74,36 @@
             <button type="submit" class="btn btn-primary">Deposit</button>
         </div>
     </div>
-    </div>
 </form>
+</div>
+
+<!--    <div th:case="'withdraw'">-->
+
+<!--<form th:action="@{/withdrawmoney}" th:object="${banktransaction}" method="post" style="max-width: 600px; margin: 0 auto;">-->
+<!--    &lt;!&ndash;      renvoit à la requête du controller  &ndash;&gt;-->
+
+<!--    <div>-->
+<!--        <select class="form-select" aria-label="Default select example" name="iban">-->
+<!--            <option selected value="iban">Select A BankAccount</option>-->
+<!--            <tr th:each="bankaccount: ${bankaccountlist}">-->
+<!--                <option th:text="${bankaccount.name}+' '+${bankaccount.iban}" th:value="${bankaccount.iban}">BankAccounts</option>-->
+<!--        </select>-->
+
+
+<!--        <div class="m-3">-->
+<!--            <div class="form-group row">-->
+<!--                <input type="number" th:field="*{amount}" class="form-control" placeholder="0" required/>-->
+<!--            </div>-->
+<!--            &lt;!&ndash;placeholder pour mettre du texte dans la case&ndash;&gt;-->
+
+<!--            <div>-->
+<!--                <button type="submit" class="btn btn-primary">Withdraw</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</form>-->
+<!--    </div>-->
+<!--</td>-->
 
 
 
@@ -88,6 +117,7 @@
                 <th>ID</th>
                 <th>Date</th>
                 <th>Amount</th>
+                <th>Type of Transfer</th>
             </tr>
             </thead>
             <tbody>
@@ -95,12 +125,14 @@
                 <td th:text="${banktransaction.id}">ID</td>
                 <td th:text="${banktransaction.intime}">Date </td>
                 <td th:text="${banktransaction.amount}">Amount</td>
+                <td th:text="${banktransaction.transferType}">Type of Transfer</td>
             </tr>
             </tbody>
         </table>
     </div>
     </p>
 </form>
+
 
 </body>
 </html>

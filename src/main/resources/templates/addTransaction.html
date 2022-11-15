@@ -9,12 +9,26 @@
 </head>
 <body>
 
+
 <div>
     <h1>Pay My Buddy - Transaction </h1>
 </div>
 
+<section class="bg-light border border-1 px-lg-2">
 <div>
 </div>
+<div th:if="${transactionsuccess}" th:class="${alert}">
+    <div class="alert alert-success">
+        <strong> The transaction successed!</strong>
+    </div>
+</div>
+    <div th:if="${erroramount}" th:class="${alert}">
+    <div class="alert alert-danger">
+        <strong>Error Amount!</strong>
+    </div>
+</div>
+
+
 <form th:action="@{/transaction}" th:object="${transaction}" method="post" style="max-width: 600px; margin: 0 auto;">
     <!--      renvoit à la requête du controller  -->
 
@@ -81,10 +95,11 @@
             </tr>
             </tbody>
         </table>
+
     </div>
     </p>
 </form>
 
-
+</section>
 </body>
 </html>

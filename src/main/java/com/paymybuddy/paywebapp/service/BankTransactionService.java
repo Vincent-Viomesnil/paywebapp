@@ -49,4 +49,15 @@ public class BankTransactionService {
         bankTransactionRepository.save(bankTransaction);
     }
 
+    public void withdraw(User user, String bankAccountIban, float amount) {
+        String transferType = "withdraw";
+        LocalDateTime intime = LocalDateTime.now();
+        User userConnected = userService.getUserByEmail(user.getEmail());
+        BankAccount bankAccount = bankAccountService.getBankAccountByIban(bankAccountIban);
+        BankTransaction bankTransaction = new BankTransaction(userConnected, bankAccount, amount, intime, transferType);
+
+        userConnected.setBalance(userConnected.getBalance() + amount);
+
+        bankTransactionRepository.save(bankTransaction);
+    }
 }

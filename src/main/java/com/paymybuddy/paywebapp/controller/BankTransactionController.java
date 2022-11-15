@@ -42,7 +42,7 @@ public class BankTransactionController {
     }
 
 
-    @PostMapping("/banktransaction")
+    @PostMapping("/depositmoney")
     public String depositMoney(@AuthenticationPrincipal UserPrincipal user, String iban, float amount) {
         User userConnected = userService.getUserByEmail(user.getUsername());
         BankAccount bankAccountIban = bankAccountService.getBankAccountByIban(iban);
@@ -55,5 +55,17 @@ public class BankTransactionController {
         }
     }
 
+    @PostMapping("/withdrawmoney")
+    public String withdrawMoney(@AuthenticationPrincipal UserPrincipal user, String iban, float amount) {
+        User userConnected = userService.getUserByEmail(user.getUsername());
+        BankAccount bankAccountIban = bankAccountService.getBankAccountByIban(iban);
+
+        if (userConnected.getBankAccountList().contains(bankAccountIban)) {
+            bankTransactionService.withdraw(userConnected, iban, amount);
+            return "redirect:/banktransaction";
+        } else {
+            return "redirect:/banktransaction";
+        }
+    }
 
 }

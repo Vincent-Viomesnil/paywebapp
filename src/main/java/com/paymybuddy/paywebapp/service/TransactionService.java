@@ -38,15 +38,13 @@ public class TransactionService {
         LocalDateTime intime = LocalDateTime.now();
         float fee = amount * FEE;
 
-        if (userCreditor.getBalance() < amount) {
+        if (userCreditor.getBalance() < amount || amount < 0) {
             System.out.println("Transfer fails");
         } else {
             Transaction transaction = new Transaction(userCreditor, userDebtor, amount, intime, description, fee);
             userCreditor.setBalance(userCreditor.getBalance() - amount);
             userDebtor.setBalance(userDebtor.getBalance() + (amount - fee));
             transactionRepository.save(transaction);
-
-
         }
     }
 
