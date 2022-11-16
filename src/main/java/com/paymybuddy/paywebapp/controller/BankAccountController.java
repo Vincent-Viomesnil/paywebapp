@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -42,13 +43,15 @@ public class BankAccountController {
 
     @PostMapping("/addbankaccount")
     public String addBankAccount(@AuthenticationPrincipal UserPrincipal user,
-                                 BankAccount bankAccount) {
+                                 BankAccount bankAccount, RedirectAttributes Redir) {
         User userConnected = userService.getUserByEmail(user.getUsername());
         BankAccount bankAccountExisting = bankAccountService.getBankAccountByIban(bankAccount.getIban());
         if (userConnected.getBankAccountList().contains(bankAccountExisting)) {
+            Redir.addFlashAttribute("errorbankaccount", "KO");
             log.error("Iban bankaccount already exist : " + bankAccount.getIban());
             return "redirect:/bankaccount";
         } else {
+            Redir.addFlashAttribute("bankaccountsuccess", "OK");
             log.info("bankaccount can be created");
             bankAccountService.addBankAccount(userConnected, bankAccount.getName(), bankAccount.getIban());
             return "redirect:/bankaccount";

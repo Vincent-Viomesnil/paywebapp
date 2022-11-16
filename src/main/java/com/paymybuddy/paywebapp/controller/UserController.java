@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -57,49 +57,38 @@ public class UserController {
     }
 
 
-    @PostMapping("/addcontact")
-    public String addContact(Model model, @AuthenticationPrincipal UserPrincipal user, @RequestParam(name = "emailtoadd") String email) throws IOException {
-        User contactToAdd = userService.getUserByEmail(email);
-        List<User> contactList = new ArrayList<>();
-        if (contactToAdd != null) {
-            model.addAttribute("user", user);
-            log.info("contact to ADD already exist :" + contactToAdd);
-
-            System.out.println("This is the Stream :" + contactList);
-            return "addConnection";
-        }
-        log.error("contact to add is NULL");
-//        String name = httpServletResponse.encodeURL("addConnection");
-//        return name;
-        return "redirect:/contactsList";
-    }
-
     @DeleteMapping("/deletecontact")
-    public String deleteContact(Model model, @AuthenticationPrincipal UserPrincipal user, @Valid @RequestParam(name = "emailtodelete") String email) throws IOException {
+    public String deleteContact(Model model, @AuthenticationPrincipal UserPrincipal user, @Valid @RequestParam(name = "emailtodelete") String email,
+                                RedirectAttributes Redir) throws IOException {
         User userConnected = userService.getUserByEmail(user.getUsername());
         User contactToDelete = userService.getUserByEmail(email);
 
         if (userConnected.getContactUserList().contains(contactToDelete)) {
+            Redir.addFlashAttribute("deletesuccess", "OK");
             model.addAttribute("user", user);
             model.addAttribute("contactToDelete", contactToDelete);
             log.info("contact to delete :" + contactToDelete);
             userService.deleteContact(userConnected, contactToDelete);
             return "redirect:/contactsList";
         }
+        Redir.addFlashAttribute("errordelete", "KO");
         log.error("contact to delete is null or not in the contact list");
 //        String name = httpServletResponse.encodeURL("addConnection");
 //        return name;
         return "redirect:/contactsList";
     }
 
-    @PostMapping("/contactsList")
-    public String addContactToList(@AuthenticationPrincipal UserPrincipal user, @RequestParam(name = "emailtoadd") String email) {
+    @PostMapping("/addcontact")
+    public String addContactToList(@AuthenticationPrincipal UserPrincipal user, @RequestParam(name = "emailtoadd") String email,
+                                   RedirectAttributes Redir) {
         User userConnected = userService.getUserByEmail(user.getUsername());
         User contactToAdd = userService.getUserByEmail(email);
         if (contactToAdd == null || userConnected.getContactUserList().contains(contactToAdd)) {
-            log.info("Error: wrong email or contact already in your contactList " + contactToAdd);
+            Redir.addFlashAttribute("errorconnection", "KO");
+            log.error("Error: wrong email or contact already in your contactList " + contactToAdd);
             return "redirect:/contactsList";
         } else {
+            Redir.addFlashAttribute("connectionsuccess", "OK");
             userService.addContact(userConnected, contactToAdd);
             log.info("Successfull Contact Added in your list");
             return "redirect:/contactsList";

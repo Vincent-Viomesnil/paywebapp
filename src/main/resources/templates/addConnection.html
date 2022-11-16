@@ -12,6 +12,28 @@
     <h1> Add Connection </h1>
 </div>
 
+
+<div th:if="${connectionsuccess}" th:class="${alert}">
+    <div class="alert alert-success">
+        <strong>New connection added successfully</strong>
+    </div>
+</div>
+<div th:if="${errorconnection}" th:class="${alert}">
+    <div class="alert alert-danger">
+        <strong>Adding connection failed</strong>
+    </div>
+</div>
+<div th:if="${deletesuccess}" th:class="${alert}">
+    <div class="alert alert-success">
+        <strong>Connection deleted successfully</strong>
+    </div>
+</div>
+<div th:if="${errordelete}" th:class="${alert}">
+    <div class="alert alert-danger">
+        <strong>Deleting connection failed</strong>
+    </div>
+</div>
+
 <form>
     <p>
 
@@ -27,7 +49,7 @@
     </p>
     </form>
 <p>
-        <form th:action="@{/contactsList}" method="post" >
+        <form th:action="@{/addcontact}" method="post" >
             <input type="submit" value="Add Contact" />
             <div class="form-group row">
                 <label th:for="email" class="col-4 col-form-label">E-mail: </label>
@@ -35,34 +57,10 @@
                     <input type="email" name="emailtoadd"  class="form-control" required />
                 </div>
             </div>
-            <div class="form-group row">
-                <label th:for="firstname" class="col-4 col-form-label">Firstname: </label>
-                <div class="col-8">
-                    <input type="firstname"  class="form-control" required />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label th:for="lastname" class="col-4 col-form-label">Lastname </label>
-            <div class="col-8">
-                <input type="lastname"  class="form-control" required />
-            </div>
-            </div>
 
         </form>
 </p>
 
-<p>
-    <form th:action="@{/addcontact}"  method="post" >
-        <input type="submit" value="Recherche" />
-        <div class="form-group row">
-            <label th:for="email" class="col-4 col-form-label">E-mail: </label>
-            <div class="col-8">
-                <input type="email" name="emailtoadd" class="form-control" required />
-            </div>
-        </div>
-    </form>
-</p>
 
 <p>
 <form th:action="@{/deletecontact}" th:object="${contactToDelete}"  th:method="delete" >

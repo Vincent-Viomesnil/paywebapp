@@ -13,6 +13,17 @@
     <h1> BankAccount</h1>
 </div>
 
+<div th:if="${bankaccountsuccess}" th:class="${alert}">
+    <div class="alert alert-success">
+        <strong>New Bankaccount added succcessfully!</strong>
+    </div>
+</div>
+<div th:if="${errorbankaccount}" th:class="${alert}">
+    <div class="alert alert-danger">
+        <strong>Adding Bankaccount failed</strong>
+    </div>
+</div>
+
 <form th:action="@{/addbankaccount}" th:object="${bankaccount}" method="post" style="max-width: 600px; margin: 0 auto;">
 
 
