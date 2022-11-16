@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -58,7 +57,7 @@ public class UserController {
 
 
     @DeleteMapping("/deletecontact")
-    public String deleteContact(Model model, @AuthenticationPrincipal UserPrincipal user, @Valid @RequestParam(name = "emailtodelete") String email,
+    public String deleteContact(Model model, @AuthenticationPrincipal UserPrincipal user, String email,
                                 RedirectAttributes Redir) throws IOException {
         User userConnected = userService.getUserByEmail(user.getUsername());
         User contactToDelete = userService.getUserByEmail(email);
