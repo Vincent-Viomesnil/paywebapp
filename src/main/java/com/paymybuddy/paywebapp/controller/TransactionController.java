@@ -46,7 +46,7 @@ public class TransactionController {
         User userConnected = userService.getUserByEmail(user.getUsername());
 
 
-        if (amount > 0) {
+        if (amount > 0 && amount <= userConnected.getBalance()) {
             transactionService.sendMoney(userConnected, userDebtorEmail, description, amount);
             Redir.addFlashAttribute("transactionsuccess", "OK");
             return "redirect:/transaction";

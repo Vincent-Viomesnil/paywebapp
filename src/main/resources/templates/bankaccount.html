@@ -18,9 +18,16 @@
         <strong>New Bankaccount added succcessfully!</strong>
     </div>
 </div>
-<div th:if="${errorbankaccount}" th:class="${alert}">
+
+<div th:if="${banktransactionsuccess}" th:class="${alert}">
+    <div class="alert alert-success">
+        <strong>Bank transaction succcessfully!</strong>
+    </div>
+</div>
+
+<div th:if="${erroramount}" th:class="${alert}">
     <div class="alert alert-danger">
-        <strong>Adding Bankaccount failed</strong>
+        <strong>Operation failed</strong>
     </div>
 </div>
 
@@ -66,55 +73,24 @@
 <!--<td th:switch="${banktransaction.transferType}">-->
 <!--    <div th:case="'deposit'">-->
 
-        <form th:action="@{/depositmoney}" th:object="${banktransaction}" method="post" style="max-width: 600px; margin: 0 auto;">
+
     <!--      renvoit à la requête du controller  -->
+            <form action="#" data-th-action="@{/banktransaction}" data-th-object="${banktransaction}" method="post">
+                <button type="submit" name="action" value="withdrawmoney">withdrawmoney</button>
+                <button type="submit" name="action" value="depositmoney">depositmoney</button>
 
-        <select class="form-select" aria-label="Default select example" name="iban">
-            <option selected value="iban">Select A BankAccount</option>
-            <tr th:each="bankaccount: ${bankaccountlist}">
-                <option th:text="${bankaccount.name}+' '+${bankaccount.iban}" th:value="${bankaccount.iban}">BankAccounts</option>
-        </select>
+                <select class="form-select" aria-label="Default select example" name="iban">
+                    <option selected value="iban">Select A BankAccount</option>
+                    <tr th:each="bankaccount: ${bankaccountlist}">
+                        <option th:text="${bankaccount.name}+' '+${bankaccount.iban}" th:value="${bankaccount.iban}">BankAccounts</option>
+                </select>
+                <div class="form-group row">
+                    <input type="number" th:field="*{amount}" class="form-control" placeholder="0" required/>
+                </div>
 
-    <div class="m-3">
-        <div class="form-group row">
-            <input type="number" th:field="*{amount}" class="form-control" placeholder="0" required/>
-        </div>
-        <!--placeholder pour mettre du texte dans la case-->
+            </form>
 
-        <div>
-            <button type="submit" class="btn btn-primary">Deposit</button>
-        </div>
-    </div>
-</form>
 </div>
-
-<!--    <div th:case="'withdraw'">-->
-
-<!--<form th:action="@{/withdrawmoney}" th:object="${banktransaction}" method="post" style="max-width: 600px; margin: 0 auto;">-->
-<!--    &lt;!&ndash;      renvoit à la requête du controller  &ndash;&gt;-->
-
-<!--    <div>-->
-<!--        <select class="form-select" aria-label="Default select example" name="iban">-->
-<!--            <option selected value="iban">Select A BankAccount</option>-->
-<!--            <tr th:each="bankaccount: ${bankaccountlist}">-->
-<!--                <option th:text="${bankaccount.name}+' '+${bankaccount.iban}" th:value="${bankaccount.iban}">BankAccounts</option>-->
-<!--        </select>-->
-
-
-<!--        <div class="m-3">-->
-<!--            <div class="form-group row">-->
-<!--                <input type="number" th:field="*{amount}" class="form-control" placeholder="0" required/>-->
-<!--            </div>-->
-<!--            &lt;!&ndash;placeholder pour mettre du texte dans la case&ndash;&gt;-->
-
-<!--            <div>-->
-<!--                <button type="submit" class="btn btn-primary">Withdraw</button>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</form>-->
-<!--    </div>-->
-<!--</td>-->
 
 
 
