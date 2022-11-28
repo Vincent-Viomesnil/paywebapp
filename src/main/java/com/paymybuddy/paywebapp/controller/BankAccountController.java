@@ -43,15 +43,15 @@ public class BankAccountController {
 
     @PostMapping("/addbankaccount")
     public String addBankAccount(@AuthenticationPrincipal UserPrincipal user,
-                                 BankAccount bankAccount, RedirectAttributes Redir) {
+                                 BankAccount bankAccount, RedirectAttributes redir) {
         User userConnected = userService.getUserByEmail(user.getUsername());
         BankAccount bankAccountExisting = bankAccountService.getBankAccountByIban(bankAccount.getIban());
         if (userConnected.getBankAccountList().contains(bankAccountExisting)) {
-            Redir.addFlashAttribute("errorbankaccount", "KO");
+            redir.addFlashAttribute("errorbankaccount", "KO");
             log.error("Iban bankaccount already exist : " + bankAccount.getIban());
             return "redirect:/bankaccount";
         } else {
-            Redir.addFlashAttribute("bankaccountsuccess", "OK");
+            redir.addFlashAttribute("bankaccountsuccess", "OK");
             log.info("bankaccount can be created");
             bankAccountService.addBankAccount(userConnected, bankAccount.getName(), bankAccount.getIban());
             return "redirect:/bankaccount";
