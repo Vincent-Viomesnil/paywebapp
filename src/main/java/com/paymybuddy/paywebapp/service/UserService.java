@@ -1,7 +1,6 @@
 package com.paymybuddy.paywebapp.service;
 
 import com.paymybuddy.paywebapp.model.User;
-import com.paymybuddy.paywebapp.model.UserPrincipal;
 import com.paymybuddy.paywebapp.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -24,7 +21,7 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public Iterable<User> getAllUsers() {
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
@@ -32,10 +29,11 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
+
     public void addContact(User user, User contactToAdd) {
         user.addContactUser(contactToAdd);
         userRepository.save(user);
-        log.info("The User : " +user+ "as added this contact =>" +contactToAdd);
+        log.info("The User : " + user + "as added this contact =>" + contactToAdd);
     }
 
     public User addUser(User user) {
@@ -57,7 +55,7 @@ public class UserService {
 
     public void deleteContact(User user, User contactToDelete) {
         user.deleteContact(contactToDelete);
-        log.info("The User : " +user+ "as delete this contact =>" +contactToDelete);
+        log.info("The User : " + user + "as delete this contact =>" + contactToDelete);
     }
 
 }

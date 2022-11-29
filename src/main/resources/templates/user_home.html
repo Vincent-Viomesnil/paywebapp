@@ -1,10 +1,11 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8" />
-  <title>User Home</title>
-  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <meta charset="UTF-8"/>
+    <title>User Home</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
 <body>
 
@@ -16,83 +17,24 @@
 </div>
 <form>
     <p>
-        <label>E-mail:</label>
+        <label>E-mail :</label>
         <input type="text" th:value="${user.username}"/>
     </p>
 
     <p>
-        <label>Fullname:</label>
+        <label>Firstname Lastname :</label>
         <input type="text" th:value="${user.fullName}"/>
     </p>
 
     <p>
-
-    <div>
-        <table class="table table-striped table-bordered">
-            <thead class="thead-dark">
-            <tr>
-        <th>User ID</th>
-        <th>E-mail</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="user: ${listUsers}">
-        <td th:text="${user.id}">User ID</td>
-        <td th:text="${user.email}">E-mail</td>
-        <td th:text="${user.firstname}">First Name</td>
-        <td th:text="${user.lastname}">Last Name</td>
-    </tr>
-    </tbody>
-        </table>
-</div>
+        <label>Balance :</label>
+        <input type="text" th:object="${userconnected}" th:value="${userconnected.getBalance()}"/>
     </p>
 </form>
+<div>
 
-
-<!--<form th:action="@{/process_register}" th:object="${user}" method="post" style="max-width: 600px; margin: 0 auto;">-->
-<!--&lt;!&ndash;      renvoit à la requête du controller "process_register"&ndash;&gt;-->
-
-<!--    <div class="m-3">-->
-<!--        <div class="form-group row">-->
-<!--            <label th:for="email" class="col-4 col-form-label">E-mail: </label>-->
-<!--            <div class="col-8">-->
-<!--                <input type="email" th:field="*{email}" class="form-control" required />-->
-<!--            <span th:errors="*{email}" class="error">Invalid Email</span>-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--        <div class="form-group row">-->
-<!--            <label class="col-4 col-form-label">Password: </label>-->
-<!--            <div class="col-8">-->
-<!--                <input type="password" th:field="*{password}" class="form-control"-->
-<!--                       required />-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--        <div class="form-group row">-->
-<!--            <label class="col-4 col-form-label">First Name: </label>-->
-<!--            <div class="col-8">-->
-<!--                <input type="text" th:field="*{firstname}" class="form-control"-->
-<!--                       required />-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--        <div class="form-group row">-->
-<!--            <label class="col-4 col-form-label">Last Name: </label>-->
-<!--            <div class="col-8">-->
-<!--                <input type="text" th:field="*{lastname}" class="form-control"-->
-<!--                       required />-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--        <div>-->
-<!--            <button type="submit" class="btn btn-primary">Sign Up</button>-->
-<!--        </div>-->
-<!--    </div>-->
-
-<!--</form>-->
+    <a class="nav-link" th:href="@{/bankaccount}">BankAccount</a>
+</div>
 
 
 </body>
