@@ -36,12 +36,13 @@ public class UserController {
     }
 
     @PostMapping("/process_register")
-    public String processRegister(User user) {
+    public String processRegister(User user, RedirectAttributes redir) {
         if (userService.addUser(user) != null) {
-            return "register_success";
+            return "login";
         } else {
-            String name = httpServletResponse.encodeRedirectURL("addUser");
-            return name;
+            redir.addFlashAttribute("errorregister", "KO");
+            log.error("email already exists : " + user.getEmail());
+            return "redirect:/registry";
         }
     }
 
