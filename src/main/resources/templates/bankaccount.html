@@ -76,8 +76,8 @@
 
     <!--      renvoit à la requête du controller  -->
             <form action="#" data-th-action="@{/banktransaction}" data-th-object="${banktransaction}" method="post">
-                <button type="submit" name="action" value="withdrawmoney">withdrawmoney</button>
-                <button type="submit" name="action" value="depositmoney">depositmoney</button>
+                <button type="submit" name="action" value="withdrawmoney">Transfer money from bankaccount</button>
+                <button type="submit" name="action" value="depositmoney">Deposit money on bankaccount</button>
 
                 <select class="form-select" aria-label="Default select example" name="iban">
                     <option selected value="iban">Select A BankAccount</option>
@@ -101,7 +101,7 @@
         <table class="table table-striped table-bordered">
             <thead class="thead-dark">
             <tr>
-                <th>ID</th>
+                <th>Name</th>
                 <th>Date</th>
                 <th>Amount</th>
                 <th>Type of Transfer</th>
@@ -109,7 +109,7 @@
             </thead>
             <tbody>
             <tr th:each="banktransaction: ${banktransactionlist}">
-                <td th:text="${banktransaction.id}">ID</td>
+                <td th:text="${banktransaction.getBankAccount().name}">Name</td>
                 <td th:text="${banktransaction.intime}">Date </td>
                 <td th:text="${banktransaction.amount}">Amount</td>
                 <td th:text="${banktransaction.transferType}">Type of Transfer</td>

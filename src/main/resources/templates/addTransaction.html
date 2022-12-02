@@ -11,7 +11,7 @@
 
 
 <div>
-    <h1>Pay My Buddy - Transaction </h1>
+    <h1> Transfer </h1>
 </div>
 
 
@@ -28,6 +28,9 @@
     </div>
 </div>
 
+<div>
+    <a class="btn btn-primary" th:href="@{/contactsList}" role="button">Add Connection</a>
+</div>
 
 <form th:action="@{/transaction}" th:object="${transaction}" method="post" style="max-width: 600px; margin: 0 auto;">
     <!--      renvoit à la requête du controller  -->

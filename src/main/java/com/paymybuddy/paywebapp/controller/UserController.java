@@ -47,7 +47,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/contactsList")
+    @GetMapping("/contact")
     public String getContactsList(Model model, @AuthenticationPrincipal UserPrincipal user) {
         User userConnected = userService.getUserByEmail(user.getUsername());
         List<User> contactsList = userConnected.getContactUserList();
@@ -69,13 +69,13 @@ public class UserController {
             model.addAttribute("contactToDelete", contactToDelete);
             log.info("contact to delete :" + contactToDelete);
             userService.deleteContact(userConnected, contactToDelete);
-            return "redirect:/contactsList";
+            return "redirect:/contact";
         }
         Redir.addFlashAttribute("errordelete", "KO");
         log.error("contact to delete is null or not in the contact list");
 //        String name = httpServletResponse.encodeURL("addConnection");
 //        return name;
-        return "redirect:/contactsList";
+        return "redirect:/contact";
     }
 
     @PostMapping("/addcontact")
@@ -86,12 +86,12 @@ public class UserController {
         if (contactToAdd == null || userConnected.getContactUserList().contains(contactToAdd)) {
             Redir.addFlashAttribute("errorconnection", "KO");
             log.error("Error: wrong email or contact already in your contactList " + contactToAdd);
-            return "redirect:/contactsList";
+            return "redirect:/contact";
         } else {
             Redir.addFlashAttribute("connectionsuccess", "OK");
             userService.addContact(userConnected, contactToAdd);
             log.info("Successfull Contact Added in your list");
-            return "redirect:/contactsList";
+            return "redirect:/contact";
         }
     }
 
