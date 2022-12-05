@@ -9,7 +9,7 @@
 </head>
 <body>
 
-
+<div class="container my-2">
 <div>
     <h1> Transfer </h1>
 </div>
@@ -32,7 +32,7 @@
     <a class="btn btn-primary" th:href="@{/contactsList}" role="button">Add Connection</a>
 </div>
 
-<form th:action="@{/transaction}" th:object="${transaction}" method="post" style="max-width: 600px; margin: 0 auto;">
+<form th:action="@{/transactions}" th:object="${transaction}" method="post" style="max-width: 600px; margin: 0 auto;">
     <!--      renvoit à la requête du controller  -->
 
 
@@ -58,23 +58,6 @@
             <button type="submit" class="btn btn-primary">Pay</button>
         </div>
     </div>
-
-
-    <!--        <div class="form-group row">-->
-    <!--            <label class="col-4 col-form-label">UserCreditor: </label>-->
-    <!--            <div class="col-8">-->
-    <!--                <input type="text" th:field="*{userCreditor.getfirstname}" class="form-control"-->
-    <!--                       required />-->
-    <!--            </div>-->
-    <!--    </div>-->
-
-    <!--    <div class="form-group row">-->
-    <!--        <label class="col-4 col-form-label">UserDebtor: </label>-->
-    <!--        <div class="col-8">-->
-    <!--            <input type="text" th:field="*{userDebtor.getfirstname}" class="form-control"-->
-    <!--                   required />-->
-    <!--        </div>-->
-    <!--    </div>-->
 
 </form>
 
@@ -103,5 +86,30 @@
     </p>
 </form>
 
+<div th:if="${totalPages > 1}">
+    <div class="row col-sm-10">
+        <div class="col-sm-2">
+            Total Transactions: [[${totalTransactions}]] : Page [[${currentPage}]] of [[${totalPages}]]
+        </div>
+        <div class="col-sm-1">
+            <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+      <a th:if="${currentPage != i}" th:href="@{'/transactions/page/' + ${i}}">[[${i}]]</a>
+      <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+            </span>
+        </div>
+        <div class="col-sm-1">
+            <a th:if="${currentPage < totalPages}" th:href="@{'/transactions/page/' + ${currentPage + 1}}">Next</a>
+            <span th:unless="${currentPage < totalPages}">Next</span>
+        </div>
+
+        <div class="col-sm-1">
+            <a th:if="${currentPage < totalPages}" th:href="@{'/transactions/page/' + ${totalPages}}">Last</a>
+            <span th:unless="${currentPage < totalPages}">Last</span>
+        </div>
+    </div>
+</div>
+
+</div>
 </body>
+
 </html>

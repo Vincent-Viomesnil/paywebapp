@@ -8,13 +8,12 @@ import com.paymybuddy.paywebapp.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -29,7 +28,7 @@ public class TransactionController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/transaction")
+    @GetMapping("/transactions")
     public String getAllTransactions(Model model, @AuthenticationPrincipal UserPrincipal user) {
         User userConnected = userService.getUserByEmail(user.getUsername());
         List<Transaction> transactionList = userConnected.getTransactionList();
@@ -37,31 +36,38 @@ public class TransactionController {
         model.addAttribute("contactsList", contactsList);
         model.addAttribute("transaction", new Transaction());
         model.addAttribute("transactionList", transactionList);
-        return "addTransaction"; //renvoit à la page HTML du même nom
+//        return "transactions"; //renvoit à la page HTML du même nom
+        return findPaginated(1, model);
     }
 
-    @GetMapping("/transaction/{id}")
-    public Page<Transaction> findAll(@RequestParam int page, @RequestParam int size) {
-        PageRequest pr = PageRequest.of(page, size);
-        return transactionService.findAll(pr);
+    @GetMapping("/transactions/{pageNo}")
+    public String findPaginated(@PathVariable(value = "pageNo") int pageNo, Model model) {
+        Page<Transaction> page = transactionService.findPaginated(pageNo);
+        List<Transaction> transactionPageList = page.getContent();
+
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalTransactions", page.getTotalElements());
+        model.addAttribute("transactionPageList", transactionPageList);
+        return "transactions";
     }
 
-    @PostMapping("/transaction")
+
+    @PostMapping("/transactions")
     public String sendMoney(@AuthenticationPrincipal UserPrincipal user, String userDebtorEmail,
-                            String description, float amount, RedirectAttributes Redir) {
-        //@ModelAttribute Transaction récupère la transaction du getmapping
-        //Enlever modeleAttribute et mettre en paramètres les objets.
+                            float amount, String description, RedirectAttributes Redir) {
+        //@ModelAttribute Transaction récupère la transaction du getmapping => userDebtorEmail
         User userConnected = userService.getUserByEmail(user.getUsername());
 
 
         if (amount > 0 && amount <= userConnected.getBalance()) {
             transactionService.sendMoney(userConnected, userDebtorEmail, description, amount);
             Redir.addFlashAttribute("transactionsuccess", "OK");
-            return "redirect:/transaction";
+            return "redirect:/transactions";
         } else {
             log.error("Error amount");
             Redir.addFlashAttribute("erroramount", "KO");
-            return "redirect:/transaction";
+            return "redirect:/transactions";
         }
     }
 
