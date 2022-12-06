@@ -30,25 +30,23 @@ public class TransactionController {
 
     @GetMapping("/transactions")
     public String getAllTransactions(Model model, @AuthenticationPrincipal UserPrincipal user) {
-        User userConnected = userService.getUserByEmail(user.getUsername());
-        List<Transaction> transactionList = userConnected.getTransactionList();
-        List<User> contactsList = userConnected.getContactUserList();
-        model.addAttribute("contactsList", contactsList);
-        model.addAttribute("transaction", new Transaction());
-        model.addAttribute("transactionList", transactionList);
-//        return "transactions"; //renvoit à la page HTML du même nom
-        return findPaginated(1, model);
+        return findPaginated(1, model, user);
     }
 
-    @GetMapping("/transactions/{pageNo}")
-    public String findPaginated(@PathVariable(value = "pageNo") int pageNo, Model model) {
+    @GetMapping("/transactions/page/{pageNo}")
+    public String findPaginated(@PathVariable(value = "pageNo") int pageNo, Model model, @AuthenticationPrincipal UserPrincipal user) {
+        User userConnected = userService.getUserByEmail(user.getUsername());
         Page<Transaction> page = transactionService.findPaginated(pageNo);
         List<Transaction> transactionPageList = page.getContent();
+        List<User> contactsList = userConnected.getContactUserList();
 
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalTransactions", page.getTotalElements());
         model.addAttribute("transactionPageList", transactionPageList);
+        model.addAttribute("transaction", new Transaction());
+        model.addAttribute("contactsList", contactsList);
+
         return "transactions";
     }
 

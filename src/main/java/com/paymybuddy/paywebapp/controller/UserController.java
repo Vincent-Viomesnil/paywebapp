@@ -53,7 +53,7 @@ public class UserController {
         List<User> contactsList = userConnected.getContactUserList();
         model.addAttribute("contactsList", contactsList);
         model.addAttribute("user", user);
-        return "addConnection";
+        return "contact";
     }
 
 
@@ -78,7 +78,7 @@ public class UserController {
         return "redirect:/contact";
     }
 
-    @PostMapping("/addcontact")
+    @PostMapping("/contact/add")
     public String addContactToList(@AuthenticationPrincipal UserPrincipal user, @RequestParam(name = "emailtoadd") String email,
                                    RedirectAttributes Redir) {
         User userConnected = userService.getUserByEmail(user.getUsername());

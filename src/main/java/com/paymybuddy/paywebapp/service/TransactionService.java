@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,23 +52,16 @@ public class TransactionService {
         }
     }
 
-    public Page<Transaction> findAll(PageRequest pr) {
-        return transactionRepository.findAll(pr);
-    }
-
-    public Page<Transaction> findPage(int pageNumber) {
-        Pageable pageable = PageRequest.of(pageNumber - 1, 5);
-        return transactionRepository.findAll(pageable);
-    }
 
     public List<Transaction> findAll() {
         return transactionRepository.findAll();
     }
-    
+
     public Page<Transaction> findPaginated(int pageNo) {
-        Pageable pageable = PageRequest.of(pageNo - 1, 5);
+        Pageable pageable = PageRequest.of(pageNo - 1, 5, Sort.by("intime").descending());
         return this.transactionRepository.findAll(pageable);
     }
+
 }
 
 

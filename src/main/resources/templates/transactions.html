@@ -29,7 +29,7 @@
 </div>
 
 <div>
-    <a class="btn btn-primary" th:href="@{/contactsList}" role="button">Add Connection</a>
+    <a class="btn btn-primary" th:href="@{/contact}" role="button">Add Connection</a>
 </div>
 
 <form th:action="@{/transactions}" th:object="${transaction}" method="post" style="max-width: 600px; margin: 0 auto;">
@@ -74,7 +74,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="transaction: ${transactionList}">
+            <tr th:each="transaction: ${transactionPageList}">
                 <td th:text="${transaction.userDebtor.firstname}">Connections</td>
                 <td th:text="${transaction.description}">Description </td>
                 <td th:text="${transaction.amount}">Amount</td>
