@@ -5,6 +5,10 @@ import com.paymybuddy.paywebapp.model.BankTransaction;
 import com.paymybuddy.paywebapp.model.User;
 import com.paymybuddy.paywebapp.repository.BankTransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,5 +63,10 @@ public class BankTransactionService {
         userConnected.setBalance(userConnected.getBalance() + amount);
 
         bankTransactionRepository.save(bankTransaction);
+    }
+
+    public Page<BankTransaction> findPaginated(int pageNo) {
+        Pageable pageable = PageRequest.of(pageNo - 1, 5, Sort.by("intime").descending());
+        return this.bankTransactionRepository.findAll(pageable);
     }
 }

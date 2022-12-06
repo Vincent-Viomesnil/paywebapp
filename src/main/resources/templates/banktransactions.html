@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Bank Account</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body>
+<div class="container my-2">
+
+<div>
+    <h1> BankTransactions </h1>
+</div>
+
+<div th:if="${banktransactionsuccess}" th:class="${alert}">
+    <div class="alert alert-success">
+        <strong>Bank transaction succcessfully!</strong>
+    </div>
+</div>
+
+<div th:if="${erroramount}" th:class="${alert}">
+    <div class="alert alert-danger">
+        <strong>Operation failed</strong>
+    </div>
+</div>
+
+
+    <div>
+        <a class="btn btn-primary" th:href="@{/bankaccount}" role="button">Add BankAccount</a>
+    </div>
+
+    <!--      renvoit à la requête du controller  -->
+            <form action="#" data-th-action="@{/banktransactions}" data-th-object="${banktransaction}" method="post">
+
+                <select class="form-select" aria-label="Default select example" name="iban">
+                    <option selected value="iban">Select A BankAccount</option>
+                    <tr th:each="bankaccount: ${bankaccountList}">
+                        <option th:text="${bankaccount.name}+' '+${bankaccount.iban}" th:value="${bankaccount.iban}">BankAccounts</option>
+                </select>
+                <div class="form-group row">
+                    <input type="number" th:field="*{amount}" class="form-control" placeholder="0" required/>
+                </div>
+
+                <button type="submit" name="action" value="withdrawmoney">Transfer money from bankaccount</button>
+                <button type="submit" name="action" value="depositmoney">Deposit money on bankaccount</button>
+            </form>
+
+</div>
+
+
+
+<form>
+    <p>
+
+    <div>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Type of Transfer</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="banktransaction: ${bankTransactionPageList}">
+                <td th:text="${banktransaction.intime}">Date </td>
+                <td th:text="${banktransaction.getBankAccount().name}">Name</td>
+                <td th:text="${banktransaction.amount}">Amount</td>
+                <td th:text="${banktransaction.transferType}">Type of Transfer</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    </p>
+</form>
+
+
+<div th:if="${totalPages > 1}">
+    <div class="row col-sm-10">
+        <div class="col-sm-2">
+            Total BankTransactions: [[${totalBankTransactions}]] : Page [[${currentPage}]] of [[${totalPages}]]
+        </div>
+        <div class="col-sm-1">
+            <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+      <a th:if="${currentPage != i}" th:href="@{'/banktransactions/page/' + ${i}}">[[${i}]]</a>
+      <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+            </span>
+        </div>
+        <div class="col-sm-1">
+            <a th:if="${currentPage < totalPages}" th:href="@{'/banktransactions/page/' + ${currentPage + 1}}">Next</a>
+            <span th:unless="${currentPage < totalPages}">Next</span>
+        </div>
+
+        <div class="col-sm-1">
+            <a th:if="${currentPage < totalPages}" th:href="@{'/banktransactions/page/' + ${totalPages}}">Last</a>
+            <span th:unless="${currentPage < totalPages}">Last</span>
+        </div>
+    </div>
+</div>
+
+
+</div>
+</body>
+</html>

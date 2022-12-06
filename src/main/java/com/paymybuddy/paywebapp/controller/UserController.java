@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -24,9 +23,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private HttpServletResponse httpServletResponse;
 
     @GetMapping("/registry")
     public String addUserRegistry(Model model) {
@@ -53,6 +49,7 @@ public class UserController {
         List<User> contactsList = userConnected.getContactUserList();
         model.addAttribute("contactsList", contactsList);
         model.addAttribute("user", user);
+
         return "contact";
     }
 
@@ -73,8 +70,7 @@ public class UserController {
         }
         Redir.addFlashAttribute("errordelete", "KO");
         log.error("contact to delete is null or not in the contact list");
-//        String name = httpServletResponse.encodeURL("addConnection");
-//        return name;
+
         return "redirect:/contact";
     }
 
@@ -102,30 +98,7 @@ public class UserController {
         model.addAttribute("user", user);
         model.addAttribute("userconnected", userConnected);
         return "user_home";
-        //renvoit à la page HTML du même nom
+
     }
-
-
-//    @RequestMapping(value = "/username", method = RequestMethod.GET)
-//    @ResponseBody
-//    public String currentUserName(Principal principal) {
-//        return principal.getName();
-//    }
-
-//    @GetMapping("/")
-//    public String viewHomePage(){
-//        return ("<h1>Welcome</h1>");
-//    }
-//    @GetMapping("/user")
-//    public String getUser()
-//    {
-//        return ("<h1>Welcome User</h1>");
-//    }
-//
-//    @GetMapping("/admin")
-//    public String getAdmin()
-//    {
-//        return ("<h1>Welcome Admin</h1>");
-//    }
 
 }

@@ -16,7 +16,4 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 
     Transaction save(Transaction transaction);
 
-//    List<Transaction> findByDate(LocalDateTime date);
-
-
 }
