@@ -41,24 +41,24 @@ public class BankTransactionService {
         return bankTransactionRepository.save(bankTransaction);
     }
 
-    public void deposit(User user, String bankAccountIban, float amount) {
-        String transferType = "deposit";
+    public void transfer(User user, String bankAccountIban, float amount) {
+        String operationType = "transfer";
         LocalDateTime intime = LocalDateTime.now();
         User userConnected = userService.getUserByEmail(user.getEmail());
         BankAccount bankAccount = bankAccountService.getBankAccountByIban(bankAccountIban);
-        BankTransaction bankTransaction = new BankTransaction(userConnected, bankAccount, amount, intime, transferType);
+        BankTransaction bankTransaction = new BankTransaction(userConnected, bankAccount, amount, intime, operationType);
 
         userConnected.setBalance(userConnected.getBalance() - amount);
 
         bankTransactionRepository.save(bankTransaction);
     }
 
-    public void withdraw(User user, String bankAccountIban, float amount) {
-        String transferType = "withdraw";
+    public void deposit(User user, String bankAccountIban, float amount) {
+        String operationType = "deposit";
         LocalDateTime intime = LocalDateTime.now();
         User userConnected = userService.getUserByEmail(user.getEmail());
         BankAccount bankAccount = bankAccountService.getBankAccountByIban(bankAccountIban);
-        BankTransaction bankTransaction = new BankTransaction(userConnected, bankAccount, amount, intime, transferType);
+        BankTransaction bankTransaction = new BankTransaction(userConnected, bankAccount, amount, intime, operationType);
 
         userConnected.setBalance(userConnected.getBalance() + amount);
 

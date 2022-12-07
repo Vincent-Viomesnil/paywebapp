@@ -67,13 +67,13 @@ public class BankTransactionController {
     }
 
 
-    @RequestMapping(value = "/banktransactions", method = RequestMethod.POST, params = "action=depositmoney")
+    @RequestMapping(value = "/banktransactions", method = RequestMethod.POST, params = "action=transfermoney")
     public String depositMoney(@AuthenticationPrincipal UserPrincipal user, @ModelAttribute BankAccount bankAccount, @ModelAttribute BankTransaction bankTransaction, RedirectAttributes Redir) {
         User userConnected = userService.getUserByEmail(user.getUsername());
         BankAccount bankAccountIban = bankAccountService.getBankAccountByIban(bankAccount.getIban());
 
         if (userConnected.getBankAccountList().contains(bankAccountIban) && bankTransaction.getAmount() <= userConnected.getBalance()) {
-            bankTransactionService.deposit(userConnected, bankAccount.getIban(), bankTransaction.getAmount());
+            bankTransactionService.transfer(userConnected, bankAccount.getIban(), bankTransaction.getAmount());
             Redir.addFlashAttribute("banktransactionsuccess", "OK");
             return "redirect:/banktransactions";
         } else {
@@ -82,13 +82,13 @@ public class BankTransactionController {
         }
     }
 
-    @RequestMapping(value = "/banktransactions", method = RequestMethod.POST, params = "action=withdrawmoney")
+    @RequestMapping(value = "/banktransactions", method = RequestMethod.POST, params = "action=depositmoney")
     public String withdrawMoney(@AuthenticationPrincipal UserPrincipal user, @ModelAttribute BankAccount bankAccount, @ModelAttribute BankTransaction bankTransaction, RedirectAttributes Redir) {
         User userConnected = userService.getUserByEmail(user.getUsername());
         BankAccount bankAccountIban = bankAccountService.getBankAccountByIban(bankAccount.getIban());
 
         if (userConnected.getBankAccountList().contains(bankAccountIban)) {
-            bankTransactionService.withdraw(userConnected, bankAccount.getIban(), bankTransaction.getAmount());
+            bankTransactionService.deposit(userConnected, bankAccount.getIban(), bankTransaction.getAmount());
             Redir.addFlashAttribute("banktransactionsuccess", "OK");
             return "redirect:/banktransactions";
         } else {

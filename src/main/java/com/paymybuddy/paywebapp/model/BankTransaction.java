@@ -30,19 +30,19 @@ public class BankTransaction {
     private float amount;
     @Column(name = "intime")
     private LocalDateTime intime;
-    @Column(name = "transfer_type")
-    private String transferType;
+    @Column(name = "operation_type")
+    private String operationType;
 
 
 //type de Transfer/Viremnt (retrait - depuis banque / dépot vers la banque)
     //Pas besoin de balance
 
 
-    public BankTransaction(User user, BankAccount bankAccount, float amount, LocalDateTime intime, String transferType) {
+    public BankTransaction(User user, BankAccount bankAccount, float amount, LocalDateTime intime, String operationType) {
         this.user = user;
         this.bankAccount = bankAccount;
         this.amount = amount;
         this.intime = intime;
-        this.transferType = transferType;
+        this.operationType = operationType;
     }
 }

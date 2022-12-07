@@ -8,6 +8,9 @@ import com.paymybuddy.paywebapp.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,26 +31,35 @@ public class TransactionController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/transactions")
+
+    @GetMapping("/transaction")
     public String getAllTransactions(Model model, @AuthenticationPrincipal UserPrincipal user) {
         return findPaginated(1, model, user);
     }
 
-    @GetMapping("/transactions/page/{pageNo}")
-    public String findPaginated(@PathVariable(value = "pageNo") int pageNo, Model model, @AuthenticationPrincipal UserPrincipal user) {
+    @GetMapping("/transactions/page/{pageNumber}/")
+    public String findPaginated(@PathVariable(value = "pageNumber") int currentPage, Model model, @AuthenticationPrincipal UserPrincipal user) {
         User userConnected = userService.getUserByEmail(user.getUsername());
-        Page<Transaction> page = transactionService.findPaginated(pageNo);
-        List<Transaction> transactionPageList = page.getContent();
+//        Page<Transaction> page = transactionService.findPaginated(pageNo);
+//        List<Transaction> transactionPageList = userConnected.getTransactionList();
+        Pageable pageable = PageRequest.of(currentPage - 1, 5, Sort.by("intime").descending());
+
+        Page<Transaction> listTransaction = transactionService.getPaginated(userConnected, pageable);
+        //listTransaction = 7
+        // listTransfer = 5
+        List<Transaction> listTransfer = listTransaction.getContent();
         List<User> contactsList = userConnected.getContactUserList();
 
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalTransactions", page.getTotalElements());
-        model.addAttribute("transactionPageList", transactionPageList);
+
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", listTransaction.getTotalPages());
+        model.addAttribute("totalTransactions", listTransaction.getTotalElements());
+        model.addAttribute("listTransfer", listTransfer);
         model.addAttribute("transaction", new Transaction());
         model.addAttribute("contactsList", contactsList);
 
         return "transactions";
+
     }
 
 

@@ -43,8 +43,8 @@
                     <input type="number" th:field="*{amount}" class="form-control" placeholder="0" required/>
                 </div>
 
-                <button type="submit" name="action" value="withdrawmoney">Transfer money from bankaccount</button>
-                <button type="submit" name="action" value="depositmoney">Deposit money on bankaccount</button>
+                <button type="submit" name="action" value="depositmoney">Deposit money on PayMyBuddy</button>
+                <button type="submit" name="action" value="transfermoney">Transfer money on bankaccount</button>
             </form>
 
 </div>
@@ -61,7 +61,7 @@
                 <th>Date</th>
                 <th>Name</th>
                 <th>Amount</th>
-                <th>Type of Transfer</th>
+                <th>Type of Operation</th>
             </tr>
             </thead>
             <tbody>
@@ -69,7 +69,7 @@
                 <td th:text="${banktransaction.intime}">Date </td>
                 <td th:text="${banktransaction.getBankAccount().name}">Name</td>
                 <td th:text="${banktransaction.amount}">Amount</td>
-                <td th:text="${banktransaction.transferType}">Type of Transfer</td>
+                <td th:text="${banktransaction.operationType}">Type of Operation </td>
             </tr>
             </tbody>
         </table>

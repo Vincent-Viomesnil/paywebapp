@@ -6,9 +6,7 @@ import com.paymybuddy.paywebapp.repository.TransactionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,9 +55,15 @@ public class TransactionService {
         return transactionRepository.findAll();
     }
 
-    public Page<Transaction> findPaginated(int pageNo) {
-        Pageable pageable = PageRequest.of(pageNo - 1, 5, Sort.by("intime").descending());
-        return this.transactionRepository.findAll(pageable);
+//    public Page<Transaction> findPaginated(int pageNo) {
+//        Pageable pageable = PageRequest.of(pageNo - 1, 5, Sort.by("intime").descending());
+//        return transactionRepository.findAll(pageable);
+//    }
+
+    public Page<Transaction> getPaginated(User userCreditor, Pageable pageable) {
+
+        Page<Transaction> transactionsSentList = transactionRepository.getTransactionsByUserCreditorOrderByIntimeDesc(userCreditor, pageable);
+        return transactionsSentList;
     }
 
 }
