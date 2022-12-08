@@ -31,25 +31,13 @@ public class TransactionController {
     @Autowired
     private UserService userService;
 
-
-//    @GetMapping("/transactions")
-//    public String getAllTransactions(Model model, @AuthenticationPrincipal UserPrincipal user) {
-//        return findPaginated(1, model, user);
-//    }
-
-    //    @GetMapping("/transactions/page/{pageNumber}/")
-    //  public String findPaginated(@PathVariable(name = "pageNumber") int currentPage,
     @GetMapping("/transactions")
     public String findPaginated(@RequestParam(value = "page", defaultValue = "1") int currentPage,
                                 Model model, @AuthenticationPrincipal UserPrincipal user) {
         User userConnected = userService.getUserByEmail(user.getUsername());
-//        Page<Transaction> page = transactionService.findPaginated(pageNo);
-//        List<Transaction> transactionPageList = userConnected.getTransactionList();
         Pageable pageable = PageRequest.of(currentPage - 1, 5, Sort.by("intime").descending());
-
         Page<Transaction> listTransaction = transactionService.getPaginated(userConnected, pageable);
-        //listTransaction = 7
-        // listTransfer = 5
+
         List<Transaction> listTransfer = listTransaction.getContent();
         List<User> contactsList = userConnected.getContactUserList();
 

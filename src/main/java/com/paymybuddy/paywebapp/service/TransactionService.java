@@ -55,11 +55,6 @@ public class TransactionService {
         return transactionRepository.findAll();
     }
 
-//    public Page<Transaction> findPaginated(int pageNo) {
-//        Pageable pageable = PageRequest.of(pageNo - 1, 5, Sort.by("intime").descending());
-//        return transactionRepository.findAll(pageable);
-//    }
-
     public Page<Transaction> getPaginated(User userCreditor, Pageable pageable) {
 
         Page<Transaction> transactionsSentList = transactionRepository.getTransactionsByUserCreditorOrderByIntimeDesc(userCreditor, pageable);

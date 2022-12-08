@@ -10,6 +10,9 @@ import com.paymybuddy.paywebapp.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,32 +36,18 @@ public class BankTransactionController {
 
 
     @GetMapping("/banktransactions")
-    public String getAllBankTransactions(Model model, @AuthenticationPrincipal UserPrincipal user) {
-        return findPaginated(1, model, user);
-    }
+    public String findPaginated(@RequestParam(value = "page", defaultValue = "1") int currentPage,
+                                Model model, @AuthenticationPrincipal UserPrincipal user) {
 
-//    @RequestMapping(value = "/banktransaction", method = RequestMethod.GET)
-//    public String getAllBankTransactions(Model model, @AuthenticationPrincipal UserPrincipal user) {
-//        User userConnected = userService.getUserByEmail(user.getUsername());
-//        List<BankTransaction> bankTransactionList = userConnected.getBankTransactionList();
-//        model.addAttribute("banktransaction", new BankTransaction());
-//        model.addAttribute("banktransactionlist", bankTransactionList);
-//        model.addAttribute("bankaccount", new BankAccount());
-//        model.addAttribute("userconnected", userConnected);
-//        return "bankaccount"; //renvoit à la page HTML du même nom
-//    }
-
-
-    @GetMapping("/banktransactions/page/{pageNo}")
-    public String findPaginated(@PathVariable(value = "pageNo") int pageNo, Model model, @AuthenticationPrincipal UserPrincipal user) {
         User userConnected = userService.getUserByEmail(user.getUsername());
-        Page<BankTransaction> page = bankTransactionService.findPaginated(pageNo);
-        List<BankTransaction> bankTransactionPageList = page.getContent();
+        Pageable pageable = PageRequest.of(currentPage - 1, 5, Sort.by("intime").descending());
+        Page<BankTransaction> listBankTransaction = bankTransactionService.getPaginated(userConnected, pageable);
+        List<BankTransaction> bankTransactionPageList = listBankTransaction.getContent();
         List<BankAccount> bankAccountList = userConnected.getBankAccountList();
 
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalBankTransactions", page.getTotalElements());
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", listBankTransaction.getTotalPages());
+        model.addAttribute("totalBankTransactions", listBankTransaction.getTotalElements());
         model.addAttribute("bankTransactionPageList", bankTransactionPageList);
         model.addAttribute("bankaccountList", bankAccountList);
         model.addAttribute("banktransaction", new BankTransaction());
