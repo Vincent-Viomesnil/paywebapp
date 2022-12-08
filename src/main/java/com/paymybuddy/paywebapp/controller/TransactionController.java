@@ -15,8 +15,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -32,13 +32,16 @@ public class TransactionController {
     private UserService userService;
 
 
-    @GetMapping("/transaction")
-    public String getAllTransactions(Model model, @AuthenticationPrincipal UserPrincipal user) {
-        return findPaginated(1, model, user);
-    }
+//    @GetMapping("/transactions")
+//    public String getAllTransactions(Model model, @AuthenticationPrincipal UserPrincipal user) {
+//        return findPaginated(1, model, user);
+//    }
 
-    @GetMapping("/transactions/page/{pageNumber}/")
-    public String findPaginated(@PathVariable(value = "pageNumber") int currentPage, Model model, @AuthenticationPrincipal UserPrincipal user) {
+    //    @GetMapping("/transactions/page/{pageNumber}/")
+    //  public String findPaginated(@PathVariable(name = "pageNumber") int currentPage,
+    @GetMapping("/transactions")
+    public String findPaginated(@RequestParam(value = "page", defaultValue = "1") int currentPage,
+                                Model model, @AuthenticationPrincipal UserPrincipal user) {
         User userConnected = userService.getUserByEmail(user.getUsername());
 //        Page<Transaction> page = transactionService.findPaginated(pageNo);
 //        List<Transaction> transactionPageList = userConnected.getTransactionList();
