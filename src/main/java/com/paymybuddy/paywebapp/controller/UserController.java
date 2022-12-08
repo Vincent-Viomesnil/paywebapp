@@ -97,7 +97,7 @@ public class UserController {
         User userConnected = userService.getUserByEmail(user.getUsername());
         model.addAttribute("user", user);
         model.addAttribute("userconnected", userConnected);
-        return "user_home";
+        return "index";
 
     }
 
