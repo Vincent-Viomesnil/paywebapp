@@ -21,4 +21,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 
     Page<Transaction> getTransactionsByUserCreditorOrderByIntimeDesc(User userCreditor, Pageable pageable);
 
+
 }
