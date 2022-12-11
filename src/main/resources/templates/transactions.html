@@ -71,7 +71,7 @@
                 </div>
             </div>
 
-            <section class="bg-light border border-1 px-lg-2">
+            <section class="bg-light border border-1 p-5 ">
                 <form th:action="@{/transactions}" th:object="${transaction}" method="post">
                 <div class="d-flex justify-content-end">
 
@@ -99,6 +99,8 @@
                 </form>
             </section>
 
+            <div class="me-auto p-2 bd-highlight fs-2 text-start">My Transactions</div>
+
             <section class="bg-light border border-1 px-lg-2">
                 <form>
                     <p>
@@ -125,8 +127,7 @@
                     </p>
                 </form>
             </section>
-            <section class="d-flex bg-light border border-1 px-lg-2">
-
+            <section class="d-flex bg-light border border-1 px-lg-2 justify-content-center">
                 <div th:if="${totalPages > 1}">
 
 
