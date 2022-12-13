@@ -26,7 +26,7 @@
             <li class="nav-item"><a class="nav-link" th:href="@{/banktransactions}">BankTransaction</a></li>
             <li class="nav-item"><a class="nav-link" th:href="@{/bankaccount}">Bankaccount</a></li>
             <li class="nav-item"><a class="nav-link" th:href="@{/contact}">Contact</a></li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logout</a></li>>
+            <li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logout</a></li>
         </ul>
     </div>
 </div>
@@ -117,6 +117,7 @@
                                 <td th:text="${transaction.userCreditor.firstname}+' '+${transaction.userCreditor.lastname}">Connections</td>
                                 <td th:text="${transaction.description}">Description </td>
                                 <td th:text="${transaction.amountNet()}">Amount</td>
+                            </tr>
                             </tbody>
                         </table>
 

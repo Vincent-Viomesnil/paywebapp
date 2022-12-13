@@ -37,16 +37,14 @@ public class TransactionController {
         User userConnected = userService.getUserByEmail(user.getUsername());
         Pageable pageable = PageRequest.of(currentPage - 1, 5, Sort.by("intime").descending());
         Page<Transaction> listTransaction = transactionService.getPaginated(userConnected, pageable);
-
         List<Transaction> listTransfer = listTransaction.getContent();
-        List<User> contactsList = userConnected.getContactUserList();
 
         Page<Transaction> listTransactionReceiver = transactionService.getPaginatedByReceiver(userConnected, pageable);
-
         List<Transaction> transactionsReceiver = listTransactionReceiver.getContent();
 
-
         long totalElementsLists = listTransaction.getTotalElements() + listTransactionReceiver.getTotalElements();
+
+        List<User> contactsList = userConnected.getContactUserList();
 
         model.addAttribute("transactionsReceiver", transactionsReceiver);
         model.addAttribute("currentPage", currentPage);
