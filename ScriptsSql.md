@@ -1,4 +1,4 @@
-# paywebapp
+# Scripts SQL
 
 create table prod.user
 (
