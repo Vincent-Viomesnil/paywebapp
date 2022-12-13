@@ -26,7 +26,7 @@
             <li class="nav-item"><a class="nav-link" th:href="@{/banktransactions}">BankTransaction</a></li>
             <li class="nav-item"><a class="nav-link" th:href="@{/bankaccount}">Bankaccount</a></li>
             <li class="nav-item"><a class="nav-link" th:href="@{/contact}">Contact</a></li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logout</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logout</a></li>>
         </ul>
     </div>
 </div>
@@ -108,11 +108,15 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="transaction: ${listTransfer}">
+                            <tr th:each="transaction: ${listTransfer}" class="table-danger">
                                 <td th:text="${transaction.userDebtor.firstname}+' '+${transaction.userDebtor.lastname}">Connections</td>
                                 <td th:text="${transaction.description}">Description </td>
                                 <td th:text="${transaction.amount}">Amount</td>
                             </tr>
+                            <tr th:each="transaction: ${transactionsReceiver}" class="table-success">
+                                <td th:text="${transaction.userCreditor.firstname}+' '+${transaction.userCreditor.lastname}">Connections</td>
+                                <td th:text="${transaction.description}">Description </td>
+                                <td th:text="${transaction.amountNet()}">Amount</td>
                             </tbody>
                         </table>
 
@@ -122,8 +126,6 @@
             </section>
             <section class="d-flex bg-light border border-1 px-lg-2 justify-content-center">
                 <div th:if="${totalPages > 1}">
-
-
                     <div class="p-2 flex-fill bd-highlight">
                         <a th:if="${currentPage < totalPages and currentPage > 1 }" th:href="@{'/transactions?page=' + ${currentPage - 1}}">Previous</a>
                         <span th:unless="${currentPage < totalPages}">Previous</span>

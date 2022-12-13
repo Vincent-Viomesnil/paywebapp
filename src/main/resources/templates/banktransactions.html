@@ -111,30 +111,28 @@
     </p>
         </section>
 
-        <section class="bg-light border border-1 p-5 ">
-<div th:if="${totalPages > 1}">
-    <div class="row col-sm-10">
-        <div class="col-sm-2">
-            Total BankTransactions: [[${totalBankTransactions}]] : Page [[${currentPage}]] of [[${totalPages}]]
-        </div>
-        <div class="col-sm-1">
-            <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-      <a th:if="${currentPage != i}" th:href="@{'/banktransactions?page=' + ${i}}">[[${i}]]</a>
-      <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
-            </span>
-        </div>
-        <div class="col-sm-1">
-            <a th:if="${currentPage < totalPages}" th:href="@{'/banktransactions?page=' + ${currentPage + 1}}">Next</a>
-            <span th:unless="${currentPage < totalPages}">Next</span>
-        </div>
+            <section class="d-flex bg-light border border-1 px-lg-2 justify-content-center">
+                <div th:if="${totalPages > 1}">
+                    <div class="p-2 flex-fill bd-highlight">
+                        <a th:if="${currentPage < totalPages and currentPage > 1 }" th:href="@{'/banktransactions?page=' + ${currentPage - 1}}">Previous</a>
+                        <span th:unless="${currentPage < totalPages}">Previous</span>
+                    </div>
 
-        <div class="col-sm-1">
-            <a th:if="${currentPage < totalPages}" th:href="@{'/banktransactions?page=' + ${totalPages}}">Last</a>
-            <span th:unless="${currentPage < totalPages}">Last</span>
-        </div>
-    </div>
-</div>
-        </section>
+                    <div class="p-2 flex-fill bd-highlight">
+                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+          <a th:if="${currentPage != i}" th:href="@{'/banktransactions?page=' + ${i}}">[[${i}]]</a>
+          <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+                </span>
+                    </div>
+
+                    <div class="p-2 flex-fill bd-highlight">
+                        <a th:if="${currentPage < totalPages}" th:href="@{'/banktransactions?page=' + ${currentPage + 1}}">Next</a>
+                        <span th:unless="${currentPage < totalPages}">Next</span>
+                    </div>
+
+                </div>
+
+            </section>
 
         </div>
 </div>

@@ -1,6 +1,7 @@
 package com.paymybuddy.paywebapp.controller;
 
 import com.paymybuddy.paywebapp.model.User;
+import com.paymybuddy.paywebapp.repository.UserRepository;
 import com.paymybuddy.paywebapp.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -8,13 +9,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -29,15 +26,17 @@ public class UserControllerTest {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
-    public void getAllUsers() throws Exception {
-        mockMvc.perform(get("/contactsList"))
+    public void getLogin() throws Exception {
+        mockMvc.perform(get("/login"))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void postUserTest() throws Exception {
+    public void getUserTest() throws Exception {
 
         User user = new User();
         user.setId(1);
@@ -47,9 +46,7 @@ public class UserControllerTest {
         user.setFirstname("prenom");
         user.setLastname("nom");
 
-        when(userService.addUser(user)).thenReturn(any(User.class));
-
-        mockMvc.perform(post("/registry?id=1&password=pass&email=email&firstname=prenom&lastname=nom&balance=125")).andExpect(status().isOk());
+        mockMvc.perform(get("/registry?id=1&password=pass&email=email&firstname=prenom&lastname=nom&balance=125")).andExpect(status().isOk());
 
     }
 

@@ -34,10 +34,4 @@ public class ConfigController {
     }
 
 
-//
-//    @RequestMapping("/login-error.html")
-//    public String loginError(Model model) {
-//        model.addAttribute("loginError", true);
-//        return "login";
-//    }
 }

@@ -62,4 +62,9 @@ public class Transaction {
         this.description = description;
         this.fee = amount * FEE;
     }
+
+    public float amountNet() {
+        this.amount = amount - (amount * FEE);
+        return this.amount;
+    }
 }

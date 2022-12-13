@@ -33,11 +33,6 @@ public class BankTransaction {
     @Column(name = "operation_type")
     private String operationType;
 
-
-//type de Transfer/Viremnt (retrait - depuis banque / dépot vers la banque)
-    //Pas besoin de balance
-
-
     public BankTransaction(User user, BankAccount bankAccount, float amount, LocalDateTime intime, String operationType) {
         this.user = user;
         this.bankAccount = bankAccount;

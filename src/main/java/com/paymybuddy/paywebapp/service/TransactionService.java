@@ -61,6 +61,14 @@ public class TransactionService {
         return transactionsSentList;
     }
 
+    public Page<Transaction> getPaginatedByReceiver(User userCreditor, Pageable pageable) {
+
+        Page<Transaction> transactionsReceivedList = transactionRepository.getTransactionsByUserDebtorOrderByIntimeDesc(userCreditor, pageable);
+
+
+        return transactionsReceivedList;
+    }
+
 }
 
 
