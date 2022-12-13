@@ -5,6 +5,8 @@ import com.paymybuddy.paywebapp.model.BankTransaction;
 import com.paymybuddy.paywebapp.model.User;
 import com.paymybuddy.paywebapp.repository.BankTransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,27 +39,33 @@ public class BankTransactionService {
         return bankTransactionRepository.save(bankTransaction);
     }
 
-    public void deposit(User user, String bankAccountIban, float amount) {
-        String transferType = "deposit";
+    public void transfer(User user, String bankAccountIban, float amount) {
+        String operationType = "transfer";
         LocalDateTime intime = LocalDateTime.now();
         User userConnected = userService.getUserByEmail(user.getEmail());
         BankAccount bankAccount = bankAccountService.getBankAccountByIban(bankAccountIban);
-        BankTransaction bankTransaction = new BankTransaction(userConnected, bankAccount, amount, intime, transferType);
+        BankTransaction bankTransaction = new BankTransaction(userConnected, bankAccount, amount, intime, operationType);
 
         userConnected.setBalance(userConnected.getBalance() - amount);
 
         bankTransactionRepository.save(bankTransaction);
     }
 
-    public void withdraw(User user, String bankAccountIban, float amount) {
-        String transferType = "withdraw";
+    public void deposit(User user, String bankAccountIban, float amount) {
+        String operationType = "deposit";
         LocalDateTime intime = LocalDateTime.now();
         User userConnected = userService.getUserByEmail(user.getEmail());
         BankAccount bankAccount = bankAccountService.getBankAccountByIban(bankAccountIban);
-        BankTransaction bankTransaction = new BankTransaction(userConnected, bankAccount, amount, intime, transferType);
+        BankTransaction bankTransaction = new BankTransaction(userConnected, bankAccount, amount, intime, operationType);
 
         userConnected.setBalance(userConnected.getBalance() + amount);
 
         bankTransactionRepository.save(bankTransaction);
+    }
+
+    public Page<BankTransaction> getPaginated(User userConnected, Pageable pageable) {
+
+        Page<BankTransaction> bankTransactionsSentList = bankTransactionRepository.getBankTransactionsByUserOrderByIntimeDesc(userConnected, pageable);
+        return bankTransactionsSentList;
     }
 }

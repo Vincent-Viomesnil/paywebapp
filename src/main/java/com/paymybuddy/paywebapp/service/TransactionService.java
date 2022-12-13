@@ -5,6 +5,8 @@ import com.paymybuddy.paywebapp.model.User;
 import com.paymybuddy.paywebapp.repository.TransactionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +50,26 @@ public class TransactionService {
         }
     }
 
+
+    public List<Transaction> findAll() {
+        return transactionRepository.findAll();
+    }
+
+    public Page<Transaction> getPaginated(User userCreditor, Pageable pageable) {
+
+        Page<Transaction> transactionsSentList = transactionRepository.getTransactionsByUserCreditorOrderByIntimeDesc(userCreditor, pageable);
+        return transactionsSentList;
+    }
+
+    public Page<Transaction> getPaginatedByReceiver(User userCreditor, Pageable pageable) {
+
+        Page<Transaction> transactionsReceivedList = transactionRepository.getTransactionsByUserDebtorOrderByIntimeDesc(userCreditor, pageable);
+
+
+        return transactionsReceivedList;
+    }
+
 }
+
 
 

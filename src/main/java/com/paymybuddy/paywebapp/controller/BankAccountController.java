@@ -1,7 +1,6 @@
 package com.paymybuddy.paywebapp.controller;
 
 import com.paymybuddy.paywebapp.model.BankAccount;
-import com.paymybuddy.paywebapp.model.BankTransaction;
 import com.paymybuddy.paywebapp.model.User;
 import com.paymybuddy.paywebapp.model.UserPrincipal;
 import com.paymybuddy.paywebapp.service.BankAccountService;
@@ -32,9 +31,6 @@ public class BankAccountController {
     public String getAllBankaccounts(Model model, @AuthenticationPrincipal UserPrincipal user) {
         User userConnected = userService.getUserByEmail(user.getUsername());
         List<BankAccount> bankAccountList = userConnected.getBankAccountList();
-        List<BankTransaction> bankTransactionList = userConnected.getBankTransactionList();
-        model.addAttribute("banktransaction", new BankTransaction());
-        model.addAttribute("banktransactionlist", bankTransactionList);
         model.addAttribute("bankaccount", new BankAccount());
         model.addAttribute("bankaccountlist", bankAccountList);
 
@@ -57,12 +53,5 @@ public class BankAccountController {
             return "redirect:/bankaccount";
         }
     }
-
-
-    @GetMapping("/bankacccounts")
-    public Iterable<BankAccount> getAllBankAccounts() {
-        return bankAccountService.getAllBanksAccounts();
-    }
-
 
 }

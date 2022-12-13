@@ -16,14 +16,14 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(
-                        "/login", "/registry", "/process_register", "/resources/**", "/css/**", "/fonts/**", "/img/**").permitAll()
+                        "/login", "/registry", "/transactions/**", "/process_register", "/resources/**", "/css/**", "/fonts/**", "/img/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

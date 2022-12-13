@@ -47,10 +47,10 @@ public class User {
     private List<BankTransaction> bankTransactionList = new ArrayList<>();
 
 
-    @OneToMany( //relation unidirectionnelle One to many
+    @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true,
-            fetch = FetchType.LAZY // Lazy afin de ne pas loader toutes les infos des transfers liée à un user.
+            fetch = FetchType.LAZY
     )
     @JoinColumn(name = "user_id")
     private List<Transaction> transactionList = new ArrayList<>();
@@ -65,7 +65,6 @@ public class User {
 
     public User(int id, String email, String password, String firstname, String lastname, float balance) {
     }
-
 
     public String getFullName() {
         return firstname + " " + lastname;

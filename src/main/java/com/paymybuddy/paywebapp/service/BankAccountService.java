@@ -25,20 +25,6 @@ public class BankAccountService {
     }
 
 
-//    public BankAccount addBankAccount(BankAccount bankAccount) {
-//        if (bankAccountRepository.findByIban(bankAccount.getIban()).isEmpty()) {
-//            log.info("Post new bankAccount SUCCESS");
-//            bankAccount.setIban(bankAccount.getIban());
-//            bankAccount.setName(bankAccount.getName());
-//
-//            return bankAccountRepository.save(bankAccount);
-//
-//        } else {
-//            log.error("bankAccount already exists: " + bankAccount.getIban());
-//            return null;
-//        }
-//    }
-
     public void addBankAccount(User user, String name, String iban) {
         User userConnected = userService.getUserByEmail(user.getEmail());
 
@@ -60,16 +46,4 @@ public class BankAccountService {
         return bankAccountRepository.findByUserId(userId);
     }
 
-//    public BankAccount updateBankAccount(Integer userId, String iban) {
-//        BankAccount bankAccount = new BankAccount();
-//        if (bankAccountRepository.findByUserId(userId).isPresent()) {
-//            bankAccount.setUserId(userId);
-//            bankAccount.setIban(iban);
-//            log.info("Update bankaccount SUCCESS ");
-//            return bankAccountRepository.save(bankAccount);
-//        } else {
-//            log.error("Update bankaccount FAILED, userID doesn't exist");
-//            return null;
-//        }
-//    }
 }

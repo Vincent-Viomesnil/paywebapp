@@ -8,36 +8,68 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
+
+<header class="p-3 bg-secondary text-white">
+    <div class="container text-center fs-3">
+        Pay My Buddy
+    </div>
+</header>
+
+<div class="d-flex bd-highlight mb-3">
+    <div class="me-auto p-2 bd-highlight">
+        <div class="badge bg-success text-wrap fs-3 text-center" style="width: 250px; height: 50px">Pay My Buddy</div>
+    </div>
+    <div class="p-2 bd-highlight">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/user_home}">Home</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/login}">Login</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/transactions}">Transaction</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/banktransactions}">BankTransaction</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/bankaccount}">Bankaccount</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/contact}">Contact</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logout</a></li>
+
+        </ul>
+    </div>
+</div>
+
+<div class="p-3 mb-2 bg-light text-primary text-start fs-3 ">
+    <span>Home</span>
+</div>
+
+
 <body>
 
 <div class="container text-center">
-    <h1>Welcome to PayWebApp</h1>
-    <h2>
+    <h1>
+        Welcome,
         <div sec:authentication="principal.fullName"></div>
-    </h2>
+        this is your dashboard !
+    </h1>
+</div>
+<br>
+</br>
+
+<div class="mx-auto" style="width: 400px;">
+    <form>
+        <p>
+            <label>E-mail :</label>
+            <input type="text" th:value="${user.username}"/>
+        </p>
+
+        <p>
+            <label>Firstname Lastname :</label>
+            <input type="text" th:value="${user.fullName}"/>
+        </p>
+
+        <p>
+            <label>Balance :</label>
+            <input type="text" th:object="${userconnected}" th:value="${userconnected.getBalance()}"/>
+        </p>
+    </form>
 </div>
 
-    <div class="d-flex justify-content-between">Pay My Buddy</div>
 
-    <ul class="nav justify-content-end">
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/user_home}">Home</a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/login}">Login</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/transaction}">Transaction</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/contactsList}">Add Connection</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/logout}">Logout</a>
-        </li>
-
-    </ul>
-</div>
 </body>
 </html>
